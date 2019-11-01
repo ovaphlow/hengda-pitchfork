@@ -5,9 +5,9 @@ import SignIn from '../SignIn'
 import { List as DeptList, Save as DeptSave, Update as DeptUpdate } from './Dept'
 import { List as UserList, Save as UserSave, Update as UserUpdate } from './User'
 
-const MDSIndex = () => {
+export const Index = () => {
   React.useEffect(() => {
-    let a = JSON.parse(sessionStorage.getItem('auth_mds'))
+    let a = JSON.parse(sessionStorage.getItem('auth_super'))
     if (!!!a) {
       window.location = '#数据管理/登录'
       return
@@ -29,5 +29,3 @@ const MDSIndex = () => {
     </HashRouter>
   )
 }
-
-export default MDSIndex

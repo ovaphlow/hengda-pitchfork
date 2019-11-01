@@ -3,7 +3,7 @@ import { HashRouter, Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
 import SignIn from './SignIn'
-import MDSIndex from './mds'
+import { Index as MDSIndex } from './mds'
 
 const App = () => {
   return (

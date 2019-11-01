@@ -3,12 +3,22 @@ import React from 'react'
 import { Title, Navbar } from './components'
 
 const SignIn = props => {
+  const [category, setCategory] = React.useState(0)
   const [item, setItem] = React.useState({
     username: '',
     password: ''
   })
 
   React.useEffect(() => {
+    if (props.match.path === '/登录') {
+      console.info('standard')
+      setCategory('用户')
+    } else if (props.match.path === '/数据管理/登录') {
+      console.info('super')
+      setCategory('管理员')
+    } else {
+      window.alert('URL错误')
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -18,12 +28,10 @@ const SignIn = props => {
   }
 
   const handleSignIn = () => {
-    if (props.match.path === '/登录') {
+    if (category === '用户') {
       console.info('standard')
-    } else if (props.match.path === '/数据管理/登录') {
+    } else if (category === '管理员') {
       console.info('super')
-    } else {
-      window.alert('URL错误')
     }
   }
 
@@ -36,7 +44,7 @@ const SignIn = props => {
       <div className="container-fluid">
         <div className="row mt-5">
           <div className="col-6 offset-3 col-lg-2 offset-lg-5">
-            <h1 className="text-center">登录</h1>
+            <h1 className="text-center">{category} 登录</h1>
           </div>
         </div>
 
