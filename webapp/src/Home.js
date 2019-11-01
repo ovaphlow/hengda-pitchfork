@@ -4,7 +4,11 @@ import { Title, Navbar } from './components'
 
 const Home = () => {
   React.useEffect(() => {
-    console.info(111)
+    let a = JSON.parse(sessionStorage.getItem('auth'))
+    if (!!!a) {
+      window.location = '#登录'
+      return
+    }
   }, [])
 
   return (
