@@ -15,7 +15,7 @@ public class BizService {
     private void start() throws IOException {
         int port = 5001;
         server = ServerBuilder.forPort(port)
-//                .addService(new TestServiceImpl())
+                .addService(new UserServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

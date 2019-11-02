@@ -29,9 +29,37 @@ const SignIn = props => {
 
   const handleSignIn = () => {
     if (category === '用户') {
-      console.info('standard')
+      fetch(`/api/user/sign-in/common`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(item)
+      })
+        .then(response => response.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+            return
+          }
+          console.info(res)
+        })
     } else if (category === '管理员') {
-      console.info('super')
+      fetch(`/api/user/sign-in/super`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify(item)
+      })
+        .then(response => response.json())
+        .then(res => {
+          if (res.message) {
+            window.alert(res.message)
+            return
+          }
+          console.info(res)
+        })
     }
   }
 
