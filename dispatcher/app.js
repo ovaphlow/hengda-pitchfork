@@ -30,8 +30,8 @@ const userRouter = require('./routes/user')
 app.use(userRouter.routes())
 app.use(userRouter.allowedMethods())
 
-// const deptRouter = require('./routes/dept')
-// app.use(deptRouter.routes())
-// app.use(deptRouter.allowedMethods())
+const deptRouter = require('./routes/dept')
+app.use(deptRouter.routes())
+app.use(deptRouter.allowedMethods())
 
 module.exports = app

@@ -44,7 +44,7 @@ export const Navbar = props => {
 
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${props.category === 'mds' ? 'active' : ''}`}>
-            <a className="nav-link text-dark" href="#数据管理/操作记录">
+            <a className="nav-link text-dark" href="#数据管理">
               <i className="fa fa-fw fa-cogs"></i>
               数据管理
             </a>

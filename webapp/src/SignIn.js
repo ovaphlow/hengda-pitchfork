@@ -1,4 +1,5 @@
 import React from 'react'
+import md5 from 'blueimp-md5'
 
 import { Title, Navbar } from './components'
 
@@ -11,10 +12,8 @@ const SignIn = props => {
 
   React.useEffect(() => {
     if (props.match.path === '/登录') {
-      console.info('standard')
       setCategory('用户')
     } else if (props.match.path === '/数据管理/登录') {
-      console.info('super')
       setCategory('管理员')
     } else {
       window.alert('URL错误')
@@ -34,7 +33,7 @@ const SignIn = props => {
         headers: {
           'content-type': 'application/json'
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify({username: item.username, password: md5(item.password)})
       })
         .then(response => response.json())
         .then(res => {
@@ -42,15 +41,17 @@ const SignIn = props => {
             window.alert(res.message)
             return
           }
-          console.info(res)
+          sessionStorage.setItem('auth', JSON.stringify(res.content))
+          window.location = '#/'
         })
+        .catch(err => window.console.error(err))
     } else if (category === '管理员') {
       fetch(`/api/user/sign-in/super`, {
         method: 'POST',
         headers: {
           'content-type': 'application/json'
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify({username: item.username, password: md5(item.password)})
       })
         .then(response => response.json())
         .then(res => {
@@ -58,7 +59,8 @@ const SignIn = props => {
             window.alert(res.message)
             return
           }
-          console.info(res)
+          sessionStorage.setItem('auth_super', JSON.stringify(res.content))
+          window.location = '#数据管理'
         })
     }
   }
