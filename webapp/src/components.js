@@ -27,15 +27,15 @@ export const Navbar = props => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav mr-auto">
           <li className={`nav-item ${props.category === 'home' ? 'active' : ''}`}>
-            <a className="nav-link" href="#/">
+            <a href="#/" className="nav-link">
               <i className="fa fa-fw fa-home"></i>
               首页
               <span className="sr-only">(current)</span>
             </a>
           </li>
 
-          <li className={`nav-item ${props.category === 'archive' ? 'active' : ''}`}>
-            <a className="nav-link" href="#帐项/">
+          <li className={`nav-item ${props.category === 'zhangxiang' ? 'active' : ''}`}>
+            <a href="#帐项" className="nav-link">
               <i className="fa fa-fw fa-file-archive-o"></i>
               电子帐项
             </a>
@@ -44,7 +44,7 @@ export const Navbar = props => {
 
         <ul className="navbar-nav pull-right">
           <li className={`nav-item ${props.category === 'mds' ? 'active' : ''}`}>
-            <a className="nav-link text-dark" href="#数据管理">
+            <a href="#数据管理" className="nav-link text-dark">
               <i className="fa fa-fw fa-cogs"></i>
               数据管理
             </a>
