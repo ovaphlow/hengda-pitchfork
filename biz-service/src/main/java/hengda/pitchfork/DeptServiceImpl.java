@@ -104,6 +104,31 @@ public class DeptServiceImpl extends DeptGrpc.DeptImplBase {
 
     @Override
     @SuppressWarnings("unchecked")
+    public void listAllSub(DeptRequest req, StreamObserver<DeptReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            Connection conn = DBUtil.getConn();
+            String sql = "select * from public.common_data where category = '部门' order by id desc";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            resp.put("content", DBUtil.getList(rs));
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        DeptReply reply = DeptReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public void listSub(DeptRequest req, StreamObserver<DeptReply> responseObserver) {
         Gson gson = new Gson();
         Map<String, Object> resp = new HashMap<>();

@@ -6,6 +6,7 @@ service Dept {
     rpc list(DeptRequest) returns (DeptReply) {}
     rpc save(DeptRequest) returns (DeptReply) {}
     rpc get(DeptRequest) returns (DeptReply) {}
+    rpc listAllSub(DeptRequest) returns (DeptReply) {}
     rpc listSub(DeptRequest) returns (DeptReply) {}
     rpc saveSub(DeptRequest) returns (DeptReply) {}
     rpc update(DeptRequest) returns (DeptReply) {}

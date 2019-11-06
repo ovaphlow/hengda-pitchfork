@@ -14,6 +14,51 @@ export const SideNav = props => {
           <i className="fa fa-fw fa-angle-right"></i>
         </span>
       </a>
+
+      <a href="#数据管理/用户"
+          className={`list-group-item list-group-item-action ${props.category === 'user' ? 'active' : ''}`}
+      >
+        <i className="fa fa-fw fa-users"></i>
+        用户
+        <span className="pull-right">
+          <i className="fa fa-fw fa-angle-right"></i>
+        </span>
+      </a>
+    </div>
+  )
+}
+
+// 选择部门，返回id
+export const DeptPicker = props => {
+  const [list, setList] = React.useState([])
+
+  React.useEffect(() => {
+    fetch(`/api/common/dept/sub`)
+      .then(response => response.json())
+      .then(res => {
+        if (res.message) {
+          window.alert(res.message)
+          return
+        }
+        setList(res.content)
+      })
+      .catch(err => window.console.error(err))
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>部门</label>
+      <select name={props.name || 'dept_id'} value={props.value || ''}
+          className="form-control"
+          onChange={props.onChange}
+      >
+        <option value="0">未选择</option>
+        {
+          list.map(it => (
+            <option value={it.id} key={it.id}>{it.v}</option>
+          ))
+        }
+      </select>
     </div>
   )
 }
