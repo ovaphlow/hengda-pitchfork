@@ -1,7 +1,7 @@
 import React from 'react'
 import md5 from 'blueimp-md5'
 
-import { Title, Navbar } from './components'
+import { Title, Navbar } from './Components'
 
 const SignIn = props => {
   const [category, setCategory] = React.useState(0)

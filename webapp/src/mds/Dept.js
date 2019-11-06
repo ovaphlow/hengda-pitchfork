@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Title, Navbar } from '../components'
-import { SideNav } from './components'
+import { Title, Navbar } from '../Components'
+import { SideNav } from './Components'
 
 const Toolbar = () => {
   return (
