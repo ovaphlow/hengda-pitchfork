@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Title, Navbar } from './components'
+import { Title, Navbar } from './Components'
 
 const Home = () => {
   React.useEffect(() => {
