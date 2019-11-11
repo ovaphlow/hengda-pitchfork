@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import md5 from 'blueimp-md5'
 
 import { Title, Navbar } from '../Components'
@@ -25,19 +26,14 @@ const Toolbar = () => {
 }
 
 export const List = () => {
-  const [list, setList] = React.useState([])
+  const [data, setData] = React.useState([])
 
   React.useEffect(() => {
-    fetch(`/api/user/`)
-      .then(response => response.json())
-      .then(res => {
-        if (res.message) {
-          window.alert(res.message)
-          return
-        }
-        setList(res.content)
-      })
-      .catch(err => window.console.error(err))
+    const fetchData = async () => {
+      const result = await axios.get(`/api/user/`)
+      setData(result.data)
+    }
+    fetchData()
   }, [])
 
   return (
@@ -74,7 +70,7 @@ export const List = () => {
 
                   <tbody>
                     {
-                      list.map(it => (
+                      data.map(it => (
                         <tr key={it.id}>
                           <td>
                             <a href={`#数据管理/用户/${it.id}`}>

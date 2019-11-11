@@ -174,7 +174,7 @@ export const Save = props => {
             <h2>
               部门结构 - 新增
               {
-                props.match.params.id && (
+                props.match.params.id > 0 && (
                   <span className="pull-right text-muted">{master.v}</span>
                 )
               }
@@ -205,7 +205,7 @@ export const Save = props => {
 
               <div className="card-footer">
                 {
-                  props.match.params.id && (
+                  props.match.params.id > 0 && (
                     <div className="btn-group">
                       <a href={`#数据管理/部门结构/${master.id}`} className="btn btn-secondary">
                         返回

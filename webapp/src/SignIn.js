@@ -11,9 +11,11 @@ const SignIn = props => {
   })
 
   React.useEffect(() => {
+    console.info('sign-in')
     if (props.match.path === '/登录') {
       setCategory('用户')
     } else if (props.match.path === '/数据管理/登录') {
+      console.info('super')
       setCategory('管理员')
     } else {
       window.alert('URL错误')
