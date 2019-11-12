@@ -34,10 +34,39 @@ export const Navbar = props => {
             </a>
           </li>
 
-          <li className={`nav-item ${props.category === 'zhangxiang' ? 'active' : ''}`}>
-            <a href="#帐项" className="nav-link">
-              <i className="fa fa-fw fa-file-archive-o"></i>
-              电子帐项
+          <li className={`nav-item ${props.category === '党群' ? 'active' : ''}`}>
+            <a href="#党群" className="nav-link">
+              党群台帐
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '安全' ? 'active' : ''}`}>
+            <a href="#安全" className="nav-link">
+              安全台帐
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '车辆专业' ? 'active' : ''}`}>
+            <a href="#车辆专业" className="nav-link">
+              车辆专业台帐
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '成本材料' ? 'active' : ''}`}>
+            <a href="#成本材料" className="nav-link">
+              成本材料台帐
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '职工培训' ? 'active' : ''}`}>
+            <a href="#职工培训" className="nav-link">
+              职工培训台帐
+            </a>
+          </li>
+
+          <li className={`nav-item ${props.category === '综合管理' ? 'active' : ''}`}>
+            <a href="#综合管理" className="nav-link">
+              综合管理台帐
             </a>
           </li>
         </ul>
