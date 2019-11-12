@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
 import { Title, Navbar } from '../Components'
 import { SideNav } from './Components'
@@ -94,6 +95,7 @@ export const List = () => {
 }
 
 export const Save = props => {
+  const { id } = useParams()
   const [master, setMaster] = React.useState(0)
   const [item, setItem] = React.useState({
     v: '',
@@ -101,8 +103,8 @@ export const Save = props => {
   })
 
   React.useEffect(() => {
-    if (!!!props.match.params.id) return
-    fetch(`/api/common/dept/${props.match.params.id}`)
+    if (!!!id) return
+    fetch(`/api/common/dept/${id}`)
       .then(response => response.json())
       .then(res => {
         if (res.message) {
@@ -174,7 +176,7 @@ export const Save = props => {
             <h2>
               部门结构 - 新增
               {
-                props.match.params.id > 0 && (
+                id > 0 && (
                   <span className="pull-right text-muted">{master.v}</span>
                 )
               }
@@ -182,7 +184,7 @@ export const Save = props => {
             <hr />
 
             {
-              !!!props.match.params.id && <Toolbar />
+              !!!id && <Toolbar />
             }
 
             <div className="card shadow mt-2">
@@ -205,7 +207,7 @@ export const Save = props => {
 
               <div className="card-footer">
                 {
-                  props.match.params.id > 0 && (
+                  id > 0 && (
                     <div className="btn-group">
                       <a href={`#数据管理/部门结构/${master.id}`} className="btn btn-secondary">
                         返回
@@ -215,7 +217,7 @@ export const Save = props => {
                 }
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-primary" onClick={props.match.params.id ? handleSaveSub : handleSave}>
+                  <button type="button" className="btn btn-primary" onClick={id > 0 ? handleSaveSub : handleSave}>
                     <i className="fa fa-fw fa-check"></i>
                     确定
                   </button>
@@ -232,9 +234,10 @@ export const Save = props => {
 export const Update = props => {
   const [item, setItem] = React.useState(0)
   const [list, setList] = React.useState([])
+  const { id } = useParams()
 
   React.useEffect(() => {
-    fetch(`/api/common/dept/${props.match.params.id}`)
+    fetch(`/api/common/dept/${id}`)
       .then(response => response.json())
       .then(res => {
         if (res.message) {
@@ -248,7 +251,7 @@ export const Update = props => {
   }, [])
 
   React.useEffect(() => {
-    fetch(`/api/common/dept/${props.match.params.id}/sub`)
+    fetch(`/api/common/dept/${id}/sub`)
       .then(response => response.json())
       .then(res => {
         if (res.message) {

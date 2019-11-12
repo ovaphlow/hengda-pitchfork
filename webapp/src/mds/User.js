@@ -1,4 +1,5 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import md5 from 'blueimp-md5'
 
@@ -31,7 +32,7 @@ export const List = () => {
   React.useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(`/api/user/`)
-      setData(result.data)
+      setData(result.data.content)
     }
     fetchData()
   }, [])
@@ -246,10 +247,11 @@ export const Save = () => {
 }
 
 export const Update = props => {
+  const { id } = useParams()
   const [item, setItem] = React.useState(0)
 
   React.useEffect(() => {
-    fetch(`/api/user/${props.match.params.id}`)
+    fetch(`/api/user/${id}`)
       .then(response => response.json())
       .then(res => {
         if (res.message) {
