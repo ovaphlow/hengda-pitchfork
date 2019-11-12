@@ -6,7 +6,9 @@ import SignIn from '../SignIn'
 import { List as DeptList, Save as DeptSave, Update as DeptUpdate } from './Dept'
 import { List as UserList, Save as UserSave, Update as UserUpdate } from './User'
 import {
-  List as ModelList
+  List as ModelList,
+  Save as ModelSave,
+  Update as ModelUpdate
 } from './Model'
 
 export const Index = () => {
@@ -57,8 +59,16 @@ export const Index = () => {
           <UserUpdate />
         </Route>
 
-        <Route path="/数据管理/车型">
+        <Route exact path="/数据管理/车型">
           <ModelList />
+        </Route>
+
+        <Route path="/数据管理/车型/新增">
+          <ModelSave />
+        </Route>
+
+        <Route path="/数据管理/车型/:id">
+          <ModelUpdate />
         </Route>
       </Switch>
     </Router>

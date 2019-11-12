@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package model;
+
+service Model {
+    rpc commonUserSignIn(ModelRequest) returns (ModelReply) {}
+    rpc superUserSignIn(ModelRequest) returns (ModelReply) {}
+    rpc list(ModelRequest) returns (ModelReply) {}
+    rpc save(ModelRequest) returns (ModelReply) {}
+    rpc get(ModelRequest) returns (ModelReply) {}
+    rpc update(ModelRequest) returns (ModelReply) {}
+    rpc remove(ModelRequest) returns (ModelReply) {}
+}
+
+message ModelRequest { string data = 1; }
+
+message ModelReply { string data = 1; }

@@ -34,4 +34,8 @@ const deptRouter = require('./routes/dept')
 app.use(deptRouter.routes())
 app.use(deptRouter.allowedMethods())
 
+const modelRouter = require('./routes/model')
+app.use(modelRouter.routes())
+app.use(modelRouter.allowedMethods())
+
 module.exports = app
