@@ -24,6 +24,16 @@ export const SideNav = props => {
           <i className="fa fa-fw fa-angle-right"></i>
         </span>
       </a>
+
+      <a href="#数据管理/车型"
+          className={`list-group-item list-group-item-action ${props.category === 'model' ? 'active' : ''}`}
+      >
+        <i className="fa fa-fw fa-cubes"></i>
+        车型
+        <span className="pull-right">
+          <i className="fa fa-fw fa-angle-right"></i>
+        </span>
+      </a>
     </div>
   )
 }

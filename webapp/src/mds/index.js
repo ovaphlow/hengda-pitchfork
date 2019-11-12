@@ -5,6 +5,9 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 import SignIn from '../SignIn'
 import { List as DeptList, Save as DeptSave, Update as DeptUpdate } from './Dept'
 import { List as UserList, Save as UserSave, Update as UserUpdate } from './User'
+import {
+  List as ModelList
+} from './Model'
 
 export const Index = () => {
   React.useEffect(() => {
@@ -52,6 +55,10 @@ export const Index = () => {
 
         <Route path="/数据管理/用户/:id">
           <UserUpdate />
+        </Route>
+
+        <Route path="/数据管理/车型">
+          <ModelList />
         </Route>
       </Switch>
     </Router>
