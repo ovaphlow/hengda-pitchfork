@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.pitchfork";
+option java_outer_classname = "TrainProto";
+
+package train;
+
+service Train {
+    rpc list(TrainRequest) returns (TrainReply) {}
+    rpc save(TrainRequest) returns (TrainReply) {}
+    rpc get(TrainRequest) returns (TrainReply) {}
+    rpc listAllSub(TrainRequest) returns (TrainReply) {}
+    rpc listSub(TrainRequest) returns (TrainReply) {}
+    rpc saveSub(TrainRequest) returns (TrainReply) {}
+    rpc update(TrainRequest) returns (TrainReply) {}
+    rpc remove(TrainRequest) returns (TrainReply) {}
+}
+
+message TrainRequest { string data = 1; }
+
+message TrainReply { string data = 1; }

@@ -18,6 +18,7 @@ public class BizService {
                 .addService(new UserServiceImpl())
                 .addService(new DeptServiceImpl())
                 .addService(new ModelServiceImpl())
+                .addService(new TrainServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);
