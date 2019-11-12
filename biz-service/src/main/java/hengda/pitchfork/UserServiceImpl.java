@@ -63,7 +63,7 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
         try {
             Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
             Connection conn = DBUtil.getConn();
-            String sql = "select u.id, master_id, username, name, phone, " +
+            String sql = "select u.id, u.master_id, username, name, phone, " +
                     "(select v from public.common_data where id = u.master_id) as dept, " +
                     "a.super " +
                     "from public.user as u " +
