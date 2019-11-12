@@ -11,11 +11,25 @@ const App = () => {
   return (
     <HashRouter>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/登录" component={SignIn} />
-        <Route exact path="/帐项" component={ZhangXiangIndex} />
-        <Route exact path="/数据管理" component={MDSIndex} />
-        <Route exact path="/用户" component={UserIndex} />
+        <Route exact path="/">
+          <Home />
+        </Route>
+
+        <Route exact path="/登录">
+          <SignIn />
+        </Route>
+
+        <Route exact path="/帐项">
+          <ZhangXiangIndex />
+        </Route>
+
+        <Route exact path="/数据管理">
+          <MDSIndex />
+        </Route>
+
+        <Route exact path="/用户">
+          <UserIndex />
+        </Route>
       </Switch>
     </HashRouter>
   )

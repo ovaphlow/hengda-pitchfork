@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import md5 from 'blueimp-md5'
 
 import { Title, Navbar } from './Components'
@@ -9,13 +10,12 @@ const SignIn = props => {
     username: '',
     password: ''
   })
+  const location = useLocation()
 
   React.useEffect(() => {
-    console.info('sign-in')
-    if (props.match.path === '/登录') {
+    if (location.pathname === '/登录') {
       setCategory('用户')
-    } else if (props.match.path === '/数据管理/登录') {
-      console.info('super')
+    } else if (location.pathname === '/数据管理/登录') {
       setCategory('管理员')
     } else {
       window.alert('URL错误')
