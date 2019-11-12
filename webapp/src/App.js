@@ -1,21 +1,37 @@
 import React from 'react'
-import { HashRouter, Switch, Route } from 'react-router-dom'
+import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
 import SignIn from './SignIn'
 import { Index as MDSIndex } from './mds'
 import { Index as ZhangXiangIndex } from './zhangxiang'
+import { Index as UserIndex } from './user'
 
 const App = () => {
   return (
-    <HashRouter>
+    <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/登录" component={SignIn} />
-        <Route exact path="/帐项" component={ZhangXiangIndex} />
-        <Route exact paht="/数据管理" component={MDSIndex} />
+        <Route exact path="/">
+          <Home />
+        </Route>
+
+        <Route path="/登录">
+          <SignIn />
+        </Route>
+
+        <Route path="/帐项">
+          <ZhangXiangIndex />
+        </Route>
+
+        <Route path="/数据管理">
+          <MDSIndex />
+        </Route>
+
+        <Route path="/用户">
+          <UserIndex />
+        </Route>
       </Switch>
-    </HashRouter>
+    </Router>
   )
 }
 

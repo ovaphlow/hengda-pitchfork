@@ -1,4 +1,6 @@
 import React from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 import md5 from 'blueimp-md5'
 
 import { Title, Navbar } from '../Components'
@@ -25,19 +27,14 @@ const Toolbar = () => {
 }
 
 export const List = () => {
-  const [list, setList] = React.useState([])
+  const [data, setData] = React.useState([])
 
   React.useEffect(() => {
-    fetch(`/api/user/`)
-      .then(response => response.json())
-      .then(res => {
-        if (res.message) {
-          window.alert(res.message)
-          return
-        }
-        setList(res.content)
-      })
-      .catch(err => window.console.error(err))
+    const fetchData = async () => {
+      const result = await axios.get(`/api/user/`)
+      setData(result.data.content)
+    }
+    fetchData()
   }, [])
 
   return (
@@ -74,7 +71,7 @@ export const List = () => {
 
                   <tbody>
                     {
-                      list.map(it => (
+                      data.map(it => (
                         <tr key={it.id}>
                           <td>
                             <a href={`#数据管理/用户/${it.id}`}>
@@ -250,10 +247,11 @@ export const Save = () => {
 }
 
 export const Update = props => {
+  const { id } = useParams()
   const [item, setItem] = React.useState(0)
 
   React.useEffect(() => {
-    fetch(`/api/user/${props.match.params.id}`)
+    fetch(`/api/user/${id}`)
       .then(response => response.json())
       .then(res => {
         if (res.message) {
