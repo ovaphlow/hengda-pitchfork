@@ -1,7 +1,6 @@
 import React from 'react'
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
-// import SignInSuper from './SignInSuper'
 import SignIn from '../SignIn'
 import { List as DeptList, Save as DeptSave, Update as DeptUpdate } from './Dept'
 import { List as UserList, Save as UserSave, Update as UserUpdate } from './User'
@@ -10,6 +9,11 @@ import {
   Save as ModelSave,
   Update as ModelUpdate
 } from './Model'
+import {
+  List as TrainList,
+  Save as TrainSave,
+  Update as TrainUpdate,
+} from './Train'
 
 export const Index = () => {
   React.useEffect(() => {
@@ -69,6 +73,18 @@ export const Index = () => {
 
         <Route path="/数据管理/车型/:id">
           <ModelUpdate />
+        </Route>
+
+        <Route exact path="/数据管理/车组">
+          <TrainList />
+        </Route>
+
+        <Route path="/数据管理/车组/新增">
+          <TrainSave />
+        </Route>
+
+        <Route path="/数据管理/车组/:id">
+          <TrainUpdate />
         </Route>
       </Switch>
     </Router>

@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 export const SideNav = props => {
   return (
@@ -34,6 +35,16 @@ export const SideNav = props => {
           <i className="fa fa-fw fa-angle-right"></i>
         </span>
       </a>
+
+      <a href="#数据管理/车组"
+          className={`list-group-item list-group-item-action ${props.category === 'train' ? 'active' : ''}`}
+      >
+        <i className="fa fa-fw fa-train"></i>
+        车组
+        <span className="pull-right">
+          <i className="fa fa-fw fa-angle-right"></i>
+        </span>
+      </a>
     </div>
   )
 }
@@ -65,6 +76,40 @@ export const DeptPicker = props => {
         <option value="0">未选择</option>
         {
           list.map(it => (
+            <option value={it.id} key={it.id}>{it.v}</option>
+          ))
+        }
+      </select>
+    </div>
+  )
+}
+
+// 选择车型，返回id
+export const ModelPicker = props => {
+  const [data, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get(`/api/common/model/`)
+      if (result.data.message) {
+        window.alert(result.data.message)
+        return
+      }
+      setData(result.data.content)
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>车型</label>
+      <select name={props.name || 'model_id'} value={props.value || ''}
+          className="form-control"
+          onChange={props.onChange}
+      >
+        <option value="0">未选择</option>
+        {
+          data.map(it => (
             <option value={it.id} key={it.id}>{it.v}</option>
           ))
         }
