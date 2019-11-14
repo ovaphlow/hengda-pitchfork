@@ -78,6 +78,13 @@ export const Navbar = props => {
               数据管理
             </a>
           </li>
+
+          <li className={`nav-item ${props.category === '当前用户' ? 'active' : ''}`}>
+            <a href="#用户" className="nav-link text-dark">
+              <i className="fa fa-fw fa-user-o"></i>
+              用户中心
+            </a>
+          </li>
         </ul>
       </div>
     </nav>

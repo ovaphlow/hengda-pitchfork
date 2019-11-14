@@ -272,4 +272,46 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
         responseObserver.onNext(reply);
         responseObserver.onCompleted();
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void saveSignature(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+//        先判断signature表
+        try {
+            Connection conn = DBUtil.getConn();
+            String sql = "select * from cheliangduan.signature where master_id = ? limit 1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            Double id = Double.parseDouble(body.get("id").toString());
+            ps.setInt(1, id.intValue());
+            ResultSet rs = ps.executeQuery();
+            List<Map<String, Object>> data = DBUtil.getList(rs);
+            ps.clearParameters();
+            if (data.size() == 1) {
+                sql = "update cheliangduan.signature set data_url = ? where master_id = ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, body.get("data_url").toString());
+                ps.setInt(2, id.intValue());
+            } else {
+                sql = "insert into cheliangduan.signature (master_id, data_url) values (?, ?)";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, id.intValue());
+                ps.setString(2, body.get("data_url").toString());
+            }
+            ps.execute();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
 }

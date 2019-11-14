@@ -14,6 +14,7 @@ service User {
     rpc get(UserRequest) returns (UserReply) {}
     rpc update(UserRequest) returns (UserReply) {}
     rpc remove(UserRequest) returns (UserReply) {}
+    rpc saveSignature(UserRequest) returns (UserReply) {}
 }
 
 message UserRequest { string data = 1; }
