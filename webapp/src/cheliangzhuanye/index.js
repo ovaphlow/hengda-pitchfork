@@ -15,7 +15,7 @@ export const Index = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/综合管理">
+        <Route exact path="/车辆专业">
           <Template />
         </Route>
       </Switch>

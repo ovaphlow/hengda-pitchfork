@@ -5,9 +5,9 @@ import Template from './Template'
 
 export const Index = () => {
   React.useEffect(() => {
-    let a = JSON.parse(sessionStorage.getItem('auth_super'))
+    let a = JSON.parse(sessionStorage.getItem('auth'))
     if (!!!a) {
-      window.location = '#数据管理/登录'
+      window.location = '#登录'
       return
     }
   }, [])

@@ -8,6 +8,7 @@ import { Index as ZhangXiangIndex } from './zhangxiang'
 import { Index as UserIndex } from './user'
 import { Index as DangQunIndex } from './dangqun'
 import { Index as AnQuanIndex } from './anquan'
+import { Index as CheLiangZhuanYeIndex } from './cheliangzhuanye'
 import { Index as ChengBenCaiLiaoIndex } from './chengbencailiao'
 import { Index as ZhiGongPeiXunIndex } from './zhigongpeixun'
 import { Index as ZongHeGuanLiIndex } from './zongheguanli'
@@ -42,6 +43,10 @@ const App = () => {
 
         <Route path="/安全">
           <AnQuanIndex />
+        </Route>
+
+        <Route path="/车辆专业">
+          <CheLiangZhuanYeIndex />
         </Route>
 
         <Route path="/成本材料">
