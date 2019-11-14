@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export const SideNav = props => {
   return (
-    <div className="list-group shadow">
+    <div className="list-group">
       <h6 className="text-muted text-center mt-2">选择功能</h6>
 
       <a href="#数据管理/部门结构"
