@@ -32,7 +32,7 @@ const Form = props => {
         <div className="col">
           <div className="form-group">
             <label>名称</label>
-            <input type="text" name="name" value={props.data.name}
+            <input type="text" name="name" value={props.data.name || ''}
                 className="form-control"
                 onChange={props.handleChange}
             />
@@ -40,13 +40,13 @@ const Form = props => {
         </div>
 
         <div className="col">
-          <ModelPicker name="master_id" value={props.data.master_id} onChange={props.handleChange} />
+          <ModelPicker name="master_id" value={props.data.master_id || '0'} onChange={props.handleChange} />
         </div>
       </div>
 
       <div className="form-group">
         <label>备注</label>
-        <input type="text" name="remark" value={props.data.remark}
+        <input type="text" name="remark" value={props.data.remark || ''}
             className="form-control"
             onChange={props.handleChange}
         />

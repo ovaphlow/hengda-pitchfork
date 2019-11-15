@@ -322,14 +322,14 @@ export const Update = props => {
               <div className="card-body">
                 <div className="form-group">
                   <label>名称</label>
-                  <input type="text" name="v" value={item.v}
+                  <input type="text" name="v" value={item.v || ''}
                       className="form-control"
                       onChange={handleChange}
                   />
                 </div>
                 <div className="form-group">
                   <label>备注</label>
-                  <input type="text" name="remark" value={item.remark}
+                  <input type="text" name="remark" value={item.remark || ''}
                       className="form-control"
                       onChange={handleChange}
                   />

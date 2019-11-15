@@ -107,7 +107,7 @@ const Form = props => {
         <div className="col-4 col-lg-3">
           <div className="form-group">
             <label>用户名</label>
-            <input type="text" name="username" value={props.item.username}
+            <input type="text" name="username" value={props.item.username || ''}
                 className="form-control"
                 onChange={props.handleChange}
             />
@@ -119,7 +119,7 @@ const Form = props => {
         <div className="col">
           <div className="form-group">
             <label>姓名</label>
-            <input type="text" name="name" value={props.item.name}
+            <input type="text" name="name" value={props.item.name || ''}
                 className="form-control"
                 onChange={props.handleChange}
             />
@@ -129,7 +129,7 @@ const Form = props => {
         <div className="col">
           <div className="form-group">
             <label>电话号码</label>
-            <input type="text" name="phone" value={props.item.phone}
+            <input type="text" name="phone" value={props.item.phone || ''}
                 className="form-control"
                 onChange={props.handleChange}
             />
@@ -138,7 +138,7 @@ const Form = props => {
 
         {/* 替换 */}
         <div className="col">
-          <DeptPicker name="master_id" value={props.item.master_id} onChange={props.handleChange} />
+          <DeptPicker name="master_id" value={props.item.master_id || ''} onChange={props.handleChange} />
         </div>
       </div>
 
@@ -146,7 +146,7 @@ const Form = props => {
         <div className="col-4 col-lg-3">
           <div className="form-group">
             <label>权限：管理员</label>
-            <select name="super" value={props.item.super}
+            <select name="super" value={props.item.super || '0'}
                 className="form-control"
                 onChange={props.handleChange}
             >
@@ -159,7 +159,7 @@ const Form = props => {
 
       <div className="form-group">
         <label>备注</label>
-        <input type="text" name="remark" value={props.item.remark}
+        <input type="text" name="remark" value={props.item.remark || ''}
             className="form-control"
             onChange={props.handleChange}
         />

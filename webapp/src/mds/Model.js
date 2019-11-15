@@ -30,7 +30,7 @@ const Form = props => {
     <>
       <div className="form-group">
         <label>名称</label>
-        <input type="text" name="v" value={props.data.v}
+        <input type="text" name="v" value={props.data.v || ''}
             className="form-control"
             onChange={props.handleChange}
         />
@@ -38,7 +38,7 @@ const Form = props => {
 
       <div className="form-group">
         <label>备注</label>
-        <input type="text" name="remark" value={props.data.remark}
+        <input type="text" name="remark" value={props.data.remark || ''}
             className="form-control"
             onChange={props.handleChange}
         />
