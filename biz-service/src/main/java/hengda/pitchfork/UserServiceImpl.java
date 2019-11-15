@@ -176,7 +176,8 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
         try {
             Connection conn = DBUtil.getConn();
             String sql = "select u.id, u.master_id, u.username, u.name, u.phone, u.remark, " +
-                    "(select super from cheliangduan.auth where master_id = u.id) as super " +
+                    "(select super from cheliangduan.auth where master_id = u.id) as super, " +
+                    "(select v from public.common_data where id = u.master_id) as dept " +
                     "from public.user as u " +
                     "where id = ? " +
                     "limit 1";
@@ -287,6 +288,7 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
             String sql = "select * from cheliangduan.signature where master_id = ? limit 1";
             PreparedStatement ps = conn.prepareStatement(sql);
             Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            logger.info("{}", body);
             Double id = Double.parseDouble(body.get("id").toString());
             ps.setInt(1, id.intValue());
             ResultSet rs = ps.executeQuery();

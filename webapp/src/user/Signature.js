@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 import { Title, Navbar } from '../Components'
 import { SideNav } from './Components'
@@ -76,14 +77,16 @@ function Signature() {
 
   const handleUpload = async () => {
     const d = canvasRef.current.toDataURL()
-    console.info(d.length)
     const a = JSON.parse(sessionStorage.getItem('auth'))
-    console.info(a)
-    // const result = await axios.post(`/api/user/signature` {
-    //   id: a.id,
-    //   signature: d
-    // })
-
+    const result = await axios.post(`/api/user/signature`, {
+      id: a.id,
+      data_url: d
+    })
+    if (result.data.message) {
+      window.alert(result.data.message)
+      return
+    }
+    window.location = '#用户/用户信息'
   }
 
   return (

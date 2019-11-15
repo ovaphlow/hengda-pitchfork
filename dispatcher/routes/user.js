@@ -169,7 +169,7 @@ router
   })
 
 router
-  .post('/api/user/signature', async ctx => {
+  .post('/signature', async ctx => {
     const grpcFetch = body => {
       return new Promise((resolve, reject) => {
         grpcClient.saveSignature({data: JSON.stringify(body)}, (err, response) => {
