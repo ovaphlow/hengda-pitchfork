@@ -3,35 +3,28 @@ import React from 'react'
 import { Title, Navbar } from '../Components'
 import { SideNav } from './Components'
 
-const Signature = () => {
-  // const [auth, setAuth] = React.useState(0)
+function Signature() {
+  const Canvas = React.forwardRef((props, ref) => (
+    <canvas id="canvas" style={{border: '1px solid black'}} ref={ref}></canvas>
+  ))
+  const canvasRef = React.createRef()
+
   const config = {
     width: 400,
     height: 200
   }
-  let canvas = 0
-    , ctx = 0
-    , rect
-    , last_x = 0
+  // let canvas = 0
+    // , ctx = 0
+    // , rect
+  let last_x = 0
     , last_y = 0
 
-  // React.useEffect(() => {
-  //   let a = JSON.parse(sessionStorage.getItem('auth'))
-  //   console.info(a)
-  //   if (!!!a) {
-  //     window.location = '#登录'
-  //     return
-  //   }
-  //   setAuth(a)
-  // }, [])
-
   React.useEffect(() => {
-    canvas = document.getElementById('canvas')
-    ctx = canvas.getContext('2d')
-    rect = canvas.getBoundingClientRect()
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext('2d')
 
-    canvas.setAttribute('width', config.width)
-    canvas.setAttribute('height', config.height)
+    canvasRef.current.setAttribute('width', config.width)
+    canvasRef.current.setAttribute('height', config.height)
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0)'
     ctx.fillRect(0, 0, config.width, config.height)
@@ -39,17 +32,19 @@ const Signature = () => {
     ctx.lineWidth = 2
     ctx.lineJoin = 'round'
 
-    canvas.addEventListener('touchstart', handleTouchStart, false)
-    canvas.addEventListener('touchmove', handleTouchMove, false)
-    canvas.addEventListener('touchend', handleTouchEnd, false)
+    canvasRef.current.addEventListener('touchstart', handleTouchStart, false)
+    canvasRef.current.addEventListener('touchmove', handleTouchMove, false)
+    canvasRef.current.addEventListener('touchend', handleTouchEnd, false)
 
     return () => {
       canvas.removeEventListener('touchstart', handleTouchStart)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleTouchStart = event => {
     event.preventDefault()
+    const rect = canvasRef.current.getBoundingClientRect()
     const _t = event.changedTouches[0]
     last_x = _t.clientX - rect.left
     last_y = _t.clientY - rect.top
@@ -58,6 +53,8 @@ const Signature = () => {
   const handleTouchMove = event => {
     event.preventDefault()
 
+    const ctx = canvasRef.current.getContext('2d')
+    const rect = canvasRef.current.getBoundingClientRect()
     const _t = event.changedTouches[0]
     ctx.beginPath()
     ctx.moveTo(last_x, last_y)
@@ -73,11 +70,12 @@ const Signature = () => {
   }
 
   const handleReset = () => {
+    const ctx = canvasRef.current.getContext('2d')
     ctx.clearRect(0, 0, config.width, config.height)
   }
 
   const handleUpload = async () => {
-    const d = canvas.toDataURL()
+    const d = canvasRef.current.toDataURL()
     console.info(d.length)
     const a = JSON.parse(sessionStorage.getItem('auth'))
     console.info(a)
@@ -108,7 +106,10 @@ const Signature = () => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-9">
-                    <canvas id="canvas" style={{border: '1px solid black'}}></canvas>
+                    {/*
+                    <canvas id="canvas" style={{border: '1px solid black'}} ref={canvas}></canvas>
+                    */}
+                    <Canvas ref={canvasRef} />
                   </div>
 
                   <div className="col-3">
