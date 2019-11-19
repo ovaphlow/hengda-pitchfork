@@ -16,8 +16,6 @@ public class BizService {
         int port = 5001;
         server = ServerBuilder.forPort(port)
                 .addService(new UserServiceImpl())
-                .addService(new DeptServiceImpl())
-                .addService(new ModelServiceImpl())
                 .addService(new TrainServiceImpl())
                 .build()
                 .start();
