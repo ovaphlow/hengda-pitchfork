@@ -30,16 +30,4 @@ const userRouter = require('./routes/user')
 app.use(userRouter.routes())
 app.use(userRouter.allowedMethods())
 
-const deptRouter = require('./routes/dept')
-app.use(deptRouter.routes())
-app.use(deptRouter.allowedMethods())
-
-const modelRouter = require('./routes/model')
-app.use(modelRouter.routes())
-app.use(modelRouter.allowedMethods())
-
-const trainRouter = require('./routes/train')
-app.use(trainRouter.routes())
-app.use(trainRouter.allowedMethods())
-
 module.exports = app
