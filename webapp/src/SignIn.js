@@ -75,13 +75,13 @@ const SignIn = props => {
 
       <div className="container-fluid">
         <div className="row mt-5">
-          <div className="col-6 offset-3 col-lg-2 offset-lg-5">
+          <div className="col-6 offset-3 col-lg-4 offset-lg-4">
             <h1 className="text-center">{category} 登录</h1>
           </div>
         </div>
 
         <div className="row mt-5">
-          <div className="col-6 offset-3 col-lg-2 offset-lg-5">
+          <div className="col-6 offset-3 col-lg-4 offset-lg-4">
             <div className="card shadow">
               <div className="card-body">
                 <div className="form-group">
