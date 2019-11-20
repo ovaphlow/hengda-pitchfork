@@ -30,4 +30,8 @@ const userRouter = require('./routes/user')
 app.use(userRouter.routes())
 app.use(userRouter.allowedMethods())
 
+const commonRouter = require('./routes/common')
+app.use(commonRouter.routes())
+app.use(commonRouter.allowedMethods())
+
 module.exports = app

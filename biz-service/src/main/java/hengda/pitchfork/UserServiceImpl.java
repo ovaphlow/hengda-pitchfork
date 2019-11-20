@@ -116,6 +116,44 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
 
     @Override
     @SuppressWarnings("unchecked")
+    public void updatePassword(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            Connection conn = DBUtil.getConn();
+            String sql = "select password from public.user where id = ? limit 1";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            Double id = Double.parseDouble(body.get("id").toString());
+            ps.setInt(1, id.intValue());
+            ResultSet rs = ps.executeQuery();
+            Map<String, Object> data = DBUtil.getMap(rs);
+            if (body.get("password").toString().equals(data.get("password").toString())) {
+                sql = "update public.user set password = ? where id = ?";
+                ps.clearParameters();
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, body.get("password1").toString());
+                ps.setInt(2, id.intValue());
+                ps.execute();
+            } else {
+                resp.put("message", "当前密码输入错误");
+            }
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
     public void update(UserRequest req, StreamObserver<UserReply> responseObserver) {
         Gson gson = new Gson();
         Map<String, Object> resp = new HashMap<>();

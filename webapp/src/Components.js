@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 export const Title = props => {
   return (
@@ -91,5 +92,38 @@ export const Navbar = props => {
         </ul>
       </div>
     </nav>
+  )
+}
+
+export function TrainPicker(props) {
+  const [data, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/common/train/`)
+      if (res.data.message) {
+        window.alert(res.data.message)
+        return
+      }
+      setData(res.data.content)
+    }
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>{props.caption || '车组'}</label>
+      <input type="text" name={props.name || 'train'} value={props.value || ''}
+          list="component.train-picker.list"
+          className="form-control"
+          onChange={props.handleChange}
+      />
+      <datalist id="component.train-picker.list">
+        {
+          data.map(it => (
+            <option label={data.v} value={data.v} key={it.id} />
+          ))
+        }
+      </datalist>
+    </div>
   )
 }

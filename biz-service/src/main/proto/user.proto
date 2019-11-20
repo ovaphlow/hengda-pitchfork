@@ -11,6 +11,7 @@ service User {
     rpc list(UserRequest) returns (UserReply) {}
     rpc get(UserRequest) returns (UserReply) {}
     rpc update(UserRequest) returns (UserReply) {}
+    rpc updatePassword(UserRequest) returns (UserReply) {}
     rpc saveSignature(UserRequest) returns (UserReply) {}
 }
 

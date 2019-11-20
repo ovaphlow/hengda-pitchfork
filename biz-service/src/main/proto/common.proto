@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.pitchfork";
+option java_outer_classname = "CommonProto";
+
+package common;
+
+service Common {
+    rpc listTrain(CommonRequest) returns (CommonReply) {}
+    rpc save(CommonRequest) returns (CommonReply) {}
+}
+
+message CommonRequest { string data = 1; }
+
+message CommonReply { string data = 1; }

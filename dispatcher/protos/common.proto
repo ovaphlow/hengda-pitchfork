@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package common;
+
+service Common {
+    rpc listTrain(CommonRequest) returns (CommonReply) {}
+}
+
+message CommonRequest { string data = 1; }
+
+message CommonReply { string data = 1; }

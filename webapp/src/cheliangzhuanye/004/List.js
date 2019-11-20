@@ -29,7 +29,7 @@ function List() {
       <div className="container-fluid">
         <div className="row mt-3">
           <div className="col-3 col-lg-2">
-            <SideNav category="1" />
+            <SideNav category="004" />
           </div>
 
           <div className="col-9 col-lg-10">

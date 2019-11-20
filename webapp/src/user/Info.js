@@ -23,7 +23,7 @@ function Info() {
       }
       setData(result.data.content)
     }
-    // fetchData()
+    fetchData()
 
     const fetchSignature = async () => {
       const result = await axios.get(`/api/user/${user.id}/signature`)
@@ -33,7 +33,7 @@ function Info() {
       }
       setSignature(result.data.content)
     }
-    // fetchSignature()
+    fetchSignature()
   }, [])
 
   const handleChange = e => {
