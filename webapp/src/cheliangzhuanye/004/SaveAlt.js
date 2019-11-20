@@ -33,11 +33,11 @@ function SaveAlt() {
     const date = moment().format('YYYY-MM-DD')
     setData(prev => ({
       ...prev,
-      ['dept']: auth.dept,
-      ['operator']: auth.name,
-      ['operator_phone']: auth.phone,
-      ['date_begin']: date,
-      ['date_end']: date,
+      'dept': auth.dept,
+      'operator': auth.name,
+      'operator_phone': auth.phone,
+      'date_begin': date,
+      'date_end': date,
     }))
   }, [])
 
