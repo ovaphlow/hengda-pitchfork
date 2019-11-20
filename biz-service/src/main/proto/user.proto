@@ -8,12 +8,9 @@ package user;
 
 service User {
     rpc commonUserSignIn(UserRequest) returns (UserReply) {}
-    rpc superUserSignIn(UserRequest) returns (UserReply) {}
     rpc list(UserRequest) returns (UserReply) {}
-    rpc save(UserRequest) returns (UserReply) {}
     rpc get(UserRequest) returns (UserReply) {}
     rpc update(UserRequest) returns (UserReply) {}
-    rpc remove(UserRequest) returns (UserReply) {}
     rpc saveSignature(UserRequest) returns (UserReply) {}
 }
 

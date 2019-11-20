@@ -3,7 +3,6 @@ import { HashRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Home from './Home'
 import SignIn from './SignIn'
-import { Index as MDSIndex } from './mds'
 import { Index as ZhangXiangIndex } from './zhangxiang'
 import { Index as UserIndex } from './user'
 import { Index as DangQunIndex } from './dangqun'
@@ -27,10 +26,6 @@ const App = () => {
 
         <Route path="/帐项">
           <ZhangXiangIndex />
-        </Route>
-
-        <Route path="/数据管理">
-          <MDSIndex />
         </Route>
 
         <Route path="/用户">

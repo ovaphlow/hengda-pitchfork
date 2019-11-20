@@ -23,30 +23,10 @@ const router = new Router({
 })
 
 router
-  .post('/sign-in/common', async ctx => {
+  .post('/sign-in', async ctx => {
     const grpcFetch = body => {
       return new Promise((resolve, reject) => {
         grpcClient.commonUserSignIn({data: JSON.stringify(body)}, (err, response) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-            return
-          }
-          resolve(JSON.parse(response.data))
-        })
-      })
-    }
-    try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
-    } catch (err) {
-      console.error(err)
-      ctx.response.body = {message: '服务器错误'}
-    }
-  })
-  .post('/sign-in/super', async ctx => {
-    const grpcFetch = body => {
-      return new Promise((resolve, reject) => {
-        grpcClient.superUserSignIn({data: JSON.stringify(body)}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -80,26 +60,6 @@ router
     }
     try {
       ctx.response.body = await grpcFetch()
-    } catch (err) {
-      console.error(err)
-      ctx.response.body = {message: '服务器错误'}
-    }
-  })
-  .post('/', async ctx => {
-    const grpcFetch = body => {
-      return new Promise((resolve, reject) => {
-        grpcClient.save({data: JSON.stringify(body)}, (err, response) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-            return
-          }
-          resolve(JSON.parse(response.data))
-        })
-      })
-    }
-    try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
       console.error(err)
       ctx.response.body = {message: '服务器错误'}
@@ -142,26 +102,6 @@ router
     }
     try {
       ctx.response.body = await grpcFetch(ctx.request.body)
-    } catch (err) {
-      console.error(err)
-      ctx.response.body = {message: '服务器错误'}
-    }
-  })
-  .delete('/:id', async ctx => {
-    const grpcFetch = body => {
-      return new Promise((resolve, reject) => {
-        grpcClient.remove({data: JSON.stringify(body)}, (err, response) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-            return
-          }
-          resolve(JSON.parse(response.data))
-        })
-      })
-    }
-    try {
-      ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
       ctx.response.body = {message: '服务器错误'}
