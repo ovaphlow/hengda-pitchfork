@@ -43,3 +43,5 @@ router
       ctx.response.body = {message: '服务器错误'}
     }
   })
+
+module.exports = router

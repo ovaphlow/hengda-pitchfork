@@ -9,6 +9,10 @@ const SignIn = props => {
     password: ''
   })
 
+  React.useEffect(() => {
+    sessionStorage.removeItem('auth')
+  }, [])
+
   const handleChange = e => {
     const { value, name } = e.target
     setItem(prev => ({ ...prev, [name]: value}))
