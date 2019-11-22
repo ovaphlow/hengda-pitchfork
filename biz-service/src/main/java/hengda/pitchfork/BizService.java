@@ -17,6 +17,7 @@ public class BizService {
         server = ServerBuilder.forPort(port)
                 .addService(new UserServiceImpl())
                 .addService(new CommonServiceImpl())
+                .addService(new CheLiang004ServiceImpl())
                 .build()
                 .start();
         logger.info("服务启动于端口 " + port);

@@ -3,21 +3,28 @@ import axios from 'axios'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
-import { Toolbar } from './Components'
+import { Toolbar, ListItem } from './Components'
 
 function List() {
+  const [auth, setAuth] = React.useState(0)
   const [data, setData] = React.useState([])
 
   React.useEffect(() => {
+    const a = JSON.parse(sessionStorage.getItem('auth'))
+    if (!!!a) return
+    setAuth(a)
+  }, [])
+
+  React.useEffect(() => {
     const fetchData = async () => {
-      const result = await axios.get(`/api/cheliangzhuanye/004`)
+      const result = await axios.get(`/api/cheliang/004`)
       if (result.data.message) {
         window.alert(result.data.message)
         return
       }
       setData(result.data.content)
     }
-    // fetchData()
+    fetchData()
   }, [])
 
   return (
@@ -42,7 +49,13 @@ function List() {
               </div>
 
               <div className="card-body">
-                列表
+                <ul className="list-group">
+                  {
+                    data.map(it => (
+                      <ListItem key={it.id} data={it} auth={auth} />
+                    ))
+                  }
+                </ul>
               </div>
             </div>
           </div>

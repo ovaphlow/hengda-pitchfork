@@ -8,6 +8,7 @@ import { Toolbar, Form } from './Components'
 
 function SaveAlt() {
   const [data, setData] = React.useState({
+    category: '计划外',
     dept: '',
     leader: '',
     leader_phone: '',
@@ -18,7 +19,7 @@ function SaveAlt() {
     time_begin: '',
     date_end: '',
     time_end: '',
-    title: '',
+    title: '普查',
     content: '',
     p_yq_xdc: '',
     p_yq_jcw: '',
@@ -47,7 +48,20 @@ function SaveAlt() {
   }
 
   const handleSave = async () => {
-
+    if (!!!data.leader || !!!data.leader_phone || !!!data.train ||
+        !!!data.date_begin || !!!data.time_begin || !!!data.date_end ||
+        !!!data.time_end || !!!data.content || !!!data.p_yq_xdc ||
+        !!!data.p_yq_jcw || !!!data.p_yq_zydd || !!!data.p_yq_qt
+    ) {
+      window.alert('请完整填写所需信息')
+      return
+    }
+    const res = await axios.post(`/api/cheliang/004/`, data)
+    if (res.data.message) {
+      window.alert(res.data.message)
+      return
+    }
+    window.location = '#车辆专业/004'
   }
 
   return (

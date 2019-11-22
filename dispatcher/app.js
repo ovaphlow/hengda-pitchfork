@@ -34,4 +34,11 @@ const commonRouter = require('./routes/common')
 app.use(commonRouter.routes())
 app.use(commonRouter.allowedMethods())
 
+function cheliang004Router() {
+  const router = require('./routes/cheliangzhuanye/004')
+  app.use(router.routes())
+  app.use(router.allowedMethods())
+}
+cheliang004Router()
+
 module.exports = app

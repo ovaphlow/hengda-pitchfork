@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "hengda.pitchfork";
+option java_outer_classname = "CheLiang004Proto";
+
+package cheliang004;
+
+service CheLiang004 {
+    rpc list(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc save(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc remove(CheLiang004Request) returns (CheLiang004Reply) {}
+}
+
+message CheLiang004Request { string data = 1; }
+
+message CheLiang004Reply { string data = 1; }

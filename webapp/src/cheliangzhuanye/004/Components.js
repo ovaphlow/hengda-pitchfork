@@ -1,4 +1,7 @@
 import React from 'react'
+import axios from 'axios'
+import moment from 'moment'
+import 'moment/locale/zh-cn'
 
 import { TrainPicker } from '../../Components'
 
@@ -58,7 +61,7 @@ export function Form(props) {
         <tbody>
           <tr>
             <td rowSpan="2" width="20%" className="text-center align-middle">CRH</td>
-            <td><strong>哈尔滨动车段哈尔滨西动车组运用所</strong></td>
+            <td><strong>乌鲁木齐车辆段</strong></td>
             <td width="15%"></td>
           </tr>
           <tr>
@@ -150,7 +153,7 @@ export function Form(props) {
                 props.mode === 'read' ? (
                   <strong>{props.data.train}</strong>
                 ) : (
-                  <TrainPicker mode={props.mode} value={props.data.train || ''} handleChange={props.handleChange} />
+                  <TrainPicker mode={props.mode} caption="" value={props.data.train || ''} handleChange={props.handleChange} />
                 )
               }
             </td>
@@ -158,6 +161,7 @@ export function Form(props) {
           <tr>
             <td width="15%" className="text-center align-middle">申请作业时间</td>
             <td colSpan="3" className="text-center">
+              {/*
               <input type="date" name="date_begin" value={props.data.date_begin || ''}
                   readOnly={props.mode === 'read' ? true : false}
                   className="form-control-sm"
@@ -183,6 +187,62 @@ export function Form(props) {
                   style={{ width: '12rem' }}
                   onChange={props.handleChange}
               />
+              <br />
+              */}
+
+              <div className="row">
+                <div className="col">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">开始日期</div>
+                    </div>
+                    <input type="date" name="date_begin" value={props.data.date_begin || ''}
+                        readOnly={props.mode === 'read' ? true : false}
+                        className="form-control"
+                        onChange={props.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">时间</div>
+                    </div>
+                    <input type="time" name="time_begin" value={props.data.time_begin || ''}
+                        readOnly={props.mode === 'read' ? true : false}
+                        className="form-control"
+                        onChange={props.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">结束日期</div>
+                    </div>
+                    <input type="date" name="date_end" value={props.data.date_end || ''}
+                        readOnly={props.mode === 'read' ? true : false}
+                        className="form-control"
+                        onChange={props.handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div className="col">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <div className="input-group-text">时间</div>
+                    </div>
+                    <input type="time" name="time_end" value={props.data.time_end || ''}
+                        readOnly={props.mode === 'read' ? true : false}
+                        className="form-control"
+                        onChange={props.handleChange}
+                    />
+                  </div>
+                </div>
+              </div>
             </td>
           </tr>
           <tr>
@@ -478,5 +538,122 @@ export function Form(props) {
         </tbody>
       </table>
     </>
+  )
+}
+
+export function ListItem(props) {
+  const calcTime = () => {
+    moment.locale('zh-cn')
+    let end_time = moment(`${props.data.date_end}T${props.data.time_end}`)
+    let current = moment()
+    if (
+        moment(current).diff(end_time) > 0
+        // moment(current).diff(end_time) > 0 &&
+        // !!!this.props.item.sign_verify &&
+        // !!!this.props.item.sign_verify_leader
+    ) return (
+      <span className="badge badge-danger">已超期 {moment(end_time).fromNow(true)}</span>
+    )
+    else if (
+        moment(current).diff(end_time) > -900000
+        // moment(current).diff(end_time) > -900000 &&
+        // !!!this.props.item.sign_verify &&
+        // !!!this.props.item.sign_verify_leader
+    )return (
+      <span className="badge badge-warning">预警 {moment(end_time).fromNow(true)}</span>
+    )
+  }
+
+  const handleRemove = async () => {
+    if (!!!window.confirm('确定要删除所选的数据？')) return
+    const res = await axios.delete(`/api/cheliang/004/${props.data.id}`)
+    if (res.data.message) {
+      window.alert(res.data.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  return (
+    <li className="list-group-item">
+      <p className="lead">
+        [{props.data.id}]
+        {calcTime()}
+        ({props.data.category})
+        「<strong>{props.data.title}</strong>」
+        {props.data.content}
+        {/* 补充进度标签 */}
+      </p>
+
+      <ul className="list-inline">
+        <li className="list-inline-item">
+          <span className="text-secondary">申请单位：</span>
+          {props.data.dept}
+        </li>
+        <li className="list-inline-item">
+          <span className="text-secondary">申请人：</span>
+          {props.data.leader} ({props.data.leader_phone})
+        </li>
+        <li className="list-inline-item">
+          <span className="text-secondary">作业负责人：</span>
+          {props.data.operator} ({props.data.operator_phone})
+        </li>
+        <li className="list-inline-item">
+          <span className="text-secondary">作业车组号：</span>
+          {props.data.train}
+        </li>
+        <li className="list-inline-item">
+          <span className="text-secondary">申请作业时间：</span>
+          {props.data.date_begin} {props.data.time_begin} 至 {props.data.date_end} {props.data.time_end}
+        </li>
+      </ul>
+
+      <div className="row">
+        <div className="col">
+          {props.data.p_yq_xdc !== '无要求' &&
+            <span className="badge badge-warning ml-1">蓄电池：{props.data.p_yq_xdc}</span>
+          }
+          {props.data.p_yq_jcw !== '无要求' &&
+            <span className="badge badge-warning ml-1">接触网：{props.data.p_yq_jcw}</span>
+          }
+          {props.data.p_yq_zydd !== '无要求' &&
+            <span className="badge badge-warning ml-1">作业地点：{props.data.p_yq_zydd}</span>
+          }
+        </div>
+      </div>
+
+      <div className="mt-3">
+        <div className="btn-group">
+          {/*
+            按钮组：
+            管理员删除、修改
+            */}
+          {
+            props.auth.super === 1 && (
+              <>
+                <button type="button" className="btn btn-sm btn-outline-success"
+                  onClick={() => window.location = `#车辆专业/004/${props.data.id}`}
+                >
+                  <i className="fa fa-fw fa-edit"></i>
+                  修改
+                </button>
+                <button type="button" className="btn btn-sm btn-outline-danger" onClick={handleRemove}>
+                  删除
+                </button>
+              </>
+            )
+          }
+        </div>
+
+        <div className="btn-group pull-right">
+          <button type="button" className="btn btn-sm btn-outline-info"
+            onClick={() => window.open(`#车辆专业/004/${props.data.id}`)}
+          >
+            <i className="fa fa-fw fa-file-text-o"></i>
+            详细信息
+          </button>
+        </div>
+      </div>
+    </li>
   )
 }

@@ -107,11 +107,12 @@ export function TrainPicker(props) {
       }
       setData(res.data.content)
     }
+    fetchData()
   }, [])
 
   return (
     <div className="form-group">
-      <label>{props.caption || '车组'}</label>
+      <label>{props.caption}</label>
       <input type="text" name={props.name || 'train'} value={props.value || ''}
           list="component.train-picker.list"
           className="form-control"
