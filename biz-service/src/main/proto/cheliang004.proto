@@ -9,7 +9,11 @@ package cheliang004;
 service CheLiang004 {
     rpc list(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc save(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc get(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc update(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc reject(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc remove(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listReject(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

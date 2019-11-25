@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import io.grpc.stub.StreamObserver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.sql.Connection
 
 class CommonServiceImpl: CommonGrpc.CommonImplBase() {
     private val logger: Logger = LoggerFactory.getLogger(CommonServiceImpl::class.java);
@@ -11,24 +12,53 @@ class CommonServiceImpl: CommonGrpc.CommonImplBase() {
     override fun listTrain(req: CommonRequest, responseObserver: StreamObserver<CommonReply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
 
         try {
-            val conn = DBUtil.getConn()
+            conn = DBUtil.getConn()
             val sql: String = """
-                select
-                    *,
+                select *,
                     (select v from public.common_data as cd where cd.id = t.master_id) as model
-                from
-                    public.train as t
-                order by id desc limit
+                from public.train as t
+                order by id desc
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
             resp.put("content", DBUtil.getList(rs))
-            conn.close()
         } catch (e: Exception) {
             e.printStackTrace()
             resp.put("message", "gRPC服务器错误")
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CommonReply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun listDept(req: CommonRequest, responseObserver: StreamObserver<CommonReply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                select *,
+                    (select v from public.common_data where id = cd.master_id) as dept0
+                from public.common_data as cd
+                where category = '部门'
+                order by id desc
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp.put("content", DBUtil.getList(rs))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp.put("message", "gRPC服务器错误")
+        } finally {
+            conn!!.close()
         }
 
         val reply = CommonReply.newBuilder().setData(gson.toJson(resp)).build()

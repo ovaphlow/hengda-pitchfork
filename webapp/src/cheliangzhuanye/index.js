@@ -20,9 +20,7 @@ export const Index = () => {
           <Template />
         </Route>
 
-        <Route path="/车辆专业/004">
-          <Index004 />
-        </Route>
+        <Route path="/车辆专业/004"><Index004 /></Route>
       </Switch>
     </Router>
   )

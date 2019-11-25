@@ -119,11 +119,41 @@ export function TrainPicker(props) {
           onChange={props.handleChange}
       />
       <datalist id="component.train-picker.list">
-        {
-          data.map(it => (
-            <option label={data.v} value={data.v} key={it.id} />
-          ))
-        }
+        {data.map(it => (
+          <option label={`${it.model}`} value={it.name} key={it.id} />
+        ))}
+      </datalist>
+    </div>
+  )
+}
+
+export function DeptPicker(props) {
+  const [data, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get('/api/common/dept/')
+      if (res.data.message) {
+        window.alert(res.data.message)
+        return
+      }
+      setData(res.data.content)
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>{props.caption}</label>
+      <input type="text" name={props.name || 'dept'} value={props.value || ''}
+          list="component.dept-picker.list"
+          className="form-control"
+          onChange={props.handleChange}
+      />
+      <datalist id="component.dept-picker.list">
+        {data.map(it => (
+          <option label={`${it.dept0}`} value={it.v} key={it.id} />
+        ))}
       </datalist>
     </div>
   )

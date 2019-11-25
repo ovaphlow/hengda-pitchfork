@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import io.grpc.stub.StreamObserver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.sql.Connection
 
 class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     private val logger: Logger = LoggerFactory.getLogger(CheLiang004ServiceImpl::class.java)
@@ -11,21 +12,24 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     override fun list(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
 
         try {
-            val conn = DBUtil.getConn()
+            conn = DBUtil.getConn()
             val sql: String = """
                 select *
                 from cheliangduan.yitihuazuoye
+                where reject = ''
                 limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
             resp["content"] = DBUtil.getList(rs)
-            conn.close()
         } catch (e: Exception) {
             e.printStackTrace()
             resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
         }
 
         val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
@@ -36,9 +40,10 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     override fun save(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
 
         try {
-            val conn = DBUtil.getConn()
+            conn = DBUtil.getConn()
             val sql: String = """
                 insert into
                     cheliangduan.yitihuazuoye (
@@ -78,10 +83,95 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(17, body["category"].toString())
             val rs = ps.executeQuery()
             resp.put("content", DBUtil.getMap(rs))
-            conn.close()
         } catch (e: Exception) {
             e.printStackTrace()
             resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun get(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                select * from cheliangduan.yitihuazuoye where id = ? limit 1
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["id"].toString().toDouble().toInt())
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getMap(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun update(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                select * from cheliangduan.yitihuazuoye where id = ? limit 1
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["id"].toString().toDouble().toInt())
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getMap(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun reject(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.yitihuazuoye
+                set reject = ?
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            logger.info("{}", body)
+            ps.setString(1, body["reject"].toString())
+            ps.setInt(2, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
         }
 
         val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
@@ -92,9 +182,10 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     override fun remove(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
 
         try {
-            val conn = DBUtil.getConn()
+            conn = DBUtil.getConn()
             val sql: String = """
                 delete from cheliangduan.yitihuazuoye where id = ?
             """.trimIndent()
@@ -102,10 +193,37 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val body = gson.fromJson(req.data.toString(), Map::class.java);
             ps.setInt(1, body["id"].toString().toDouble().toInt())
             ps.execute()
-            conn.close()
         } catch (e: Exception) {
             e.printStackTrace()
             resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun listReject(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                select * from cheliangduan.yitihuazuoye where reject != ''
+                order by id desc limit 200
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
         }
 
         val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()

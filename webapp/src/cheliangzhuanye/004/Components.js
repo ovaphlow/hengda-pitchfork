@@ -26,21 +26,26 @@ export function Toolbar() {
       </div>
 
       <div className="btn-group pull-right">
-        <a href="#车辆专业/004/check" className="btn btn-sm btn-outline-info">
+        <a href="#车辆专业/004/审核" className="btn btn-sm btn-outline-info">
           <i className="fa fa-fw fa-list"></i>
           审核
           &nbsp;<span className="badge badge-pill badge-danger">0</span>
         </a>
 
-        <a href="#车辆专业/004/review" className="btn btn-sm btn-outline-info">
+        <a href="#车辆专业/004/销记" className="btn btn-sm btn-outline-info">
           <i className="fa fa-fw fa-list"></i>
           销记
           &nbsp;<span className="badge badge-pill badge-danger">0</span>
         </a>
 
-        <a href="#车辆专业/004/stats" className="btn btn-sm btn-outline-primary">
+        <a href="#车辆专业/004/统计" className="btn btn-sm btn-outline-primary">
           <i className="fa fa-fw fa-pie-chart"></i>
           统计
+        </a>
+
+        <a href="#车辆专业/004/已驳回申请" className="btn btn-sm btn-outline-danger">
+          <i className="fa fa-fw fa-pie-chart"></i>
+          已驳回申请
         </a>
 
         <a href="#车辆专业/004" className="btn btn-sm btn-outline-secondary">
@@ -161,35 +166,6 @@ export function Form(props) {
           <tr>
             <td width="15%" className="text-center align-middle">申请作业时间</td>
             <td colSpan="3" className="text-center">
-              {/*
-              <input type="date" name="date_begin" value={props.data.date_begin || ''}
-                  readOnly={props.mode === 'read' ? true : false}
-                  className="form-control-sm"
-                  style={{ width: '12rem' }}
-                  onChange={props.handleChange}
-              />
-              <input type="time" name="time_begin" value={props.data.time_begin || ''}
-                  readOnly={props.mode === 'read' ? true : false}
-                  className="form-control-sm ml-3"
-                  style={{ width: '12rem' }}
-                  onChange={props.handleChange}
-              />
-              &nbsp;---&nbsp;
-              <input type="date" name="date_end" value={props.data.date_end || ''}
-                  readOnly={props.mode === 'read' ? true : false}
-                  className="form-control-sm"
-                  style={{ width: '12rem' }}
-                  onChange={props.handleChange}
-              />
-              <input type="time" name="time_end" value={props.data.time_end || ''}
-                  readOnly={props.mode === 'read' ? true : false}
-                  className="form-control-sm ml-3"
-                  style={{ width: '12rem' }}
-                  onChange={props.handleChange}
-              />
-              <br />
-              */}
-
               <div className="row">
                 <div className="col">
                   <div className="input-group">
