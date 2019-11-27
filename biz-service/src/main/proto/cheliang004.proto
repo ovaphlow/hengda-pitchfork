@@ -13,7 +13,10 @@ service CheLiang004 {
     rpc update(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc reject(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc remove(CheLiang004Request) returns (CheLiang004Reply) {}
+
     rpc listReject(CheLiang004Request) returns (CheLiang004Reply) {}
+
+    rpc checkPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

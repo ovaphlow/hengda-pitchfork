@@ -158,3 +158,34 @@ export function DeptPicker(props) {
     </div>
   )
 }
+
+export function TeamPicker(props) {
+  const [data, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`/api/common/team/`)
+      if (res.data.message) {
+        window.alert(res.data.message)
+        return
+      }
+      setData(res.data.content)
+      console.info(res.data.content)
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>{props.caption}</label>
+      <select name={props.name} value={props.value || ''}
+          className="form-control"
+          onChange={props.handleChange}>
+        <option value="">未选择</option>
+        {data.map(it => (
+          <option value={it.v} key={it.id}>{it.v} - {it.dept0}</option>
+        ))}
+      </select>
+    </div>
+  )
+}

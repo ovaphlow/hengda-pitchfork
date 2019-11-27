@@ -5,6 +5,7 @@ package common;
 service Common {
     rpc listTrain(CommonRequest) returns (CommonReply) {}
     rpc listDept(CommonRequest) returns (CommonReply) {}
+    rpc listTeam(CommonRequest) returns (CommonReply) {}
 }
 
 message CommonRequest { string data = 1; }

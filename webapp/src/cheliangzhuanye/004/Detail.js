@@ -54,23 +54,52 @@ function Detail() {
             <hr />
             <Toolbar />
             <div className="card shadow mt-2 mb-5">
+              <div className="card-header">
+                <div className="btn-group">
+                  <button type="button" className="btn btn-sm btn-outline-secondary"
+                      onClick={() => window.close()}>
+                    <i className="fa fa-fw fa-window-close-o"></i>
+                    关闭
+                  </button>
+                </div>
+
+                <div className="btn-group pull-right">
+                  <button type="button" className="btn btn-sm btn-outline-success">
+                    <i className="fa fa-fw fa-history"></i>
+                    操作记录
+                  </button>
+
+                  <button type="button" className="btn btn-sm btn-outline-info">
+                    <i className="fa fa-fw fa-download"></i>
+                    下载Excel
+                  </button>
+                </div>
+              </div>
+
               <div className="card-body">
                 <Form mode="read" data={data} />
               </div>
 
               <div className="card-footer">
                 <div className="btn-group">
-                  <button type="button" className="btn btn-outline-danger" onClick={handleReject}>
-                    <i className="fa fa-fw fa-mail-reply"></i>
-                    驳回
-                  </button>
+                  {!!!data.reject && (
+                    <button type="button" className="btn btn-outline-danger" onClick={handleReject}>
+                      <i className="fa fa-fw fa-mail-reply"></i>
+                      驳回
+                    </button>
+                  )}
                 </div>
 
                 <div className="btn-group pull-right">
-                  <button type="button" className="btn btn-primary">
-                    <i className="fa fa-fw fa-check"></i>
-                    操作按钮
-                  </button>
+                  {!!!data.reject && (
+                    data.check_p_jsy_id === 0 && (
+                      <button type="button" className="btn btn-primary"
+                          onClick={() => window.location = `#车辆专业/004/${data.id}/技术员审核`}>
+                        <i className="fa fa-fw fa-link"></i>
+                        技术员审核
+                      </button>
+                    )
+                  )}
                 </div>
               </div>
             </div>

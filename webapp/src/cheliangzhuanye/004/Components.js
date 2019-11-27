@@ -123,7 +123,7 @@ export function Form(props) {
           </tr>
           <tr>
             <td width="15%" className="text-center align-middle">作业负责人</td>
-            <td width="35%" className="text-center">
+            <td width="35%" className="text-center align-middle">
               {
                 props.mode === 'read' ? (
                   <span>{props.data.operator}</span>
@@ -137,7 +137,7 @@ export function Form(props) {
               }
             </td>
             <td width="15%" className="text-center align-middle">联系电话</td>
-            <td width="35%" className="text-center">
+            <td width="35%" className="text-center align-middle">
               {
                 props.mode === 'read' ? (
                   <span>{props.data.operator_phone}</span>
