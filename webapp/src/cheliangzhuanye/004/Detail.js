@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import moment from 'moment'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
@@ -8,7 +9,17 @@ import { Toolbar, Form } from './Components'
 
 function Detail() {
   const { id } = useParams()
+  const [auth, setAuth] = React.useState(0)
   const [data, setData] = React.useState(0)
+
+  React.useEffect(() => {
+    const a = JSON.parse(sessionStorage.getItem('auth'))
+    if (!!!a) {
+      window.location = `#登录`
+      return
+    }
+    setAuth(a)
+  }, [])
 
   React.useEffect(() => {
     const fetchData = async id => {
@@ -18,6 +29,7 @@ function Detail() {
         return
       }
       setData(res.data.content)
+      console.info(res.data)
     }
     fetchData(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,6 +47,60 @@ function Detail() {
       return
     }
     window.location = '#车辆专业/004'
+  }
+
+  const handleCheckPdd = async () => {
+    const body = {
+      p_dd: auth.name,
+      p_dd_id: auth.id,
+      date: moment().format('YYYY-MM-DD'),
+      time: moment().format('HH:mm:ss')
+    }
+    const res = await axios.put(`/api/cheliang/004/${id}/check/p_dd`, body)
+    if (res.data.message) {
+      window.alert(res.data.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleCheckPzbsz = async () => {
+    const body = {
+      p_zbsz: auth.name,
+      p_zbsz_id: auth.id,
+      date: moment().format('YYYY-MM-DD'),
+      time: moment().format('HH:mm:ss')
+    }
+    const res = await axios.put(`/api/cheliang/004/${id}/check/p_zbsz`, body)
+    if (res.data.message) {
+      window.alert(res.data.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleCheckTeam = async () => {
+    const body = { team_id: auth.id }
+    const res = await axios.put(`/api/cheliang/004/${id}/check/team`, body)
+    if (res.data.message) {
+      window.alert(res.data.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleCheckQc = async () => {
+    const body = { qc_id: auth.id }
+    const res = await axios.put(`/api/cheliang/004/${id}/check/qc`, body)
+    if (res.data.message) {
+      window.alert(res.data.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleReviewPdd = async () => {
+    window.alert('调度销记')
   }
 
   return (
@@ -97,6 +163,88 @@ function Detail() {
                           onClick={() => window.location = `#车辆专业/004/${data.id}/技术员审核`}>
                         <i className="fa fa-fw fa-link"></i>
                         技术员审核
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.check_p_jsy_id > 0 && data.check_p_dd_id === 0 && (
+                      <button type="button" className="btn btn-primary" onClick={handleCheckPdd}>
+                        <i className="fa fa-fw fa-check"></i>
+                        调度审核
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.check_p_dd_id > 0 && data.check_p_zbsz_id === 0 && (
+                      <button type="button" className="btn btn-primary" onClick={handleCheckPzbsz}>
+                        <i className="fa fa-fw fa-check"></i>
+                        值班所长审核
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.check_p_zbsz_id > 0 && data.check_p_jsy_comment.indexOf('班组') >= 0 &&
+                        data.check_team_id === 0 && (
+                      <button type="button" className="btn btn-primary" onClick={handleCheckTeam}>
+                        <i className="fa fa-fw fa-check"></i>
+                        班组签字
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.check_p_zbsz_id > 0 && data.check_p_jsy_comment.indexOf('质检跟踪') >= 0 &&
+                        data.check_qc_id === 0 && (
+                      <button type="button" className="btn btn-primary" onClick={handleCheckQc}>
+                        <i className="fa fa-fw fa-check"></i>
+                        质检签字
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.check_p_zbsz_id > 0 && data.review_operator_id === 0 &&
+                        (
+                          (data.check_p_jsy_comment === '无要求') ||
+                          (data.check_p_jsy_comment === '班组跟踪、质检确认' && data.check_team_id > 0) ||
+                          (data.check_p_jsy_comment === '班组、质检跟踪' && data.check_team_id > 0 && data.check_qc_id > 0)
+                        ) && (
+                      <button type="button" className="btn btn-primary"
+                          onClick={() => window.location = `#车辆专业/004/${data.id}/作业负责人销记`}>
+                        <i className="fa fa-fw fa-link"></i>
+                        作业负责人销记
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.review_operator_id > 0 && data.review_p_gz_id === 0 && (
+                      <button type="button" className="btn btn-primary"
+                          onClick={() => window.location = `#车辆专业/004/${data.id}/工长销记`}>
+                        <i className="fa fa-fw fa-link"></i>
+                        工长销记
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.review_p_gz_id > 0 && data.review_p_jsy_id === 0 && (
+                      <button type="button" className="btn btn-primary"
+                          onClick={() => window.location = `#车辆专业/004/${data.id}/技术员销记`}>
+                        <i className="fa fa-fw fa-link"></i>
+                        技术员销记
+                      </button>
+                    )
+                  )}
+
+                  {!!!data.reject && (
+                    data.review_p_jsy_id > 0 && data.review_p_dd_id === 0 && (
+                      <button type="button" className="btn btn-primary" onClick={handleReviewPdd}>
+                        <i className="fa fa-fw fa-link"></i>
+                        调度销记
                       </button>
                     )
                   )}

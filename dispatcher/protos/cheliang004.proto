@@ -13,6 +13,12 @@ service CheLiang004 {
     rpc listReject(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc checkPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc checkPdd(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc checkPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc checkTeam(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc checkQc(CheLiang004Request) returns (CheLiang004Reply) {}
+
+    rpc reviewOperator(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

@@ -63,7 +63,7 @@ function CheckPjsy() {
       window.alert(res.data.message)
       return
     }
-    window.location = '#车辆专业/004'
+    window.location = `#车辆专业/004/${id}`
   }
 
   return (

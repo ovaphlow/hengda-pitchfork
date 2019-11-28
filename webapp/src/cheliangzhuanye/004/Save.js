@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'

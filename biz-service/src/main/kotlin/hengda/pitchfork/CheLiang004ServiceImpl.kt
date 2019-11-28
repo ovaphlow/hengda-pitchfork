@@ -5,6 +5,7 @@ import io.grpc.stub.StreamObserver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.sql.Connection
+import java.sql.Date
 import java.text.SimpleDateFormat
 
 class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
@@ -253,12 +254,169 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(3, body["comment"].toString())
             ps.setString(4, body["team"].toString())
             ps.setString(5, body["qc"].toString())
-//            由数据库处理日期和时间
-//            val sdf = SimpleDateFormat("yyyy-MM-dd")
-//            val date = sdf.parse(body["date"].toString())
-//            ps.setDate(6, java.sql.Date(date))
+            ps.setDate(6, java.sql.Date.valueOf(body["date"].toString()))
             ps.setString(7, body["time"].toString())
             ps.setInt(8, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun checkPdd(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.cheliang004
+                set check_p_dd = ?, check_p_dd_id = ?,
+                    check_p_dd_date = ?, check_p_dd_time = ?
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setString(1, body["p_dd"].toString())
+            ps.setInt(2, body["p_dd_id"].toString().toDouble().toInt())
+            ps.setDate(3, java.sql.Date.valueOf(body["date"].toString()))
+            ps.setString(4, body["time"].toString())
+            ps.setInt(5, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun checkPzbsz(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.cheliang004
+                set check_p_zbsz = ?, check_p_zbsz_id = ?,
+                    check_p_zbsz_date = ?, check_p_zbsz_time = ?
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setString(1, body["p_zbsz"].toString())
+            ps.setInt(2, body["p_zbsz_id"].toString().toDouble().toInt())
+            ps.setDate(3, Date.valueOf(body["date"].toString()))
+            ps.setString(4, body["time"].toString())
+            ps.setInt(5, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun checkTeam(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.cheliang004
+                set check_team_id = ?
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["team_id"].toString().toDouble().toInt())
+            ps.setInt(2, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun checkQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.cheliang004
+                set check_qc_id = ?
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["qc_id"].toString().toDouble().toInt())
+            ps.setInt(2, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun reviewOperator(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.cheliang004
+                set review_operator = ?, review_operator_id = ?,
+                    review_operator_date = ?, review_operator_time = ?,
+                    review_operator_report = ?, remark = ?
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setString(1, body["operator"].toString())
+            ps.setInt(2, body["operator_id"].toString().toDouble().toInt())
+            ps.setDate(3, Date.valueOf(body["date"].toString()))
+            ps.setString(4, body["time"].toString())
+            ps.setString(5, body["report"].toString())
+            ps.setString(6, body["remark"].toString())
+            ps.setInt(7, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
