@@ -53,14 +53,32 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                         train, date_begin, time_begin, date_end, time_end,
                         title, content,
                         p_yq_xdc, p_yq_jcw, p_yq_zydd, p_yq_qt,
-                        category
+                        category, reject,
+                        check_p_jsy, check_p_jsy_id, check_p_jsy_date, check_p_jsy_time,
+                        check_p_jsy_comment, check_p_jsy_team, check_p_jsy_qc,
+                        check_p_dd, check_p_dd_id, check_p_dd_date, check_p_dd_time,
+                        check_p_zbsz, check_p_zbsz_id, check_p_zbsz_date, check_p_zbsz_time,
+                        check_team_id, check_qc_id,
+                        review_operator, review_operator_id, review_operator_date, review_operator_time, review_operator_report,
+                        remark,
+                        review_p_jsy, review_p_jsy_id, review_p_jsy_date, review_p_jsy_time,
+                        review_p_gz, review_p_gz_id, review_p_gz_date, review_p_gz_time
                     )
                     values (
                         ?, ?, ?, ?, ?,
                         ?, ?, ?, ?, ?,
                         ?, ?,
                         ?, ?, ?, ?,
-                        ?
+                        ?, '',
+                        '', 0, '1970-01-01', '',
+                        '', '', '',
+                        '', 0, '1970-01-01', '',
+                        '', 0, '1970-01-01', '',
+                        0, 0,
+                        '', 0, '1970-01-01', '', '',
+                        '',
+                        '', 0, '1970-01-01', '',
+                        '', 0, '1970-01-01', ''
                     )
                 returning id
             """.trimIndent()

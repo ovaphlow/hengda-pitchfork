@@ -6,6 +6,12 @@ import 'moment/locale/zh-cn'
 import { TrainPicker } from '../../Components'
 
 export function Toolbar() {
+  React.useEffect(() => {
+    const auth = JSON.parse(sessionStorage.getItem('auth'))
+    if (!!!auth) return
+    window.console.info(auth)
+  }, [])
+
   return (
     <>
       <div className="btn-group">

@@ -83,6 +83,13 @@ export const Navbar = props => {
             </a>
           </li>
 
+          <li className={`nav-item ${props.category === '系统设置' ? 'active' : ''}`}>
+            <a href="#系统设置" className="nav-link text-dark">
+              <i className="fa fa-fw fa-wrench"></i>
+              系统设置
+            </a>
+          </li>
+
           <li className={`nav-item ${props.category === '当前用户' ? 'active' : ''}`}>
             <a href="#用户" className="nav-link text-dark">
               <i className="fa fa-fw fa-user-o"></i>
@@ -153,6 +160,38 @@ export function DeptPicker(props) {
       <datalist id="component.dept-picker.list">
         {data.map(it => (
           <option label={`${it.dept0}`} value={it.v} key={it.id} />
+        ))}
+      </datalist>
+    </div>
+  )
+}
+
+export function DeptPickerById(props) {
+  const [data, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get('/api/common/dept/')
+      if (res.data.message) {
+        window.alert(res.data.message)
+        return
+      }
+      setData(res.data.content)
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>{props.caption}</label>
+      <input type="text" name={props.name || 'dept'} value={props.value || ''}
+          list="component.dept-picker.list"
+          className="form-control"
+          onChange={props.handleChange}
+      />
+      <datalist id="component.dept-picker.list">
+        {data.map(it => (
+          <option label={`${it.v}`} value={it.id} key={it.id} />
         ))}
       </datalist>
     </div>

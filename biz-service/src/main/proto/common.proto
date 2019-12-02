@@ -10,6 +10,10 @@ service Common {
     rpc listTrain(CommonRequest) returns (CommonReply) {}
     rpc listDept(CommonRequest) returns (CommonReply) {}
     rpc listTeam(CommonRequest) returns (CommonReply) {}
+    rpc markTeam(CommonRequest) returns (CommonReply) {}
+    rpc unmark(CommonRequest) returns (CommonReply) {}
+    rpc listQc(CommonRequest) returns (CommonReply) {}
+    rpc markQc(CommonRequest) returns (CommonReply) {}
     rpc save(CommonRequest) returns (CommonReply) {}
 }
 
