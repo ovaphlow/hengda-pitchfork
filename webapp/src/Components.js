@@ -185,7 +185,7 @@ export function DeptPickerById(props) {
     <div className="form-group">
       <label>{props.caption}</label>
       <input type="text" name={props.name || 'dept'} value={props.value || ''}
-          list="component.dept-picker.list"
+          list="component.dept-picker-by-id.list"
           className="form-control"
           onChange={props.handleChange}
       />
@@ -225,6 +225,39 @@ export function TeamPicker(props) {
           <option value={it.v} key={it.id}>{it.v} - {it.dept0}</option>
         ))}
       </select>
+    </div>
+  )
+}
+
+export function UserPickerByid(props) {
+  const [data, setData] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/user/`)
+      const res = await response.json()
+      window.console.info(res)
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      setData(res.content)
+    }
+    fetchData()
+  }, [])
+
+  return (
+    <div className="form-group">
+      <label>{props.caption}</label>
+      <input type="text" name={props.name} value={props.value || ''}
+          list="component.user-picker-by-id.list"
+          className="form-control"
+          onChange={props.handleChange} />
+      <datalist id="component.user-picker-by-id.list">
+        {data.map(it => (
+          <option label={`${it.name}`} value={it.id} key={it.id} />
+        ))}
+      </datalist>
     </div>
   )
 }

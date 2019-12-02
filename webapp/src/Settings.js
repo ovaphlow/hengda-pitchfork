@@ -9,6 +9,7 @@ function Settings() {
   })
   const [dataTeam, setDataTeam] = React.useState([])
   const [dataQc, setDataQc] = React.useState([])
+  const [dataUser, setDataUser] = React.useState([])
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -134,7 +135,26 @@ function Settings() {
                   ))}
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
 
+        <div className="row justify-content-center mt-5">
+          <div className="col-3 col-md-4">
+            <div className="card shadow">
+              <div className="card-header">技术员</div>
+            </div>
+          </div>
+
+          <div className="col-3 col-md-4">
+            <div className="card shadow">
+              <div className="card-header">调度</div>
+            </div>
+          </div>
+
+          <div className="col-3 col-md-4">
+            <div className="card shadow">
+              <div className="card-header">值班所长</div>
             </div>
           </div>
         </div>
