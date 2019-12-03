@@ -14,8 +14,6 @@ service Common {
     rpc unmark(CommonRequest) returns (CommonReply) {}
     rpc listQc(CommonRequest) returns (CommonReply) {}
     rpc markQc(CommonRequest) returns (CommonReply) {}
-
-    rpc save(CommonRequest) returns (CommonReply) {}
 }
 
 message CommonRequest { string data = 1; }
