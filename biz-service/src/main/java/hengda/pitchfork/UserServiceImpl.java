@@ -30,6 +30,9 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
                     "(select v from public.common_data where id = u.master_id) as dept, " +
                     "(select k from public.common_data where id = u.master_id) as dept_mark, " +
                     "(select super from cheliangduan.auth where master_id = u.id) as super " +
+                    "(select p_jsy from cheliangduan.auth where master_id = u.id) as p_jsy " +
+                    "(select p_dd from cheliangduan.auth where master_id = u.id) as p_dd " +
+                    "(select p_zbsz from cheliangduan.auth where master_id = u.id) as p_zbsz " +
                     "from public.user as u " +
                     "where username = ? and password = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -228,6 +231,209 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
                 ps.setInt(1, id.intValue());
                 ps.setString(2, body.get("data_url").toString());
             }
+            ps.execute();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void listAuthPjsy(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            String sql = "select u.id, u.name, a.p_jsy, " +
+                    "(select v from public.common_data where id = u.master_id) as dept " +
+                    "from cheliangduan.auth as a " +
+                    "left join public.user as u on a.master_Id = u.id " +
+                    "where a.p_jsy = 1";
+            Connection conn = DBUtil.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            resp.put("content", DBUtil.getList(rs));
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void grantAuthPjsy(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            String sql = "select count(*) as qty from cheliangduan.auth where master_id = ?";
+            Connection conn = DBUtil.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            Double id = Double.parseDouble(body.get("id").toString());
+            ps.setInt(1, id.intValue());
+            ResultSet rs = ps.executeQuery();
+            Map<String, Object> result = DBUtil.getMap(rs);
+            if (result.get("qty").toString().equals("0")) {
+                sql = "insert into cheliangduan.auth (p_jsy, master_id) values (?, ?)";
+            } else {
+                sql = "update cheliangduan.auth set p_jsy = ? where master_id = ?";
+            }
+            ps.clearParameters();
+            ps = conn.prepareStatement(sql);
+            Double auth_p_jsy = Double.parseDouble(body.get("auth_p_jsy").toString());
+            ps.setInt(1, auth_p_jsy.intValue());
+            ps.setInt(2, id.intValue());
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void listAuthPdd(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            String sql = "select u.id, u.name, a.p_dd, " +
+                    "(select v from public.common_data where id = u.master_id) as dept " +
+                    "from cheliangduan.auth as a " +
+                    "left join public.user as u on a.master_Id = u.id " +
+                    "where a.p_dd = 1";
+            Connection conn = DBUtil.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            resp.put("content", DBUtil.getList(rs));
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void grantAuthPdd(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            String sql = "select count(*) as qty from cheliangduan.auth where master_id = ?";
+            Connection conn = DBUtil.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            Double id = Double.parseDouble(body.get("id").toString());
+            ps.setInt(1, id.intValue());
+            ResultSet rs = ps.executeQuery();
+            Map<String, Object> result = DBUtil.getMap(rs);
+            if (result.get("qty").toString().equals("0")) {
+                sql = "insert into cheliangduan.auth (p_dd, master_id) values (?, ?)";
+            } else {
+                sql = "update cheliangduan.auth set p_dd = ? where master_id = ?";
+            }
+            ps.clearParameters();
+            ps = conn.prepareStatement(sql);
+            Double auth_p_dd = Double.parseDouble(body.get("auth_p_dd").toString());
+            ps.setInt(1, auth_p_dd.intValue());
+            ps.setInt(2, id.intValue());
+            ps.execute();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void listAuthPzbsz(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            String sql = "select u.id, u.name, a.p_dd, " +
+                    "(select v from public.common_data where id = u.master_id) as dept " +
+                    "from cheliangduan.auth as a " +
+                    "left join public.user as u on a.master_Id = u.id " +
+                    "where a.p_zbsz = 1";
+            Connection conn = DBUtil.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            resp.put("content", DBUtil.getList(rs));
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp.put("message", "gRPC服务器错误");
+        }
+
+        UserReply reply = UserReply.newBuilder().setData(gson.toJson(resp)).build();
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public void grantAuthPzbsz(UserRequest req, StreamObserver<UserReply> responseObserver) {
+        Gson gson = new Gson();
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("message", "");
+        resp.put("content", "");
+
+        try {
+            String sql = "select count(*) as qty from cheliangduan.auth where master_id = ?";
+            Connection conn = DBUtil.getConn();
+            PreparedStatement ps = conn.prepareStatement(sql);
+            Map<String, Object> body = gson.fromJson(req.getData(), Map.class);
+            Double id = Double.parseDouble(body.get("id").toString());
+            ps.setInt(1, id.intValue());
+            ResultSet rs = ps.executeQuery();
+            Map<String, Object> result = DBUtil.getMap(rs);
+            if (result.get("qty").toString().equals("0")) {
+                sql = "insert into cheliangduan.auth (p_zbsz, master_id) values (?, ?)";
+            } else {
+                sql = "update cheliangduan.auth set p_zbsz = ? where master_id = ?";
+            }
+            ps.clearParameters();
+            ps = conn.prepareStatement(sql);
+            Double auth_p_dd = Double.parseDouble(body.get("auth_p_zbsz").toString());
+            ps.setInt(1, auth_p_dd.intValue());
+            ps.setInt(2, id.intValue());
             ps.execute();
             conn.close();
         } catch (Exception e) {

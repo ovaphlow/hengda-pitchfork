@@ -13,6 +13,13 @@ service User {
     rpc update(UserRequest) returns (UserReply) {}
     rpc updatePassword(UserRequest) returns (UserReply) {}
     rpc saveSignature(UserRequest) returns (UserReply) {}
+
+    rpc listAuthPjsy(UserRequest) returns (UserReply) {}
+    rpc grantAuthPjsy(UserRequest) returns (UserReply) {}
+    rpc listAuthPdd(UserRequest) returns (UserReply) {}
+    rpc grantAuthPdd(UserRequest) returns (UserReply) {}
+    rpc listAuthPzbsz(UserRequest) returns (UserReply) {}
+    rpc grantAuthPzbsz(UserRequest) returns (UserReply) {}
 }
 
 message UserRequest { string data = 1; }

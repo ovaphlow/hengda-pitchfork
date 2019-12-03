@@ -229,14 +229,13 @@ export function TeamPicker(props) {
   )
 }
 
-export function UserPickerByid(props) {
+export function UserPickerById(props) {
   const [data, setData] = React.useState([])
 
   React.useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`/api/user/`)
       const res = await response.json()
-      window.console.info(res)
       if (res.message) {
         window.alert(res.message)
         return
