@@ -1,5 +1,5 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
@@ -43,6 +43,7 @@ function ReviewPgz() {
             <hr />
             <Toolbar />
             <div className="card shadow mt-2 mb-5">
+              {auth}
             </div>
           </div>
         </div>

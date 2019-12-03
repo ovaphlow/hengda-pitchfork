@@ -23,10 +23,10 @@ const router = new Router({
 })
 
 router
-  .get('/', async ctx => {
+  .get('/p_jsy/', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.list({data: ''}, (err, response) => {
+        grpcClient.listPjsy({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -43,10 +43,10 @@ router
       ctx.response.body = {message: '服务器错误'}
     }
   })
-  .post('/', async ctx => {
-    const grpcFetch = body => {
+  .get('/p_dd/', async ctx => {
+    const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.save({data: JSON.stringify(body)}, (err, response) => {
+        grpcClient.listPdd({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -57,7 +57,129 @@ router
       })
     }
     try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
+      ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/p_zbsz/', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.listPzbsz({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/team/:id/', async ctx => {
+    const grpcFetch = body => {
+      return new Promise((resolve, reject) => {
+        grpcClient.listTeam({data: JSON.stringify(body)}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+
+router
+  .get('/qty/p_jsy', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyPjsy({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/qty/p_dd', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyPdd({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/qty/p_zbsz', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyPzbsz({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/qty/team/:id/', async ctx => {
+    const grpcFetch = body => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyTeam({data: JSON.stringify(body)}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
     } catch (err) {
       console.error(err)
       ctx.response.body = {message: '服务器错误'}
@@ -295,10 +417,10 @@ router
   })
 
 router
-  .get('/qty/p_jsy', async ctx => {
+  .get('/', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyPjsy({data: ''}, (err, response) => {
+        grpcClient.list({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -309,16 +431,16 @@ router
       })
     }
     try {
-      ctx.response.body = await grpcFetch(ctx.params)
+      ctx.response.body = await grpcFetch()
     } catch (err) {
       console.error(err)
       ctx.response.body = {message: '服务器错误'}
     }
   })
-  .get('/qty/p_dd', async ctx => {
-    const grpcFetch = () => {
+  .post('/', async ctx => {
+    const grpcFetch = body => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyPdd({data: ''}, (err, response) => {
+        grpcClient.save({data: JSON.stringify(body)}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -329,27 +451,7 @@ router
       })
     }
     try {
-      ctx.response.body = await grpcFetch(ctx.params)
-    } catch (err) {
-      console.error(err)
-      ctx.response.body = {message: '服务器错误'}
-    }
-  })
-  .get('/qty/p_zbsz', async ctx => {
-    const grpcFetch = () => {
-      return new Promise((resolve, reject) => {
-        grpcClient.qtyPzbsz({data: ''}, (err, response) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-            return
-          }
-          resolve(JSON.parse(response.data))
-        })
-      })
-    }
-    try {
-      ctx.response.body = await grpcFetch(ctx.params)
+      ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
       console.error(err)
       ctx.response.body = {message: '服务器错误'}

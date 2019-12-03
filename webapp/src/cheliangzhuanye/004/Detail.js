@@ -29,7 +29,6 @@ function Detail() {
         return
       }
       setData(res.data.content)
-      console.info(res.data)
     }
     fetchData(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,7 +184,7 @@ function Detail() {
                     )
                   )}
 
-                  {!!!data.reject && (
+                  {auth.dept_mark === '班组' && !!!data.reject && (
                     data.check_p_zbsz_id > 0 && data.check_p_jsy_comment.indexOf('班组') >= 0 &&
                         data.check_team_id === 0 && (
                       <button type="button" className="btn btn-primary" onClick={handleCheckTeam}>
@@ -195,7 +194,7 @@ function Detail() {
                     )
                   )}
 
-                  {!!!data.reject && (
+                  {auth.dept_mark === '质检' && !!!data.reject && (
                     data.check_p_zbsz_id > 0 && data.check_p_jsy_comment.indexOf('质检跟踪') >= 0 &&
                         data.check_qc_id === 0 && (
                       <button type="button" className="btn btn-primary" onClick={handleCheckQc}>

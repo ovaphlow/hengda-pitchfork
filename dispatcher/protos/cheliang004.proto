@@ -21,8 +21,13 @@ service CheLiang004 {
     rpc reviewOperator(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc qtyPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc qtyPdd(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listPdd(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc qtyPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyTeam(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listTeam(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

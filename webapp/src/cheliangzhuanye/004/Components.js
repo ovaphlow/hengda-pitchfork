@@ -15,17 +15,24 @@ export function Toolbar() {
     const fetchQtyPjsy = async () => {
       const response = await fetch(`/api/cheliang/004/qty/p_jsy`)
       const res = await response.json()
-      setQty(qty + res.content.qty)
+      // setQty(qty + res.content.qty)
+      setQty(prev => prev + res.content.qty)
     }
     const fetchQtyPdd = async () => {
       const response = await fetch(`/api/cheliang/004/qty/p_dd`)
       const res = await response.json()
-      setQty(qty + res.content.qty)
+      setQty(prev => prev + res.content.qty)
     }
     const fetchQtyPzbsz = async () => {
       const response = await fetch(`/api/cheliang/004/qty/p_zbsz`)
       const res = await response.json()
-      setQty(qty + res.content.qty)
+      setQty(prev => prev + res.content.qty)
+    }
+    const fetchQtyTeam = async () => {
+      const response = await fetch(`/api/cheliang/004/qty/team/${auth.master_id}/`)
+      const res = await response.json()
+      console.info(res)
+      setQty(prev => prev + res.content.qty)
     }
     if (auth.p_jsy === 1) {
       fetchQtyPjsy()
@@ -35,6 +42,10 @@ export function Toolbar() {
     }
     if (auth.p_zbsz === 1) {
       fetchQtyPzbsz()
+    }
+    if (auth.dept_mark === '班组') fetchQtyTeam()
+    if (auth.dept_mark === '质检') {
+      console.info('qc')
     }
   }, [])
 
@@ -58,6 +69,7 @@ export function Toolbar() {
       </div>
 
       <div className="btn-group pull-right">
+        {/*
         <a href="#车辆专业/004/审核" className="btn btn-sm btn-outline-info">
           <i className="fa fa-fw fa-list"></i>
           审核
@@ -69,6 +81,7 @@ export function Toolbar() {
           销记
           &nbsp;<span className="badge badge-pill badge-danger">0</span>
         </a>
+        */}
 
         <a href="#车辆专业/004/统计" className="btn btn-sm btn-outline-primary">
           <i className="fa fa-fw fa-pie-chart"></i>
@@ -78,6 +91,12 @@ export function Toolbar() {
         <a href="#车辆专业/004/已驳回申请" className="btn btn-sm btn-outline-danger">
           <i className="fa fa-fw fa-pie-chart"></i>
           已驳回申请
+        </a>
+
+        <a href="#车辆专业/004/待处理申请" className="btn btn-sm btn-outline-info">
+          <i className="fa fa-fw fa-list"></i>
+          待处理申请
+          &nbsp;<span className="badge badge-pill badge-danger">{qty}</span>
         </a>
 
         <a href="#车辆专业/004" className="btn btn-sm btn-outline-secondary">

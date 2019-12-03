@@ -1,18 +1,18 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import moment from 'moment'
+// import { useParams } from 'react-router-dom'
+// import axios from 'axios'
+// import moment from 'moment'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
 import { Toolbar } from './Components'
 
 function ReviewPjsy() {
-  const { id } = useParams()
+  // const { id } = useParams()
   const [auth, setAuth] = React.useState(0)
-  const [data, setData] = React.useState({
-    remark: ''
-  })
+  // const [data, setData] = React.useState({
+    // remark: ''
+  // })
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -23,10 +23,10 @@ function ReviewPjsy() {
     setAuth(a)
   }, [])
 
-  const handleChange = e => {
-    const { value, name } = e.target
-    setData(prev => ({ ...prev, [name]: value }))
-  }
+  // const handleChange = e => {
+  //   const { value, name } = e.target
+  //   setData(prev => ({ ...prev, [name]: value }))
+  // }
 
   return (
     <>
@@ -45,6 +45,7 @@ function ReviewPjsy() {
             <hr />
             <Toolbar />
             <div className="card shadow mt-2 mb-5">
+              {auth}
             </div>
           </div>
         </div>
