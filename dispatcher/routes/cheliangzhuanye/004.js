@@ -294,4 +294,66 @@ router
     }
   })
 
+router
+  .get('/qty/p_jsy', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyPjsy({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/qty/p_dd', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyPdd({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/qty/p_zbsz', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.qtyPzbsz({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+
 module.exports = router

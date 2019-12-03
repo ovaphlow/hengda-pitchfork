@@ -19,6 +19,10 @@ service CheLiang004 {
     rpc checkQc(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc reviewOperator(CheLiang004Request) returns (CheLiang004Reply) {}
+
+    rpc qtyPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyPdd(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

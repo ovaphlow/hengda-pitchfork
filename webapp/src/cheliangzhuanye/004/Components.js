@@ -6,10 +6,36 @@ import 'moment/locale/zh-cn'
 import { TrainPicker } from '../../Components'
 
 export function Toolbar() {
+  const [qty, setQty] = React.useState(0)
+
   React.useEffect(() => {
     const auth = JSON.parse(sessionStorage.getItem('auth'))
     if (!!!auth) return
-    window.console.info(auth)
+
+    const fetchQtyPjsy = async () => {
+      const response = await fetch(`/api/cheliang/004/qty/p_jsy`)
+      const res = await response.json()
+      setQty(qty + res.content.qty)
+    }
+    const fetchQtyPdd = async () => {
+      const response = await fetch(`/api/cheliang/004/qty/p_dd`)
+      const res = await response.json()
+      setQty(qty + res.content.qty)
+    }
+    const fetchQtyPzbsz = async () => {
+      const response = await fetch(`/api/cheliang/004/qty/p_zbsz`)
+      const res = await response.json()
+      setQty(qty + res.content.qty)
+    }
+    if (auth.p_jsy === 1) {
+      fetchQtyPjsy()
+    }
+    if (auth.p_dd === 1) {
+      fetchQtyPdd()
+    }
+    if (auth.p_zbsz === 1) {
+      fetchQtyPzbsz()
+    }
   }, [])
 
   return (
@@ -35,7 +61,7 @@ export function Toolbar() {
         <a href="#车辆专业/004/审核" className="btn btn-sm btn-outline-info">
           <i className="fa fa-fw fa-list"></i>
           审核
-          &nbsp;<span className="badge badge-pill badge-danger">0</span>
+          &nbsp;<span className="badge badge-pill badge-danger">{qty || '0'}</span>
         </a>
 
         <a href="#车辆专业/004/销记" className="btn btn-sm btn-outline-info">

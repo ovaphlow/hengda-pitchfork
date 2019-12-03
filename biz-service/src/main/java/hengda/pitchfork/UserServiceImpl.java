@@ -29,9 +29,9 @@ public class UserServiceImpl extends UserGrpc.UserImplBase {
             String sql = "select id, master_id, username, name, phone, " +
                     "(select v from public.common_data where id = u.master_id) as dept, " +
                     "(select k from public.common_data where id = u.master_id) as dept_mark, " +
-                    "(select super from cheliangduan.auth where master_id = u.id) as super " +
-                    "(select p_jsy from cheliangduan.auth where master_id = u.id) as p_jsy " +
-                    "(select p_dd from cheliangduan.auth where master_id = u.id) as p_dd " +
+                    "(select super from cheliangduan.auth where master_id = u.id) as super, " +
+                    "(select p_jsy from cheliangduan.auth where master_id = u.id) as p_jsy, " +
+                    "(select p_dd from cheliangduan.auth where master_id = u.id) as p_dd, " +
                     "(select p_zbsz from cheliangduan.auth where master_id = u.id) as p_zbsz " +
                     "from public.user as u " +
                     "where username = ? and password = ?";
