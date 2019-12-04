@@ -19,6 +19,11 @@ service CheLiang004 {
     rpc checkQc(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc reviewOperator(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc reviewLeader(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc reviewTeam(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc reviewQc(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc reviewPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc reviewPdd(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc qtyPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listPjsy(CheLiang004Request) returns (CheLiang004Reply) {}

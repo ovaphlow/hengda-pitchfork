@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory
 import java.sql.Connection
 import java.sql.Date
 import java.sql.ResultSet
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
 class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
@@ -54,32 +55,14 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                         train, date_begin, time_begin, date_end, time_end,
                         title, content,
                         p_yq_xdc, p_yq_jcw, p_yq_zydd, p_yq_qt,
-                        category, reject,
-                        check_p_jsy, check_p_jsy_id, check_p_jsy_date, check_p_jsy_time,
-                        check_p_jsy_comment, check_p_jsy_team, check_p_jsy_qc,
-                        check_p_dd, check_p_dd_id, check_p_dd_date, check_p_dd_time,
-                        check_p_zbsz, check_p_zbsz_id, check_p_zbsz_date, check_p_zbsz_time,
-                        check_team_id, check_qc_id,
-                        review_operator, review_operator_id, review_operator_date, review_operator_time, review_operator_report,
-                        remark,
-                        review_p_jsy, review_p_jsy_id, review_p_jsy_date, review_p_jsy_time,
-                        review_p_gz, review_p_gz_id, review_p_gz_date, review_p_gz_time
+                        category, progress
                     )
                     values (
                         ?, ?, ?, ?, ?,
                         ?, ?, ?, ?, ?,
                         ?, ?,
                         ?, ?, ?, ?,
-                        ?, '',
-                        '', 0, '1970-01-01', '',
-                        '', '', '',
-                        '', 0, '1970-01-01', '',
-                        '', 0, '1970-01-01', '',
-                        0, 0,
-                        '', 0, '1970-01-01', '', '',
-                        '',
-                        '', 0, '1970-01-01', '',
-                        '', 0, '1970-01-01', ''
+                        ?, '技术员审核'
                     )
                 returning id
             """.trimIndent()
@@ -184,7 +167,6 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
-            logger.info("{}", body)
             ps.setString(1, body["reject"].toString())
             ps.setInt(2, body["id"].toString().toDouble().toInt())
             ps.execute()
@@ -263,7 +245,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 update cheliangduan.cheliang004
                 set check_p_jsy = ?, check_p_jsy_id = ?,
                     check_p_jsy_comment = ?, check_p_jsy_team = ?, check_p_jsy_qc = ?,
-                    check_p_jsy_date = ?, check_p_jsy_time = ?
+                    check_p_jsy_date = ?, check_p_jsy_time = ?,
+                    progress = '调度审核'
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -299,7 +282,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 update cheliangduan.cheliang004
                 set check_p_dd = ?, check_p_dd_id = ?,
-                    check_p_dd_date = ?, check_p_dd_time = ?
+                    check_p_dd_date = ?, check_p_dd_time = ?,
+                    progress = '值班所长审核'
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -332,7 +316,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 update cheliangduan.cheliang004
                 set check_p_zbsz = ?, check_p_zbsz_id = ?,
-                    check_p_zbsz_date = ?, check_p_zbsz_time = ?
+                    check_p_zbsz_date = ?, check_p_zbsz_time = ?,
+                    progress = ?
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -341,7 +326,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setInt(2, body["p_zbsz_id"].toString().toDouble().toInt())
             ps.setDate(3, Date.valueOf(body["date"].toString()))
             ps.setString(4, body["time"].toString())
-            ps.setInt(5, body["id"].toString().toDouble().toInt())
+            ps.setString(5, body["progress"].toString())
+            ps.setInt(6, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -364,13 +350,14 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             conn = DBUtil.getConn()
             val sql: String = """
                 update cheliangduan.cheliang004
-                set check_team_id = ?
+                set check_team_id = ?, progress = ?
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
             ps.setInt(1, body["team_id"].toString().toDouble().toInt())
-            ps.setInt(2, body["id"].toString().toDouble().toInt())
+            ps.setString(2, body["progress"].toString());
+            ps.setInt(3, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -393,7 +380,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             conn = DBUtil.getConn()
             val sql: String = """
                 update cheliangduan.cheliang004
-                set check_qc_id = ?
+                set check_qc_id = ?, progress = '作业负责人销记'
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -424,7 +411,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 update cheliangduan.cheliang004
                 set review_operator = ?, review_operator_id = ?,
                     review_operator_date = ?, review_operator_time = ?,
-                    review_operator_report = ?, remark = ?
+                    review_operator_report = ?, remark = ?,
+                    progress = '工长销记'
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -436,6 +424,39 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(5, body["report"].toString())
             ps.setString(6, body["remark"].toString())
             ps.setInt(7, body["id"].toString().toDouble().toInt())
+            ps.execute()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun reviewLeader(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                update cheliangduan.cheliang004
+                set review_leader = ?, review_leader_id = ?,
+                    review_leader_time = ?,
+                    progress = '班组销记'
+                where id = ?
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setString(1, body["leader"].toString())
+            ps.setInt(2, body["leader_id"].toString().toDouble().toInt())
+            ps.setTimestamp(3, Timestamp.valueOf(body["time"].toString()))
+            ps.setInt(4, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()

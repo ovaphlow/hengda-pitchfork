@@ -15,7 +15,6 @@ export function Toolbar() {
     const fetchQtyPjsy = async () => {
       const response = await fetch(`/api/cheliang/004/qty/p_jsy`)
       const res = await response.json()
-      // setQty(qty + res.content.qty)
       setQty(prev => prev + res.content.qty)
     }
     const fetchQtyPdd = async () => {
@@ -31,7 +30,6 @@ export function Toolbar() {
     const fetchQtyTeam = async () => {
       const response = await fetch(`/api/cheliang/004/qty/team/${auth.master_id}/`)
       const res = await response.json()
-      console.info(res)
       setQty(prev => prev + res.content.qty)
     }
     if (auth.p_jsy === 1) {
@@ -609,7 +607,15 @@ export function ListItem(props) {
         ({props.data.category})
         「<strong>{props.data.title}</strong>」
         {props.data.content}
-        {/* 补充进度标签 */}
+        {props.data.reject ? (
+          <span className="pull-right badge badge-danger">已驳回：{props.data.reject}</span>
+        ) : (
+          props.data.progress === '完结' ? (
+            <span className="pull-right badge badge-secondary">{props.data.progress}</span>
+          ) : (
+            <span className="pull-right badge badge-info">{props.data.progress}</span>
+          )
+        )}
       </p>
 
       <ul className="list-inline">

@@ -68,8 +68,10 @@ function Detail() {
       p_zbsz: auth.name,
       p_zbsz_id: auth.id,
       date: moment().format('YYYY-MM-DD'),
-      time: moment().format('HH:mm:ss')
+      time: moment().format('HH:mm:ss'),
+      progress: ''
     }
+    if (data.check_p_jsy_comment.indexOf('班组') >= 0) body.progress = '班组签字'
     const res = await axios.put(`/api/cheliang/004/${id}/check/p_zbsz`, body)
     if (res.data.message) {
       window.alert(res.data.message)
@@ -80,6 +82,8 @@ function Detail() {
 
   const handleCheckTeam = async () => {
     const body = { team_id: auth.id }
+    if (data.check_p_jsy_comment.indexOf('质检跟踪') >= 0) body.progress = '质检签字'
+    else body.progress = '作业负责人销记'
     const res = await axios.put(`/api/cheliang/004/${id}/check/team`, body)
     if (res.data.message) {
       window.alert(res.data.message)
@@ -157,7 +161,7 @@ function Detail() {
 
                 <div className="btn-group pull-right">
                   {!!!data.reject && (
-                    data.check_p_jsy_id === 0 && (
+                    data.progress === '技术员审核' && (
                       <button type="button" className="btn btn-primary"
                           onClick={() => window.location = `#车辆专业/004/${data.id}/技术员审核`}>
                         <i className="fa fa-fw fa-link"></i>
@@ -167,7 +171,7 @@ function Detail() {
                   )}
 
                   {!!!data.reject && (
-                    data.check_p_jsy_id > 0 && data.check_p_dd_id === 0 && (
+                    data.progress === '调度审核' && (
                       <button type="button" className="btn btn-primary" onClick={handleCheckPdd}>
                         <i className="fa fa-fw fa-check"></i>
                         调度审核
@@ -176,7 +180,7 @@ function Detail() {
                   )}
 
                   {!!!data.reject && (
-                    data.check_p_dd_id > 0 && data.check_p_zbsz_id === 0 && (
+                    data.progress === '值班所长审核' && (
                       <button type="button" className="btn btn-primary" onClick={handleCheckPzbsz}>
                         <i className="fa fa-fw fa-check"></i>
                         值班所长审核
@@ -184,68 +188,49 @@ function Detail() {
                     )
                   )}
 
-                  {auth.dept_mark === '班组' && !!!data.reject && (
-                    data.check_p_zbsz_id > 0 && data.check_p_jsy_comment.indexOf('班组') >= 0 &&
-                        data.check_team_id === 0 && (
-                      <button type="button" className="btn btn-primary" onClick={handleCheckTeam}>
-                        <i className="fa fa-fw fa-check"></i>
-                        班组签字
-                      </button>
-                    )
+                  {auth.dept_mark === '班组' && !!!data.reject && data.progress === '班组签字' && (
+                    <button type="button" className="btn btn-primary" onClick={handleCheckTeam}>
+                      <i className="fa fa-fw fa-check"></i>
+                      班组签字
+                    </button>
                   )}
 
-                  {auth.dept_mark === '质检' && !!!data.reject && (
-                    data.check_p_zbsz_id > 0 && data.check_p_jsy_comment.indexOf('质检跟踪') >= 0 &&
-                        data.check_qc_id === 0 && (
-                      <button type="button" className="btn btn-primary" onClick={handleCheckQc}>
-                        <i className="fa fa-fw fa-check"></i>
-                        质检签字
-                      </button>
-                    )
+                  {auth.dept_mark === '质检' && !!!data.reject && data.progress === '质检签字' && (
+                    <button type="button" className="btn btn-primary" onClick={handleCheckQc}>
+                      <i className="fa fa-fw fa-check"></i>
+                      质检签字
+                    </button>
                   )}
 
-                  {!!!data.reject && (
-                    data.check_p_zbsz_id > 0 && data.review_operator_id === 0 &&
-                        (
-                          (data.check_p_jsy_comment === '无要求') ||
-                          (data.check_p_jsy_comment === '班组跟踪、质检确认' && data.check_team_id > 0) ||
-                          (data.check_p_jsy_comment === '班组、质检跟踪' && data.check_team_id > 0 && data.check_qc_id > 0)
-                        ) && (
-                      <button type="button" className="btn btn-primary"
-                          onClick={() => window.location = `#车辆专业/004/${data.id}/作业负责人销记`}>
-                        <i className="fa fa-fw fa-link"></i>
-                        作业负责人销记
-                      </button>
-                    )
+                  {!!!data.reject && data.dept === auth.dept && data.progress === '作业负责人销记' && (
+                    <button type="button" className="btn btn-primary"
+                        onClick={() => window.location = `#车辆专业/004/${data.id}/作业负责人销记`}>
+                      <i className="fa fa-fw fa-link"></i>
+                      作业负责人销记
+                    </button>
                   )}
 
-                  {!!!data.reject && (
-                    data.review_operator_id > 0 && data.review_p_gz_id === 0 && (
-                      <button type="button" className="btn btn-primary"
-                          onClick={() => window.location = `#车辆专业/004/${data.id}/工长销记`}>
-                        <i className="fa fa-fw fa-link"></i>
-                        工长销记
-                      </button>
-                    )
+                  {!!!data.reject && data.progress === '工长销记' && (
+                    <button type="button" className="btn btn-primary"
+                        onClick={() => window.location = `#车辆专业/004/${data.id}/工长销记`}>
+                      <i className="fa fa-fw fa-link"></i>
+                      工长销记
+                    </button>
                   )}
 
-                  {!!!data.reject && (
-                    data.review_p_gz_id > 0 && data.review_p_jsy_id === 0 && (
-                      <button type="button" className="btn btn-primary"
-                          onClick={() => window.location = `#车辆专业/004/${data.id}/技术员销记`}>
-                        <i className="fa fa-fw fa-link"></i>
-                        技术员销记
-                      </button>
-                    )
+                  {!!!data.reject && !!!data.reject && data.progress === '技术员销记' && (
+                    <button type="button" className="btn btn-primary"
+                        onClick={() => window.location = `#车辆专业/004/${data.id}/技术员销记`}>
+                      <i className="fa fa-fw fa-link"></i>
+                      技术员销记
+                    </button>
                   )}
 
-                  {!!!data.reject && (
-                    data.review_p_jsy_id > 0 && data.review_p_dd_id === 0 && (
-                      <button type="button" className="btn btn-primary" onClick={handleReviewPdd}>
-                        <i className="fa fa-fw fa-link"></i>
-                        调度销记
-                      </button>
-                    )
+                  {!!!data.reject && !!!data.reject && data.progress === '调度销记' && (
+                    <button type="button" className="btn btn-primary" onClick={handleReviewPdd}>
+                      <i className="fa fa-fw fa-link"></i>
+                      调度销记
+                    </button>
                   )}
                 </div>
               </div>
