@@ -562,6 +562,26 @@ export function Form(props) {
           </tr>
         </tbody>
       </table>
+
+      <table className="table table-bordered table-sm" style={{ border: '2px solid black' }}>
+        <tbody>
+          <tr>
+            <td width="15%" className="text-center align-middle">备注</td>
+            <td>
+              <span className="text-info">{props.data.check_p_jsy_comment}</span>
+              &nbsp;
+              <span className="text-secondary">
+                (班组：{props.data.check_p_jsy_team} |
+                质检：{props.data.check_p_jsy_qc})
+              </span>
+              <br />
+              {props.data.remark}
+              <br />
+              作业完成情况：{props.data.review_operator_report}
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </>
   )
 }
@@ -603,7 +623,7 @@ export function ListItem(props) {
     <li className="list-group-item">
       <p className="lead">
         [{props.data.id}]
-        {calcTime()}
+        {!!!props.data.reject && calcTime()}
         ({props.data.category})
         「<strong>{props.data.title}</strong>」
         {props.data.content}
