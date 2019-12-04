@@ -569,10 +569,9 @@ export function Form(props) {
             <td width="15%" className="text-center align-middle">备注</td>
             <td>
               <span className="text-info">{props.data.check_p_jsy_comment}</span>
-              &nbsp;
               <span className="text-secondary">
-                (班组：{props.data.check_p_jsy_team} |
-                质检：{props.data.check_p_jsy_qc})
+                （班组：{props.data.check_p_jsy_team} /
+                质检：{props.data.check_p_jsy_qc}）
               </span>
               <br />
               {props.data.remark}
