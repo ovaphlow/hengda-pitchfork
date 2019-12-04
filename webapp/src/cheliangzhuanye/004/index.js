@@ -9,7 +9,10 @@ import RejectList from './RejectList'
 import CheckPjsy from './CheckPjsy'
 import ReviewOperator from './ReviewOperator'
 import ReviewLeader from './ReviewLeader'
+import ReviewTeam from './ReviewTeam'
+import ReviewQc from './ReviewQc'
 import ReviewPjsy from './ReviewPjsy'
+import ReviewPdd from './ReviewPdd'
 import ToDoList from './ToDoList'
 
 export const Index = () => {
@@ -25,7 +28,10 @@ export const Index = () => {
         <Route path="/车辆专业/004/:id/技术员审核"><CheckPjsy /></Route>
         <Route path="/车辆专业/004/:id/作业负责人销记"><ReviewOperator /></Route>
         <Route path="/车辆专业/004/:id/工长销记"><ReviewLeader /></Route>
+        <Route path="/车辆专业/004/:id/班组销记"><ReviewTeam /></Route>
+        <Route path="/车辆专业/004/:id/质检销记"><ReviewQc /></Route>
         <Route path="/车辆专业/004/:id/技术员销记"><ReviewPjsy /></Route>
+        <Route path="/车辆专业/004/:id/调度销记"><ReviewPdd /></Route>
       </Switch>
     </Router>
   )

@@ -102,10 +102,6 @@ function Detail() {
     window.location.reload(true)
   }
 
-  const handleReviewPdd = async () => {
-    window.alert('调度销记')
-  }
-
   return (
     <>
       <Title />
@@ -218,7 +214,23 @@ function Detail() {
                     </button>
                   )}
 
-                  {!!!data.reject && !!!data.reject && data.progress === '技术员销记' && (
+                  {!!!data.reject && auth.dept === data.check_p_jsy_team && data.progress === '班组销记' && (
+                    <button type="button" className="btn btn-primary"
+                        onClick={() => window.location = `#车辆专业/004/${data.id}/班组销记`}>
+                      <i className="fa fa-fw fa-link"></i>
+                      班组销记
+                    </button>
+                  )}
+
+                  {!!!data.reject && auth.dept_mark === '质检' && data.progress === '质检销记' && (
+                    <button type="button" className="btn btn-primary"
+                        onClick={() => window.location = `#车辆专业/004/${data.id}/质检销记`}>
+                      <i className="fa fa-fw fa-link"></i>
+                      质检销记
+                    </button>
+                  )}
+
+                  {!!!data.reject && auth.p_jsy === 1 && data.progress === '技术员销记' && (
                     <button type="button" className="btn btn-primary"
                         onClick={() => window.location = `#车辆专业/004/${data.id}/技术员销记`}>
                       <i className="fa fa-fw fa-link"></i>
@@ -226,8 +238,9 @@ function Detail() {
                     </button>
                   )}
 
-                  {!!!data.reject && !!!data.reject && data.progress === '调度销记' && (
-                    <button type="button" className="btn btn-primary" onClick={handleReviewPdd}>
+                  {!!!data.reject && auth.p_dd === 1 && data.progress === '调度销记' && (
+                    <button type="button" className="btn btn-primary"
+                        onClick={() => window.location = `#车辆专业/004/${data.id}/调度销记`}>
                       <i className="fa fa-fw fa-link"></i>
                       调度销记
                     </button>

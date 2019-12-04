@@ -6,7 +6,7 @@ import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
 import { Toolbar } from './Components'
 
-function ReviewPjsy() {
+function ReviewPdd() {
   const { id } = useParams()
   const [auth, setAuth] = React.useState(0)
 
@@ -25,7 +25,7 @@ function ReviewPjsy() {
       auth_id: auth.id,
       time: moment().format('YYYY-MM-DD HH:mm:ss')
     }
-    const response = await fetch(`/api/cheliang/004/${id}/review/p_jsy`, {
+    const response = await fetch(`/api/cheliang/004/${id}/review/p_dd`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json'
@@ -53,7 +53,7 @@ function ReviewPjsy() {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h2>一体化作业申请单 - 技术员销记</h2>
+            <h2>一体化作业申请单 - 调度销记</h2>
             <hr />
             <Toolbar />
             <div className="card shadow mt-2 mb-5">
@@ -82,4 +82,4 @@ function ReviewPjsy() {
   )
 }
 
-export default ReviewPjsy
+export default ReviewPdd

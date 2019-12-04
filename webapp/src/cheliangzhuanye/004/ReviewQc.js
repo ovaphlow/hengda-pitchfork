@@ -6,16 +6,16 @@ import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
 import { Toolbar } from './Components'
 
-function ReviewPjsy() {
+/**
+ * 需要补充子单信息
+ */
+function ReviewQc() {
   const { id } = useParams()
   const [auth, setAuth] = React.useState(0)
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
-    if (!!!a) {
-      window.location = '#登录'
-      return
-    }
+    if (!!!a) return
     setAuth(a)
   }, [])
 
@@ -25,7 +25,7 @@ function ReviewPjsy() {
       auth_id: auth.id,
       time: moment().format('YYYY-MM-DD HH:mm:ss')
     }
-    const response = await fetch(`/api/cheliang/004/${id}/review/p_jsy`, {
+    const response = await fetch(`/api/cheliang/004/${id}/review/qc`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json'
@@ -53,7 +53,7 @@ function ReviewPjsy() {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h2>一体化作业申请单 - 技术员销记</h2>
+            <h2>一体化作业申请单 - 质检销记</h2>
             <hr />
             <Toolbar />
             <div className="card shadow mt-2 mb-5">
@@ -82,4 +82,4 @@ function ReviewPjsy() {
   )
 }
 
-export default ReviewPjsy
+export default ReviewQc
