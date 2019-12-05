@@ -8,6 +8,7 @@ package cheliang004;
 
 service CheLiang004 {
     rpc list(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listWarning(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listByUser(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc save(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc get(CheLiang004Request) returns (CheLiang004Reply) {}

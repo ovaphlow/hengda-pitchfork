@@ -25,6 +25,40 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 from cheliangduan.cheliang004
                 where reject = ''
                     and progress != '完结'
+                    and current_timestamp < to_timestamp(concat(date_end, ' ', time_end), 'YYYY-MM-DD HH24:MI') + interval '15 minutes'
+                order by id desc
+                limit 200
+            """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun listWarning(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            conn = DBUtil.getConn()
+            val sql: String = """
+                select t.*
+                from cheliangduan.cheliang004 as t
+                where reject = ''
+                    -- 提前15分钟预警
+                    and current_timestamp > to_timestamp(concat(date_end, ' ', time_end), 'YYYY-MM-DD HH24:MI') + interval '15 minutes'
+                    and review_operator_id = 0
+                order by concat(date_end, ' ', time_end) desc
                 limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)

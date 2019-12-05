@@ -9,6 +9,7 @@ import { Toolbar, ListItem } from './Components'
 function List() {
   const [auth, setAuth] = React.useState(0)
   const [data, setData] = React.useState([])
+  const [dataWarning, setDataWarning] = React.useState([])
   const [filterParams, setFilterParams] = React.useState({
     train: '',
     dept: '',
@@ -35,6 +36,19 @@ function List() {
         return
       }
       setData(result.data.content)
+    }
+    fetchData()
+  }, [])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/cheliang/004/warning/`)
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      setDataWarning(res.content)
     }
     fetchData()
   }, [])
@@ -203,6 +217,13 @@ function List() {
               </div>
 
               <div className="card-body">
+                <p className="lead text-center text-danger m-1">超时报警</p>
+                <ul className="list-group mb-3">
+                  {dataWarning.map(it => (
+                    <ListItem key={it.id} data={it} auth={auth} />
+                  ))}
+                </ul>
+
                 <ul className="list-group">
                   {data.map(it => (
                     <ListItem key={it.id} data={it} auth={auth} />
