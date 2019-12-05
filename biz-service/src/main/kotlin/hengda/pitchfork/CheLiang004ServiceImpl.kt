@@ -24,9 +24,42 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 select *
                 from cheliangduan.cheliang004
                 where reject = ''
+                    and progress != '完结'
                 limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun listByUser(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select *
+                from cheliangduan.cheliang004 t1
+                where reject = ''
+                    and progress != '完结'
+                    and leader = (select name from public.user where id = ?)
+                limit 200
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["id"].toString().toDouble().toInt());
             val rs = ps.executeQuery()
             resp["content"] = DBUtil.getList(rs)
         } catch (e: Exception) {

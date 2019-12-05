@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import moment from 'moment'
 
 import { Title, Navbar, TrainPicker, DeptPicker } from '../../Components'
 import { SideNav } from '../Components'
@@ -18,6 +19,7 @@ function List() {
     p_yq_xdc: '',
     p_yq_jcw: ''
   })
+  const [timer, setTimer] = React.useState(15)
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -37,9 +39,39 @@ function List() {
     fetchData()
   }, [])
 
+  React.useEffect(() => {
+    let time = moment()
+    let time1 = moment(time).add(15, 'm')
+    setTimer(moment(time).to(time1))
+    const timeInterval = setInterval(() => {
+      time = moment(time).add(1, 'm')
+      if (moment(time1).diff(time) <= 0) {
+        handleRefresh()
+      }
+      setTimer(moment(time).to(time1))
+    }, 1000 * 60)
+
+    return (() => clearInterval(timeInterval))
+  }, [])
+
   const handleChange = e => {
     const { value, name } = e.target
     setFilterParams(prev => ({ ...prev, [name]: value }))
+  }
+
+  const handleRefresh = () => {
+    // 15min自动刷新
+    window.location.reload(true)
+  }
+
+  const handleListByUser = async () => {
+    const response = await fetch(`/api/cheliang/004/user/${auth.id}`)
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    setData(res.content)
   }
 
   return (
@@ -145,14 +177,14 @@ function List() {
 
                 <>
                   <div className="btn-group">
-                    <button type="button" className="btn btn-sm btn-outline-secondary">
+                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={handleRefresh}>
                       <i className="fa fa-fw fa-refresh"></i>
-                      重置/刷新 (15Min)
+                      重置/刷新 ({timer})
                     </button>
                   </div>
 
                   <div className="btn-group pull-right">
-                    <button type="button" className="btn btn-sm btn-outline-info">
+                    <button type="button" className="btn btn-sm btn-outline-info" onClick={handleListByUser}>
                       <i className="fa fa-fw fa-user"></i>
                       我的申请单
                     </button>
