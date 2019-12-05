@@ -590,20 +590,10 @@ export function ListItem(props) {
     moment.locale('zh-cn')
     let end_time = moment(`${props.data.date_end}T${props.data.time_end}`)
     let current = moment()
-    if (
-        moment(current).diff(end_time) > 0
-        // moment(current).diff(end_time) > 0 &&
-        // !!!this.props.item.sign_verify &&
-        // !!!this.props.item.sign_verify_leader
-    ) return (
+    if (moment(current).diff(end_time) > 0 && props.data.review_operator_id === 0) return (
       <span className="badge badge-danger">已超期 {moment(end_time).fromNow(true)}</span>
     )
-    else if (
-        moment(current).diff(end_time) > -900000
-        // moment(current).diff(end_time) > -900000 &&
-        // !!!this.props.item.sign_verify &&
-        // !!!this.props.item.sign_verify_leader
-    )return (
+    else if (moment(current).diff(end_time) > -900000 && props.data.review_operator_id === 0) return (
       <span className="badge badge-warning">预警 {moment(end_time).fromNow(true)}</span>
     )
   }
@@ -676,16 +666,11 @@ export function ListItem(props) {
 
       <div className="mt-3">
         <div className="btn-group">
-          {/*
-            按钮组：
-            管理员删除、修改
-            */}
           {
             props.auth.super === 1 && (
               <>
                 <button type="button" className="btn btn-sm btn-outline-success"
-                  onClick={() => window.location = `#车辆专业/004/${props.data.id}`}
-                >
+                    onClick={() => window.open(`#车辆专业/004/${props.data.id}`)}>
                   <i className="fa fa-fw fa-edit"></i>
                   修改
                 </button>
@@ -699,8 +684,7 @@ export function ListItem(props) {
 
         <div className="btn-group pull-right">
           <button type="button" className="btn btn-sm btn-outline-info"
-            onClick={() => window.open(`#车辆专业/004/${props.data.id}`)}
-          >
+              onClick={() => window.open(`#车辆专业/004/${props.data.id}`)}>
             <i className="fa fa-fw fa-file-text-o"></i>
             详细信息
           </button>

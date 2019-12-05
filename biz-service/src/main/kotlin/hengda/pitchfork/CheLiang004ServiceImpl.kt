@@ -713,8 +713,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select *
                 from cheliangduan.cheliang004
-                where check_p_jsy_id = 0
-                    and reject = ''
+                where reject = ''
+                    and progress = '技术员审核'
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -914,6 +914,108 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                     and check_team_id = 0
                     and reject = ''
             """.trimIndent()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["id"].toString().toDouble().toInt())
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    /**
+     * 质检：待处理任务计数
+     */
+    override fun qtyQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select count(*) as qty
+                from cheliangduan.cheliang004
+                where reject = ''
+                    and position('质检' in progress) > 0
+                order by id
+                limit 200
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getMap(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    /**
+     * 质检：待处理任务列表
+     */
+    override fun listQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select *
+                from cheliangduan.cheliang004
+                where reject = ''
+                    and position('质检' in progress) > 0
+                order by id
+                limit 200
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    /**
+     * 作业负责人：待处理任务列表
+     */
+    override fun listToDoByUser(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select *
+                from cheliangduan.cheliang004 as t
+                where reject = ''
+                    and progress = '作业负责人销记'
+                    and leader = (select name from public.user where id = ?)
+                order by id
+                limit 200
+            """.trimIndent()
+            conn = DBUtil.getConn()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
             ps.setInt(1, body["id"].toString().toDouble().toInt())

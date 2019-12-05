@@ -10,6 +10,7 @@ function ToDoList() {
   const [dataPdd, setDataPdd] = React.useState([])
   const [dataPzbsz, setDataPzbsz] = React.useState([])
   const [dataTeam, setDataTeam] = React.useState([])
+  const [dataQc, setDataQc] = React.useState([])
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -44,19 +45,28 @@ function ToDoList() {
       setDataPzbsz(res.content)
     }
     const fetchListTeam = async () => {
-      const response = await fetch(`/api/cheliang/004/team/${a.master_id}`)
+      const response = await fetch(`/api/cheliang/004/team/${a.master_id}/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
         return
       }
-      console.info(res)
       setDataTeam(res.content)
+    }
+    const fetchListQc = async () => {
+      const response = await fetch(`/api/cheliang/004/qc/`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setDataQc(res.content)
     }
     if (a.p_jsy) fetchListPjsy()
     if (a.p_dd) {fetchListPdd()}
     if (a.p_zbsz) fetchListPzbsz()
     if (a.dept_mark === '班组') fetchListTeam()
+    if (a.dept_mark === '质检') fetchListQc()
   }, [])
 
   return (
@@ -79,7 +89,7 @@ function ToDoList() {
               <div className="card-body">
                 {dataPjsy.length > 0 && (
                   <>
-                    <p className="lead text-center text-muted m-1">技术员审核</p>
+                    <p className="lead text-center text-muted m-1">技术员</p>
                     <ul className="list-group">
                       {dataPjsy.map(it => (
                         <ListItem data={it} key={it.id} auth={auth} />
@@ -89,7 +99,7 @@ function ToDoList() {
                 )}
                 {dataPdd.length > 0 && (
                   <>
-                    <p className="lead text-center text-muted m-1">调度审核</p>
+                    <p className="lead text-center text-muted m-1">调度</p>
                     <ul className="list-group">
                       {dataPdd.map(it => (
                         <ListItem data={it} key={it.id} auth={auth} />
@@ -99,7 +109,7 @@ function ToDoList() {
                 )}
                 {dataPzbsz.length > 0 && (
                   <>
-                    <p className="lead text-center text-muted m-1">值班所长审核</p>
+                    <p className="lead text-center text-muted m-1">值班所长</p>
                     <ul className="list-group">
                       {dataPzbsz.map(it => (
                         <ListItem data={it} key={it.id} auth={auth} />
@@ -109,7 +119,17 @@ function ToDoList() {
                 )}
                 {auth.dept_mark === '班组' && dataTeam.length > 0 && (
                   <>
-                    <p className="lead text-center text-muted m-1">班组签字</p>
+                    <p className="lead text-center text-muted m-1">班组</p>
+                    <ul className="list-group">
+                      {dataTeam.map(it => (
+                        <ListItem data={it} key={it.id} auth={auth} />
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {auth.dept_mark === '质检' && dataQc.length > 0 && (
+                  <>
+                    <p className="lead text-center text-muted m-1">质检</p>
                     <ul className="list-group">
                       {dataTeam.map(it => (
                         <ListItem data={it} key={it.id} auth={auth} />

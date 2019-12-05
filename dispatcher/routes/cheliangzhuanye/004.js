@@ -103,6 +103,46 @@ router
       ctx.response.body = {message: '服务器错误'}
     }
   })
+  .get('/qc/', async ctx => {
+    const grpcFetch = () => {
+      return new Promise((resolve, reject) => {
+        grpcClient.listQc({data: ''}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .get('/user/:id/', async ctx => {
+    const grpcFetch = body => {
+      return new Promise((resolve, reject) => {
+        grpcClient.listToDoByUser({data: JSON.stringify(body)}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.params)
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
 
 router
   .get('/qty/p_jsy', async ctx => {
@@ -229,7 +269,6 @@ router
       ctx.response.body = {message: '服务器错误'}
     }
   })
-
 
 router
   .get('/:id', async ctx => {
