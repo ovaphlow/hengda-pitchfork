@@ -42,6 +42,8 @@ service CheLiang004 {
     rpc qtyQc(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listQc(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listToDoByUser(CheLiang004Request) returns (CheLiang004Reply) {}
+
+    rpc updateDetail1(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

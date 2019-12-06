@@ -36,6 +36,8 @@ service CheLiang004 {
     rpc qtyTeam(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listTeam(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listToDoByUser(CheLiang004Request) returns (CheLiang004Reply) {}
+
+    rpc updateDetail1(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

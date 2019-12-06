@@ -29,6 +29,7 @@ function Detail() {
         return
       }
       setData(res.data.content)
+      console.info(JSON.parse(res.data.content.test_jsonb.value))
     }
     fetchData(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
