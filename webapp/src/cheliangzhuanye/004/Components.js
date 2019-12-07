@@ -693,3 +693,144 @@ export function ListItem(props) {
     </li>
   )
 }
+
+export function TableDetail1(props) {
+  React.useEffect(() => {
+    console.info(props.data)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleRemove = async event => {
+    if (!!!window.confirm('确定要删除所选数据？')) return
+    window.alert(event.target.getAttribute('data-id'))
+  }
+
+  return (
+    <div className="card shadow">
+      <div className="card-header">一般部件普查记录单</div>
+
+      <div className="card-body">
+        <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
+          <thead className="thead-light">
+            <tr>
+              <td width="8%" className="text-center align-middle">普查项目</td>
+              <td width="42%" colSpan="5" className="text-center align-middle">{props.data.subject}</td>
+              <td width="15%" colSpan="2" className="text-center align-middle">批准文件号</td>
+              <td width="35%" colSpan="4" className="text-center align-middle">{props.data.approval}</td>
+            </tr>
+            <tr>
+              <td width="10%" className="text-center align-middle">实施普查车组</td>
+              <td width="40%" colSpan="5" className="text-center align-middle">{props.data.train}</td>
+              <td width="10%" colSpan="2" className="text-center align-middle">实施普查日期</td>
+              <td width="40%" colSpan="4" className="text-center align-middle">{props.data.date}</td>
+            </tr>
+            <tr>
+              <th width="8%" className="text-center align-middle">实施普查<br />的车厢号</th>
+              <th width="10%" className="text-center align-middle">具体项点</th>
+              <th width="6%" className="text-center align-middle">开工<br />时间</th>
+              <th width="6%" className="text-center align-middle">完工<br />时间</th>
+              <th width="6%" className="text-center align-middle">检查<br />结果</th>
+              <th width="14%" className="text-center align-middle">故障及处理情况</th>
+              <th width="8%" className="text-center align-middle">实施单位</th>
+              <th width="7%" className="text-center align-middle">实施者</th>
+              <th width="8%" className="text-center align-middle">动车组<br />现场监控人</th>
+              <th width="8%" className="text-center align-middle">监控班组</th>
+              <th width="8%" className="text-center align-middle">质检员</th>
+              <th className="text-center align-middle">备注</th>
+            </tr>
+          </thead>
+          <tbody>
+            {props.data.carriage.length && props.data.carriage.map(it => (
+              <tr key={it.carriage}>
+                <td width="8%" className="text-center align-middle">
+                  {it.carriage}
+                  {props.auth.id && (
+                    <i className="fa fa-fw fa-trash text-danger" data-id={it.carriage} onClick={handleRemove}></i>
+                  )}
+                </td>
+                <td width="10%" className="text-center align-middle">{it.carriage_subject}</td>
+                <td width="6%" className="text-center align-middle">{it.time_begin}</td>
+                <td width="6%" className="text-center align-middle">{it.time_end}</td>
+                <td width="6%" className="text-center align-middle">{it.result}</td>
+                <td width="14%" className="text-center align-middle">{it.report}</td>
+                <td width="8%" className="text-center align-middle">{it.dept}</td>
+                <td width="7%" className="text-center align-middle">{it.operator}</td>
+                <td width="8%" className="text-center align-middle">
+                  {it.watcher}
+                  {props.mode === 'team' && (
+                    <select className="form-control form-control-sm" data-id={it.carriage}>
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
+                <td width="8%" className="text-center align-middle">{it.team}</td>
+                <td width="8%" className="text-center align-middle">
+                  {it.qc}
+                  {props.mode === 'qc' && (
+                    <select className="form-control form-control-sm" data-id={it.carriage}>
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
+                <td className="text-center align-middle">{it.remark}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+export function TableDetail2(props) {
+  return (
+    <div className="card shadow">
+      <div className="card-header">
+        一般配件更换记录表
+        <span className="pull-right">
+          <button type="button" className="btn btn-sm btn-outline-success">
+            下载Excel
+          </button>
+        </span>
+      </div>
+
+      <div className="card-body">
+        <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
+          <thead className="thead-light">
+            <tr>
+              <th width="6%" className="text-center align-middle">部件名称</th>
+              <th width="6%" className="text-center align-middle">车组</th>
+              <th width="3%" className="text-center align-middle">车号</th>
+              <th width="3%" className="text-center align-middle">位置</th>
+              <th width="6%" className="text-center align-middle">日期</th>
+              <th width="6%" className="text-center align-middle">时间</th>
+              <th className="text-center align-middle">更换原因</th>
+              <th width="6%" className="text-center align-middle">作业人员已阅读工艺文件并掌握各步骤</th>
+              <th width="4%" className="text-center align-middle">力矩扳手已校验</th>
+              <th width="6%" className="text-center align-middle">换下部件序列号</th>
+              <th width="6%" className="text-center align-middle">换上部件序列号</th>
+              <th width="4%" className="text-center align-middle">部件安装良好，螺栓力矩已套固，防松标记已涂打</th>
+              <th width="6%" className="text-center align-middle">作业者</th>
+              <th width="6%" className="text-center align-middle">检修工长</th>
+              <th width="4%" className="text-center align-middle">部件功能试验正常</th>
+              <th width="6%" className="text-center align-middle">质检员</th>
+              <th width="6%" className="text-center align-middle">值班干部</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {/*props.data.length > 0 && props.data.map(it => {
+              <tr key={it.carriage}>
+                <td>1</td>
+              </tr>
+            })*/}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}

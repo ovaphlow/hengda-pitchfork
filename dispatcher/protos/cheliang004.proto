@@ -38,6 +38,7 @@ service CheLiang004 {
     rpc listToDoByUser(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc updateDetail1(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc updateDetail2(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

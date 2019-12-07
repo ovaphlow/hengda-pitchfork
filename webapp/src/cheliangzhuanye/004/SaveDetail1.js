@@ -4,10 +4,12 @@ import moment from 'moment'
 
 import { Title, Navbar, TrainPicker } from '../../Components'
 import { SideNav } from '../Components'
-import { Toolbar } from './Components'
+import { Toolbar, TableDetail1 } from './Components'
 
 function SaveDetail1() {
   const { id } = useParams()
+  const [auth, setAuth] = React.useState({})
+  const [document, setDocument] = React.useState({})
   const [data, setData] = React.useState({
     subject: '',
     approval: '',
@@ -15,7 +17,6 @@ function SaveDetail1() {
     date: moment().format('YYYY-MM-DD'),
     carriage: []
   })
-
   const [dataDetail, setDataDetail] = React.useState({
     carriage_subject: '',
     time_begin: '',
@@ -26,6 +27,26 @@ function SaveDetail1() {
     operator: '',
     remark: ''
   })
+
+  React.useEffect(() => {
+    const a = JSON.parse(sessionStorage.getItem('auth'))
+    if (!!!a) return
+    setAuth(a)
+  }, [])
+
+  React.useEffect(() => {
+    const fetchDocument = async id => {
+      const response = await fetch(`/api/cheliang/004/${id}`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setDocument(JSON.parse(res.content.detail1.value))
+    }
+    fetchDocument(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleChange = e => {
     const { value, name } = e.target
@@ -61,7 +82,10 @@ function SaveDetail1() {
       body: JSON.stringify(data)
     })
     const res = await response.json()
-    console.info(res)
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
   }
 
   return (
@@ -80,7 +104,7 @@ function SaveDetail1() {
             <h2>一体化作业申请单 - 作业负责人销记</h2>
             <hr />
             <Toolbar />
-            <div className="card shadow mt-2 mb-5">
+            <div className="card shadow mt-2 mb-2">
               <div className="card-header">
                 一般部件普查记录单
               </div>
@@ -273,6 +297,14 @@ function SaveDetail1() {
               </div>
 
               <div className="card-footer">
+                <div className="btn-group">
+                  <button type="button" className="btn btn-outline-secondary btn-sm"
+                    onClick={() => window.history.go(-1)}
+                  >
+                    返回
+                  </button>
+                </div>
+
                 <div className="btn-group pull-right">
                   <button type="button" className="btn btn-sm btn-outline-primary" onClick={handleSave}>
                     <i className="fa fa-fw fa-plus"></i>
@@ -281,6 +313,10 @@ function SaveDetail1() {
                 </div>
               </div>
             </div>
+
+            {document.id && (
+              <TableDetail1 data={document} auth={auth} />
+            )}
           </div>
         </div>
       </div>

@@ -260,3 +260,24 @@ export function UserPickerById(props) {
     </div>
   )
 }
+
+export function CarriagePicker(props) {
+  return (
+    <div className="form-group">
+      <label>{props.caption || '车厢'}</label>
+      <select name={props.name} value={props.value || ''}
+        className="form-control"
+        onChange={props.handleChange}
+      >
+        <option value="01">01</option>
+        <option value="02">02</option>
+        <option value="03">03</option>
+        <option value="04">04</option>
+        <option value="05">05</option>
+        <option value="06">06</option>
+        <option value="07">07</option>
+        <option value="08">08</option>
+      </select>
+    </div>
+  )
+}
