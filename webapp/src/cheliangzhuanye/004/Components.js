@@ -787,6 +787,10 @@ export function TableDetail1(props) {
 }
 
 export function TableDetail2(props) {
+  const handleRemove = async event => {
+    window.alert(event.target.getAttribute('data-id'))
+  }
+
   return (
     <div className="card shadow">
       <div className="card-header">
@@ -798,7 +802,7 @@ export function TableDetail2(props) {
         </span>
       </div>
 
-      <div className="card-body">
+      <div className="card-body table-responsive">
         <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
           <thead className="thead-light">
             <tr>
@@ -823,11 +827,173 @@ export function TableDetail2(props) {
           </thead>
 
           <tbody>
-            {/*props.data.length > 0 && props.data.map(it => {
-              <tr key={it.carriage}>
-                <td>1</td>
+            {props.data.length > 0 && props.data.map((it, i) => (
+              <tr key={i}>
+                <td>
+                  {it.name}
+                  {props.auth.id > 0 && (
+                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={handleRemove}></i>
+                  )}
+                </td>
+                <td>{it.train}</td>
+                <td>{it.carriage}</td>
+                <td>{it.position}</td>
+                <td>{it.date}</td>
+                <td>{it.time}</td>
+                <td>{it.reason}</td>
+                <td>{it.p_gywj}</td>
+                <td>{it.p_ljbs}</td>
+                <td>{it.sn_original}</td>
+                <td>{it.sn_new}</td>
+                <td>{it.bjaz}</td>
+                <td>{it.operator}</td>
+                <td>{it.p_gz}</td>
+                <td>{it.bjgn}</td>
+                <td>{it.qc}</td>
+                <td>{it.p_jsy}</td>
               </tr>
-            })*/}
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+export function TableDetail3(props) {
+  const handleRemove = async event => {
+    window.alert(event.target.getAttribute('data-id'))
+  }
+
+  return (
+    <div className="card shadow">
+      <div className="card-header">
+        关键配件更换记录表
+        <span className="pull-right">
+          <button type="button" className="btn btn-sm btn-outline-success">
+            下载Excel
+          </button>
+        </span>
+      </div>
+
+      <div className="card-body table-responsive">
+        <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
+          <thead className="thead-light">
+            <tr>
+              <th width="6%" className="text-center align-middle">部件名称</th>
+              <th width="6%" className="text-center align-middle">车组</th>
+              <th width="3%" className="text-center align-middle">车号</th>
+              <th width="3%" className="text-center align-middle">位置</th>
+              <th width="6%" className="text-center align-middle">日期</th>
+              <th width="6%" className="text-center align-middle">时间</th>
+              <th width="6%" className="text-center align-middle">生产日期</th>
+              <th className="text-center align-middle">更换原因</th>
+              <th width="6%" className="text-center align-middle">作业人员已阅读工艺文件并掌握各步骤</th>
+              <th width="4%" className="text-center align-middle">力矩扳手已校验</th>
+              <th width="6%" className="text-center align-middle">换下部件序列号</th>
+              <th width="6%" className="text-center align-middle">换上部件序列号</th>
+              <th width="4%" className="text-center align-middle">部件安装良好，螺栓力矩已套固，防松标记已涂打</th>
+              <th width="6%" className="text-center align-middle">作业者</th>
+              <th width="6%" className="text-center align-middle">检修工长</th>
+              <th width="4%" className="text-center align-middle">部件功能试验正常</th>
+              <th width="6%" className="text-center align-middle">质检员</th>
+              <th width="6%" className="text-center align-middle">值班干部</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {props.data.length > 0 && props.data.map((it, i) => (
+              <tr key={i}>
+                <td>
+                  {it.name}
+                  {props.auth.id > 0 && (
+                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={handleRemove}></i>
+                  )}
+                </td>
+                <td>{it.train}</td>
+                <td>{it.carriage}</td>
+                <td>{it.position}</td>
+                <td>{it.date}</td>
+                <td>{it.time}</td>
+                <td>{it.date_manu}</td>
+                <td>{it.reason}</td>
+                <td>{it.p_gywj}</td>
+                <td>{it.p_ljbs}</td>
+                <td>{it.sn_original}</td>
+                <td>{it.sn_new}</td>
+                <td>{it.p_bjaz}</td>
+                <td>{it.operator}</td>
+                <td>{it.p_gz}</td>
+                <td>{it.p_bjgn}</td>
+                <td>{it.qc}</td>
+                <td>{it.p_jsy}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+export function TableDetail4(props) {
+  const handleRemove = async event => {
+    window.alert(event.target.getAttribute('data-id'))
+  }
+
+  return (
+    <div className="card shadow">
+      <div className="card-header">
+        加装改造（软件升级）记录单
+        <span className="pull-right">
+          <button type="button" className="btn btn-sm btn-outline-success">
+            下载Excel
+          </button>
+        </span>
+      </div>
+
+      <div className="card-body table-responsive">
+        <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
+          <tbody>
+            <tr>
+              <td width="15%" className="text-center align-middle">实施改造项目(升级系统)</td>
+              <td colSpan="8" className="text-center align-middle" id="detail04-subject"></td>
+            </tr>
+            <tr>
+              <td width="15%" className="text-center align-middle">软件版本号</td>
+              <td width="10%" className="text-center align-middle">新</td>
+              <td width="10%" className="text-center align-middle" id="detail04-software_version_new"></td>
+              <td width="10%" className="text-center align-middle">旧</td>
+              <td width="10%" className="text-center align-middle" id="detail04-software_version_old"></td>
+              <td width="20%" colSpan="2" className="text-center align-middle">批准文件号</td>
+              <td width="30%" colSpan="2" className="text-center align-middle" id="detail04-approval_sn"></td>
+            </tr>
+            <tr>
+              <td width="15%" className="text-center align-middle">实施改造车组</td>
+              <td width="40$" colSpan="4" className="text-center align-middle" id="detail04-train"></td>
+              <td width="20%" colSpan="2" className="text-center align-middle">实施改造日期</td>
+              <td width="30%" colSpan="2" className="text-center align-middle" id="detail04-date"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
+          <thead className="thead-light">
+            <tr>
+              <th width="15%" className="text-center align-middle">实施改造的车厢号</th>
+              <th width="10%" className="text-center align-middle">开工时间</th>
+              <th width="10%" className="text-center align-middle">完工时间</th>
+              <th width="10%" className="text-center align-middle">实施单位</th>
+              <th width="10%" className="text-center align-middle">实施者</th>
+              <th width="10%" className="text-center align-middle">动车所现场监控人</th>
+              <th width="10%" className="text-center align-middle">监控班组</th>
+              <th width="10%" className="text-center align-middle">质检员</th>
+              <th width="15%" className="text-center align-middle">备注</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
           </tbody>
         </table>
       </div>

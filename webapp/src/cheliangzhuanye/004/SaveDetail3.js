@@ -4,9 +4,9 @@ import moment from 'moment'
 
 import { Title, Navbar, TrainPicker, CarriagePicker } from '../../Components'
 import { SideNav } from '../Components'
-import { Toolbar, TableDetail2 } from './Components'
+import { Toolbar, TableDetail3 } from './Components'
 
-function SaveDetail2() {
+function SaveDetail3() {
   const { id } = useParams()
   const [auth, setAuth] = React.useState(0)
   const [dataList, setDataList] = React.useState([])
@@ -17,6 +17,7 @@ function SaveDetail2() {
     position: '',
     date: moment().format('YYYY-MM-DD'),
     time: '',
+    date_manu: '',
     reason: '',
     p_gywj: '',
     p_ljbs: '',
@@ -41,7 +42,7 @@ function SaveDetail2() {
         window.console.error(res.message)
         return
       }
-      setDataList(JSON.parse(res.content.detail2.value))
+      setDataList(JSON.parse(res.content.detail3.value))
     }
     fetchDataList(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -55,12 +56,12 @@ function SaveDetail2() {
   const handleSave = async () => {
     let list = dataList
     list.push(dataRow)
-    const response = await fetch(`/api/cheliang/004/${id}/detail/2`, {
+    const response = await fetch(`/api/cheliang/004/${id}/detail/3`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({detail2: JSON.stringify(list)})
+      body: JSON.stringify({detail3: JSON.stringify(list)})
     })
     const res = await response.json()
     if (res.message) {
@@ -83,11 +84,11 @@ function SaveDetail2() {
           </div>
 
           <div className="col-9 col-lg-10">
-            <h2>一体化作业申请单 - 作业负责人销记</h2>
+            <h2>一体化作业申请单 - 关键配件更换记录表</h2>
             <hr />
             <Toolbar />
             <div className="card shadow mt-2 mb-2">
-              <div className="card-header">一般配件更换记录表</div>
+              <div className="card-header">关键配件更换记录表</div>
 
               <div className="card-body">
                 <div className="row">
@@ -127,7 +128,7 @@ function SaveDetail2() {
 
                   <div className="col">
                     <div className="form-group">
-                      <label>日期</label>
+                      <label>更换日期</label>
                       <input type="date" name="date" value={dataRow.date}
                         className="form-control"
                         onChange={handleChange}
@@ -137,7 +138,7 @@ function SaveDetail2() {
 
                   <div className="col">
                     <div className="form-group">
-                      <label>时间</label>
+                      <label>更换时间</label>
                       <input type="text" name="time" value={dataRow.time || ''}
                         className="form-control"
                         onChange={handleChange}
@@ -147,13 +148,21 @@ function SaveDetail2() {
 
                   <div className="col">
                     <div className="form-group">
-                      <label>更换原因</label>
-                      <input type="text" name="reason" value={dataRow.reason || ''}
+                      <label>生产日期</label>
+                      <input type="text" name="date_manu" value={dataRow.date_manu || ''}
                         className="form-control"
                         onChange={handleChange}
                       />
                     </div>
                   </div>
+                </div>
+
+                <div className="form-group">
+                  <label>更换原因</label>
+                  <input type="text" name="reason" value={dataRow.reason || ''}
+                    className="form-control"
+                    onChange={handleChange}
+                  />
                 </div>
 
                 <div className="row">
@@ -246,7 +255,7 @@ function SaveDetail2() {
               </div>
             </div>
 
-            <TableDetail2 data={dataList} auth={auth} />
+            <TableDetail3 data={dataList} auth={auth} />
           </div>
         </div>
       </div>
@@ -254,4 +263,4 @@ function SaveDetail2() {
   )
 }
 
-export default SaveDetail2
+export default SaveDetail3
