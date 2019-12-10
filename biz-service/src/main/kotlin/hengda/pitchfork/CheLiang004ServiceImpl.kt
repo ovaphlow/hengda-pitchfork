@@ -1047,7 +1047,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             conn = DBUtil.getConn()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
-            ps.setString(1, req.data.toString())
+            ps.setString(1, body["detail1"].toString())
             ps.setInt(2, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
@@ -1134,7 +1134,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             conn = DBUtil.getConn()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
-            ps.setString(1, req.data.toString())
+            ps.setString(1, body["detail4"].toString())
             ps.setInt(2, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {

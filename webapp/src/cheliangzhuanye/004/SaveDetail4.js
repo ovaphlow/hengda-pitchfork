@@ -15,10 +15,9 @@ function SaveDetail4() {
     version_original: '',
     approval: '',
     train: '',
-    date: ''
+    date: moment().format('YYYY-MM-DD')
   })
   const [dataRow, setDataRow] = React.useState({
-    carriage: '',
     time_begin: '',
     time_end: '',
     dept: '',
@@ -31,6 +30,7 @@ function SaveDetail4() {
     const a = JSON.parse(sessionStorage.getItem('auth'))
     if (!!!a) return
     setAuth(a)
+    setDataRow(prev => ({ ...prev, 'dept': a.dept, 'operator': a.name }))
   }, [])
 
   React.useEffect(() => {
@@ -41,7 +41,9 @@ function SaveDetail4() {
         window.console.error(res.message)
         return
       }
-      console.info(res)
+      setDataRow(prev => ({ ...prev, 'time_begin': res.content.time_begin }))
+      setDataHeader(JSON.parse(res.content.detail4.value))
+      setDataList(JSON.parse(res.content.detail4.value).carriage)
     }
     fetchData(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,12 +59,46 @@ function SaveDetail4() {
     setDataRow(prev => ({ ...prev, [name]: value }))
   }
 
-  const handlePushList = event => {
-    window.console.info(event.target)
+  const handleSave = async () => {
+    let list = []
+    const el = document.querySelectorAll('input[type="checkbox"]')
+    for (let i = 0; i < el.length; i++) {
+      if (el[i].checked) {
+        list.push(Object.assign({carriage: el[i].value}, dataRow))
+      }
+    }
+    const response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail4: JSON.stringify(Object.assign(dataHeader, {carriage: dataList.concat(list)}))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.console.error(res.message)
+      return
+    }
+    window.location.reload(true)
   }
 
-  const handleSave = async () => {
-
+  const handleRemove = async event => {
+    if (!!!window.confirm('确定要删除所选数据？')) return
+    let list = dataList.concat()
+    list.splice(parseInt(event.target.getAttribute('data-id')), 1)
+    const response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail4: JSON.stringify(Object.assign(dataHeader, {carriage: list}))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.console.error(res.message)
+      return
+    }
+    window.location.reload(true)
   }
 
   return (
@@ -101,7 +137,7 @@ function SaveDetail4() {
                       <label>软件版本号（新）</label>
                       <input type="text" name="version" value={dataHeader.version || ''}
                         className="form-control"
-                        onChange={handleChange}
+                        onChange={handleChangeHeader}
                       />
                     </div>
                   </div>
@@ -111,7 +147,7 @@ function SaveDetail4() {
                       <label>软件版本号（旧）</label>
                       <input type="text" name="version_original" value={dataHeader.version_original || ''}
                         className="form-control"
-                        onChange={handleChange}
+                        onChange={handleChangeHeader}
                       />
                     </div>
                   </div>
@@ -121,7 +157,7 @@ function SaveDetail4() {
                       <label>批准文件号</label>
                       <input type="text" name="approval" value={dataHeader.approval || ''}
                         className="form-control"
-                        onChange={handleChange}
+                        onChange={handleChangeHeader}
                       />
                     </div>
                   </div>
@@ -130,7 +166,7 @@ function SaveDetail4() {
                 <div className="row">
                   <div className="col">
                     <TrainPicker caption="实施改造车组" name="train" value={dataHeader.train || ''}
-                      handleChange={handleChange}
+                      handleChange={handleChangeHeader}
                     />
                   </div>
 
@@ -139,7 +175,7 @@ function SaveDetail4() {
                       <label>实施改造日期</label>
                       <input type="date" name="date" value={dataHeader.date || ''}
                         className="form-control"
-                        onChange={handleChange}
+                        onChange={handleChangeHeader}
                       />
                     </div>
                   </div>
@@ -151,56 +187,48 @@ function SaveDetail4() {
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_01" value="01"
                             className="form-check-input" id="carriage-01"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-01" className="form-check-label">01</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_02" value="02"
                             className="form-check-input" id="carriage-02"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-02" className="form-check-label">02</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_03" value="03"
                             className="form-check-input" id="carriage-03"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-03" className="form-check-label">03</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_04" value="04"
                             className="form-check-input" id="carriage-04"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-04" className="form-check-label">04</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_05" value="05"
                             className="form-check-input" id="carriage-05"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-05" className="form-check-label">05</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_06" value="06"
                             className="form-check-input" id="carriage-06"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-06" className="form-check-label">06</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_07" value="07"
                             className="form-check-input" id="carriage-07"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-07" className="form-check-label">07</label>
                       </div>
                       <div className="form-check form-check-inline">
                         <input type="checkbox" name="carriage_08" value="08"
                             className="form-check-input" id="carriage-08"
-                            onChange={handlePushList}
                         />
                         <label htmlFor="carriage-08" className="form-check-label">08</label>
                       </div>
@@ -214,8 +242,8 @@ function SaveDetail4() {
                     <div className="form-group">
                       <label>开工时间</label>
                       <input type="text" name="time_begin" value={dataRow.time_begin || ''}
-                        className="form-control"
-                        onChange={handleChange}
+                        className="form-control" readOnly
+                        onChange={handleChangeRow}
                       />
                     </div>
                   </div>
@@ -224,8 +252,8 @@ function SaveDetail4() {
                     <div className="form-group">
                       <label>完工时间</label>
                       <input type="text" name="time_end" value={dataRow.time_end || ''}
-                        className="form-control"
-                        onChange={handleChange}
+                        className="form-control" readOnly
+                        onChange={handleChangeRow}
                       />
                     </div>
                   </div>
@@ -235,7 +263,7 @@ function SaveDetail4() {
                       <label>实施单位</label>
                       <input type="text" name="dept" value={dataRow.dept || ''}
                         className="form-control"
-                        onChange={handleChange}
+                        onChange={handleChangeRow}
                       />
                     </div>
                   </div>
@@ -245,7 +273,7 @@ function SaveDetail4() {
                       <label>实施者</label>
                       <input type="text" name="operator" value={dataRow.operator || ''}
                         className="form-control"
-                        onChange={handleChange}
+                        onChange={handleChangeRow}
                       />
                     </div>
                   </div>
@@ -255,7 +283,7 @@ function SaveDetail4() {
                   <label>备注</label>
                   <input type="text" name="remark" value={dataRow.remark || ''}
                     className="form-control"
-                    onChange={handleChange}
+                    onChange={handleChangeRow}
                   />
                 </div>
               </div>
@@ -278,7 +306,7 @@ function SaveDetail4() {
               </div>
             </div>
 
-            <TableDetail4 auth={auth} />
+            <TableDetail4 dataList={dataList} dataHeader={dataHeader} auth={auth} handleRemove={handleRemove} />
           </div>
         </div>
       </div>

@@ -695,35 +695,30 @@ export function ListItem(props) {
 }
 
 export function TableDetail1(props) {
-  React.useEffect(() => {
-    console.info(props.data)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const handleRemove = async event => {
-    if (!!!window.confirm('确定要删除所选数据？')) return
-    window.alert(event.target.getAttribute('data-id'))
-  }
-
   return (
     <div className="card shadow">
       <div className="card-header">一般部件普查记录单</div>
 
       <div className="card-body">
         <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
-          <thead className="thead-light">
+          <tbody>
             <tr>
               <td width="8%" className="text-center align-middle">普查项目</td>
-              <td width="42%" colSpan="5" className="text-center align-middle">{props.data.subject}</td>
+              <td width="42%" colSpan="5" className="text-center align-middle">{props.dataHeader.subject}</td>
               <td width="15%" colSpan="2" className="text-center align-middle">批准文件号</td>
-              <td width="35%" colSpan="4" className="text-center align-middle">{props.data.approval}</td>
+              <td width="35%" colSpan="4" className="text-center align-middle">{props.dataHeader.approval}</td>
             </tr>
             <tr>
               <td width="10%" className="text-center align-middle">实施普查车组</td>
-              <td width="40%" colSpan="5" className="text-center align-middle">{props.data.train}</td>
+              <td width="40%" colSpan="5" className="text-center align-middle">{props.dataHeader.train}</td>
               <td width="10%" colSpan="2" className="text-center align-middle">实施普查日期</td>
-              <td width="40%" colSpan="4" className="text-center align-middle">{props.data.date}</td>
+              <td width="40%" colSpan="4" className="text-center align-middle">{props.dataHeader.date}</td>
             </tr>
+          </tbody>
+        </table>
+
+        <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
+          <thead className="thead-light">
             <tr>
               <th width="8%" className="text-center align-middle">实施普查<br />的车厢号</th>
               <th width="10%" className="text-center align-middle">具体项点</th>
@@ -739,13 +734,14 @@ export function TableDetail1(props) {
               <th className="text-center align-middle">备注</th>
             </tr>
           </thead>
+
           <tbody>
-            {props.data.carriage.length && props.data.carriage.map(it => (
-              <tr key={it.carriage}>
+            {props.dataList.map((it, i) => (
+              <tr key={i}>
                 <td width="8%" className="text-center align-middle">
-                  {it.carriage}
+                  <span className="pull-right">{it.carriage}</span>
                   {props.auth.id && (
-                    <i className="fa fa-fw fa-trash text-danger" data-id={it.carriage} onClick={handleRemove}></i>
+                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={props.handleRemove}></i>
                   )}
                 </td>
                 <td width="10%" className="text-center align-middle">{it.carriage_subject}</td>
@@ -937,10 +933,6 @@ export function TableDetail3(props) {
 }
 
 export function TableDetail4(props) {
-  const handleRemove = async event => {
-    window.alert(event.target.getAttribute('data-id'))
-  }
-
   return (
     <div className="card shadow">
       <div className="card-header">
@@ -957,22 +949,22 @@ export function TableDetail4(props) {
           <tbody>
             <tr>
               <td width="15%" className="text-center align-middle">实施改造项目(升级系统)</td>
-              <td colSpan="8" className="text-center align-middle" id="detail04-subject"></td>
+              <td colSpan="8" className="text-center align-middle">{props.dataHeader.subject}</td>
             </tr>
             <tr>
               <td width="15%" className="text-center align-middle">软件版本号</td>
               <td width="10%" className="text-center align-middle">新</td>
-              <td width="10%" className="text-center align-middle" id="detail04-software_version_new"></td>
+              <td width="10%" className="text-center align-middle">{props.dataHeader.version}</td>
               <td width="10%" className="text-center align-middle">旧</td>
-              <td width="10%" className="text-center align-middle" id="detail04-software_version_old"></td>
+              <td width="10%" className="text-center align-middle">{props.dataHeader.version_original}</td>
               <td width="20%" colSpan="2" className="text-center align-middle">批准文件号</td>
-              <td width="30%" colSpan="2" className="text-center align-middle" id="detail04-approval_sn"></td>
+              <td width="30%" colSpan="2" className="text-center align-middle">{props.dataHeader.approval}</td>
             </tr>
             <tr>
               <td width="15%" className="text-center align-middle">实施改造车组</td>
-              <td width="40$" colSpan="4" className="text-center align-middle" id="detail04-train"></td>
+              <td width="40$" colSpan="4" className="text-center align-middle">{props.dataHeader.train}</td>
               <td width="20%" colSpan="2" className="text-center align-middle">实施改造日期</td>
-              <td width="30%" colSpan="2" className="text-center align-middle" id="detail04-date"></td>
+              <td width="30%" colSpan="2" className="text-center align-middle">{props.dataHeader.date}</td>
             </tr>
           </tbody>
         </table>
@@ -993,7 +985,22 @@ export function TableDetail4(props) {
           </thead>
 
           <tbody>
-
+            {props.dataList.length > 0 && props.dataList.map((it, i) => (
+              <tr key={i}>
+                <td>
+                  <span className="pull-right">{it.carriage}</span>
+                  <i className="fa fa-fw fa-trash-o text-danger" data-id={i} onClick={props.handleRemove}></i>
+                </td>
+                <td>{it.time_begin}</td>
+                <td>{it.time_end}</td>
+                <td>{it.dept}</td>
+                <td>{it.operator}</td>
+                <td>{it.watcher}</td>
+                <td>{it.team}</td>
+                <td>{it.qc}</td>
+                <td>{it.remark}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
