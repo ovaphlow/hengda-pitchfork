@@ -13,7 +13,6 @@ function SaveDetail3() {
   const [dataRow, setDataRow] = React.useState({
     name: '',
     train: '',
-    carriage: '01',
     position: '',
     date: moment().format('YYYY-MM-DD'),
     time: '',
@@ -43,6 +42,7 @@ function SaveDetail3() {
         return
       }
       setDataList(JSON.parse(res.content.detail3.value))
+      setDataRow(prev => ({ ...prev, 'train': res.content.train, 'time': res.content.time_begin }))
     }
     fetchDataList(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -54,8 +54,47 @@ function SaveDetail3() {
   }
 
   const handleSave = async () => {
-    let list = dataList
-    list.push(dataRow)
+    let list = []
+    const el = document.querySelectorAll('input[type="checkbox"]')
+    for (let i = 0; i < el.length; i++) {
+      if (el[i].checked) {
+        list.push(Object.assign({carriage: el[i].value}, dataRow))
+      }
+    }
+    const response = await fetch(`/api/cheliang/004/${id}/detail/3`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail3: JSON.stringify(dataList.concat(list))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.console.error(res.message)
+      return
+    }
+    window.location.reload(true)
+    // let list = dataList
+    // list.push(dataRow)
+    // const response = await fetch(`/api/cheliang/004/${id}/detail/3`, {
+    //   method: 'PUT',
+    //   headers: {
+    //     'content-type': 'application/json'
+    //   },
+    //   body: JSON.stringify({detail3: JSON.stringify(list)})
+    // })
+    // const res = await response.json()
+    // if (res.message) {
+    //   window.alert(res.message)
+    //   return
+    // }
+    // window.location.reload(true)
+  }
+
+  const handleRemove = async event => {
+    if (!!!window.confirm('确定要删除所选数据？')) return
+    let list = dataList.concat()
+    list.splice(parseInt(event.target.getAttribute('data-id')), 1)
     const response = await fetch(`/api/cheliang/004/${id}/detail/3`, {
       method: 'PUT',
       headers: {
@@ -65,7 +104,7 @@ function SaveDetail3() {
     })
     const res = await response.json()
     if (res.message) {
-      window.alert(res.message)
+      window.console.error(res.message)
       return
     }
     window.location.reload(true)
@@ -255,7 +294,7 @@ function SaveDetail3() {
               </div>
             </div>
 
-            <TableDetail3 data={dataList} auth={auth} />
+            <TableDetail3 data={dataList} auth={auth} handleRemove={handleRemove} />
           </div>
         </div>
       </div>

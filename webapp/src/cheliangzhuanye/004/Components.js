@@ -853,10 +853,6 @@ export function TableDetail2(props) {
 }
 
 export function TableDetail3(props) {
-  const handleRemove = async event => {
-    window.alert(event.target.getAttribute('data-id'))
-  }
-
   return (
     <div className="card shadow">
       <div className="card-header">
@@ -899,7 +895,7 @@ export function TableDetail3(props) {
                 <td>
                   {it.name}
                   {props.auth.id > 0 && (
-                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={handleRemove}></i>
+                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={props.handleRemove}></i>
                   )}
                 </td>
                 <td>{it.train}</td>
