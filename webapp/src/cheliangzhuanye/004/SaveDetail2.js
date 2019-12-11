@@ -13,7 +13,6 @@ function SaveDetail2() {
   const [dataRow, setDataRow] = React.useState({
     name: '',
     train: '',
-    carriage: '01',
     position: '',
     date: moment().format('YYYY-MM-DD'),
     time: '',
@@ -42,6 +41,7 @@ function SaveDetail2() {
         return
       }
       setDataList(JSON.parse(res.content.detail2.value))
+      setDataRow(prev => ({ ...prev, 'train': res.content.train, 'time': res.content.time_begin }))
     }
     fetchDataList(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,8 +53,32 @@ function SaveDetail2() {
   }
 
   const handleSave = async () => {
-    let list = dataList
-    list.push(dataRow)
+    let list = []
+    const el = document.querySelectorAll('input[type="checkbox"]')
+    for (let i = 0; i < el.length; i++) {
+      if (el[i].checked) {
+        list.push(Object.assign({carriage: el[i].value}, dataRow))
+      }
+    }
+    const response = await fetch(`/api/cheliang/004/${id}/detail/2`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail2: JSON.stringify(dataList.concat(list))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.console.error(res.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleRemove = async event => {
+    if (!!!window.confirm('确定要删除所选数据？')) return
+    let list = dataList.concat()
+    list.splice(parseInt(event.target.getAttribute('data-id')), 1)
     const response = await fetch(`/api/cheliang/004/${id}/detail/2`, {
       method: 'PUT',
       headers: {
@@ -64,7 +88,7 @@ function SaveDetail2() {
     })
     const res = await response.json()
     if (res.message) {
-      window.alert(res.message)
+      window.console.error(res.message)
       return
     }
     window.location.reload(true)
@@ -108,9 +132,7 @@ function SaveDetail2() {
                   </div>
 
                   <div className="col">
-                    <CarriagePicker caption="车厢" name="carriage" value={dataRow.carriage || ''}
-                      handleChange={handleChange}
-                    />
+                    <CarriagePicker />
                   </div>
                 </div>
 
@@ -207,7 +229,7 @@ function SaveDetail2() {
                 <div className="row">
                   <div className="col">
                     <div className="form-group">
-                      <label>部件、螺栓力矩、防松标记</label>
+                      <label>部件安装良好、螺栓力矩、防松标记</label>
                       <select name="p_bjaz" value={dataRow.p_bjaz || '否'}
                         className="form-control"
                         onChange={handleChange}
@@ -246,7 +268,7 @@ function SaveDetail2() {
               </div>
             </div>
 
-            <TableDetail2 data={dataList} auth={auth} />
+            <TableDetail2 data={dataList} auth={auth} handleRemove={handleRemove} />
           </div>
         </div>
       </div>

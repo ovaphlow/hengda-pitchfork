@@ -783,10 +783,6 @@ export function TableDetail1(props) {
 }
 
 export function TableDetail2(props) {
-  const handleRemove = async event => {
-    window.alert(event.target.getAttribute('data-id'))
-  }
-
   return (
     <div className="card shadow">
       <div className="card-header">
@@ -826,9 +822,9 @@ export function TableDetail2(props) {
             {props.data.length > 0 && props.data.map((it, i) => (
               <tr key={i}>
                 <td>
-                  {it.name}
+                  <span className="pull-right">{it.name}</span>
                   {props.auth.id > 0 && (
-                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={handleRemove}></i>
+                    <i className="fa fa-fw fa-trash text-danger" data-id={i} onClick={props.handleRemove}></i>
                   )}
                 </td>
                 <td>{it.train}</td>
@@ -841,10 +837,10 @@ export function TableDetail2(props) {
                 <td>{it.p_ljbs}</td>
                 <td>{it.sn_original}</td>
                 <td>{it.sn_new}</td>
-                <td>{it.bjaz}</td>
+                <td>{it.p_bjaz}</td>
                 <td>{it.operator}</td>
                 <td>{it.p_gz}</td>
-                <td>{it.bjgn}</td>
+                <td>{it.p_bjgn}</td>
                 <td>{it.qc}</td>
                 <td>{it.p_jsy}</td>
               </tr>

@@ -261,23 +261,59 @@ export function UserPickerById(props) {
   )
 }
 
-export function CarriagePicker(props) {
+export function CarriagePicker() {
   return (
     <div className="form-group">
-      <label>{props.caption || '车厢'}</label>
-      <select name={props.name} value={props.value || ''}
-        className="form-control"
-        onChange={props.handleChange}
-      >
-        <option value="01">01</option>
-        <option value="02">02</option>
-        <option value="03">03</option>
-        <option value="04">04</option>
-        <option value="05">05</option>
-        <option value="06">06</option>
-        <option value="07">07</option>
-        <option value="08">08</option>
-      </select>
+      <label>车厢号</label>
+      <br />
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_01" value="01"
+          className="form-check-input" id="carriage-01"
+        />
+        <label htmlFor="carriage-01" className="form-check-label">01</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_02" value="02"
+          className="form-check-input" id="carriage-02"
+        />
+        <label htmlFor="carriage-02" className="form-check-label">02</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_03" value="03"
+          className="form-check-input" id="carriage-03"
+        />
+        <label htmlFor="carriage-03" className="form-check-label">03</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_04" value="04"
+          className="form-check-input" id="carriage-04"
+        />
+        <label htmlFor="carriage-04" className="form-check-label">04</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_05" value="05"
+          className="form-check-input" id="carriage-05"
+        />
+        <label htmlFor="carriage-05" className="form-check-label">05</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_06" value="06"
+          className="form-check-input" id="carriage-06"
+        />
+        <label htmlFor="carriage-06" className="form-check-label">06</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_07" value="07"
+          className="form-check-input" id="carriage-07"
+        />
+        <label htmlFor="carriage-07" className="form-check-label">07</label>
+      </div>
+      <div className="form-check form-check-inline">
+        <input type="checkbox" name="carriage_08" value="08"
+          className="form-check-input" id="carriage-08"
+        />
+        <label htmlFor="carriage-08" className="form-check-label">08</label>
+      </div>
     </div>
   )
 }
