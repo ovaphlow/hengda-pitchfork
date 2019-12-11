@@ -74,21 +74,6 @@ function SaveDetail3() {
       return
     }
     window.location.reload(true)
-    // let list = dataList
-    // list.push(dataRow)
-    // const response = await fetch(`/api/cheliang/004/${id}/detail/3`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'content-type': 'application/json'
-    //   },
-    //   body: JSON.stringify({detail3: JSON.stringify(list)})
-    // })
-    // const res = await response.json()
-    // if (res.message) {
-    //   window.alert(res.message)
-    //   return
-    // }
-    // window.location.reload(true)
   }
 
   const handleRemove = async event => {

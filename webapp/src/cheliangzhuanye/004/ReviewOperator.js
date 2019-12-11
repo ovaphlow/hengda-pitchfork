@@ -14,6 +14,7 @@ function ReviewOperator() {
     report: '',
     remark: ''
   })
+  const [dataDoc, setDataDoc] = React.useState(0)
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -22,6 +23,20 @@ function ReviewOperator() {
       return
     }
     setAuth(a)
+  }, [])
+
+  React.useEffect(() => {
+    const fetchData = async id => {
+      const response = await fetch(`/api/cheliang/004/${id}`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setDataDoc(res.content)
+    }
+    fetchData(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange = e => {
@@ -40,7 +55,42 @@ function ReviewOperator() {
     body.date = moment().format('YYYY-MM-DD')
     body.time = moment().format('HH:mm:ss')
     body.id = id
-    const res = await axios.put(`/api/cheliang/004/${id}/review/operator`, body)
+
+    const detail1 = JSON.parse(dataDoc.detail1.value)
+    let list = detail1.carriage.concat()
+    list.forEach(it => {
+      it.time_end = body.time
+    })
+    let response = await fetch(`/api/cheliang/004/${id}/detail/1`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail1: JSON.stringify(Object.assign(detail1, {carriage: list}))})
+    })
+    let res = await response.json()
+    if (res.message) {
+      window.console.error(res.message)
+      return
+    }
+
+    const detail4 = JSON.parse(dataDoc.detail4.value)
+    list = detail4.carriage.concat()
+    list.forEach(it => it.time_end = body.time)
+    response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail4: JSON.stringify(Object.assign(detail4, {carriage: list}))})
+    })
+    res = await response.json()
+    if (res.message) {
+      window.console.error(res.message)
+      return
+    }
+
+    res = await axios.put(`/api/cheliang/004/${id}/review/operator`, body)
     if (res.data.message) {
       window.alert(res.data.message)
       return

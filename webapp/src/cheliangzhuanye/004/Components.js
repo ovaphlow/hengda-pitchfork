@@ -699,7 +699,7 @@ export function TableDetail1(props) {
     <div className="card shadow">
       <div className="card-header">一般部件普查记录单</div>
 
-      <div className="card-body">
+      <div className="card-body table-responsive">
         <table className="table table-sm table-bordered" style={{ border: '2px solid black' }}>
           <tbody>
             <tr>
@@ -754,7 +754,9 @@ export function TableDetail1(props) {
                 <td width="8%" className="text-center align-middle">
                   {it.watcher}
                   {props.mode === 'team' && (
-                    <select className="form-control form-control-sm" data-id={it.carriage}>
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmit}
+                    >
                       <option value="">监控结果</option>
                       <option value="确认">确认</option>
                       <option value="未确认">未确认</option>
@@ -839,7 +841,18 @@ export function TableDetail2(props) {
                 <td>{it.sn_new}</td>
                 <td>{it.p_bjaz}</td>
                 <td>{it.operator}</td>
-                <td>{it.p_gz}</td>
+                <td>
+                  {it.leader}
+                  {props.mode === 'leader' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitLeader}
+                    >
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
                 <td>{it.p_bjgn}</td>
                 <td>{it.qc}</td>
                 <td>{it.p_jsy}</td>
@@ -911,7 +924,18 @@ export function TableDetail3(props) {
                 <td>{it.sn_new}</td>
                 <td>{it.p_bjaz}</td>
                 <td>{it.operator}</td>
-                <td>{it.p_gz}</td>
+                <td>
+                  {it.leader}
+                  {props.mode === 'leader' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitLeader}
+                    >
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
                 <td>{it.p_bjgn}</td>
                 <td>{it.qc}</td>
                 <td>{it.p_jsy}</td>

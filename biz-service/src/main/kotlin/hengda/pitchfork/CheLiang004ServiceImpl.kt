@@ -479,7 +479,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 set review_operator = ?, review_operator_id = ?,
                     review_operator_date = ?, review_operator_time = ?,
                     review_operator_report = ?, remark = ?,
-                    progress = '工长销记'
+                    progress = '工长销记',
+                    time_end = ?
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -490,7 +491,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(4, body["time"].toString())
             ps.setString(5, body["report"].toString())
             ps.setString(6, body["remark"].toString())
-            ps.setInt(7, body["id"].toString().toDouble().toInt())
+            ps.setString(7, body["time"].toString())
+            ps.setInt(8, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -515,7 +517,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 update cheliangduan.cheliang004
                 set review_leader = ?, review_leader_id = ?,
                     review_leader_time = ?,
-                    progress = '班组销记'
+                    progress = ?
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -523,7 +525,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(1, body["leader"].toString())
             ps.setInt(2, body["leader_id"].toString().toDouble().toInt())
             ps.setTimestamp(3, Timestamp.valueOf(body["time"].toString()))
-            ps.setInt(4, body["id"].toString().toDouble().toInt())
+            ps.setString(4, body["progress"].toString())
+            ps.setInt(5, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
