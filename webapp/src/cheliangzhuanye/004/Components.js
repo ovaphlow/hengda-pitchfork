@@ -868,7 +868,18 @@ export function TableDetail2(props) {
                   )}
                 </td>
                 <td>{it.qc}</td>
-                <td>{it.p_jsy}</td>
+                <td>
+                  {it.p_jsy}
+                  {props.mode === 'p_jsy' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitPjsy}
+                    >
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -962,7 +973,18 @@ export function TableDetail3(props) {
                   )}
                 </td>
                 <td>{it.qc}</td>
-                <td>{it.p_jsy}</td>
+                <td>
+                  {it.p_jsy}
+                  {props.mode === 'p_jsy' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitPjsy}
+                    >
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
