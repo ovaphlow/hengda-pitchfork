@@ -39,7 +39,8 @@ function ReviewTeam() {
 
   const handleSubmitDetail1Team = async event => {
     let list = dataDetail1.carriage.concat()
-    list[parseInt(event.target.getAttribute('data-id'))].team = event.target.value === '未确认' ? '未确认' : auth.name
+    list[parseInt(event.target.getAttribute('data-id'))].watcher = event.target.value === '未确认' ? '未确认' : auth.name
+    list[parseInt(event.target.getAttribute('data-id'))].team = event.target.value === '未确认' ? '未确认' : auth.dept
     const response = await fetch(`/api/cheliang/004/${id}/detail/1`, {
       method: 'PUT',
       headers: {
@@ -56,7 +57,22 @@ function ReviewTeam() {
   }
 
   const handleSubmitDetail4Team = async event => {
-
+    let list = dataDetail4.carriage.concat()
+    list[parseInt(event.target.getAttribute('data-id'))].watcher = event.target.value === '未确认' ? '未确认' : auth.name
+    list[parseInt(event.target.getAttribute('data-id'))].team = event.target.value === '未确认' ? '未确认' : auth.dept
+    const response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail4: JSON.stringify(Object.assign(dataDetail4, {carriage: list}))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert('与服务器通信异常，请刷新页面。')
+      return
+    }
+    setDataDetail4(Object.assign(dataDetail4, {carriage: list}))
   }
 
   const handleSubmit = async () => {
@@ -67,10 +83,17 @@ function ReviewTeam() {
         return
       }
     }
+    let progress = '调度销记'
+    if (dataDetail1.carriage || dataDetail4.carriage ||
+        dataDetail2.length > 0 || dataDetail3.length > 0
+    ) {
+      progress = '质检销记'
+    }
     const body = {
       team: auth.name,
       team_id: auth.id,
-      time: moment().format('YYYY-MM-DD HH:mm:ss')
+      time: moment().format('YYYY-MM-DD HH:mm:ss'),
+      progress: progress
     }
     const response = await fetch(`/api/cheliang/004/${id}/review/team`, {
       method: 'PUT',
@@ -109,6 +132,14 @@ function ReviewTeam() {
               <TableDetail1 dataHeader={dataDetail1} dataList={dataDetail1.carriage}
                 auth={auth} mode="team"
                 handleSubmit={handleSubmitDetail1Team}
+              />
+            )}
+
+            <div className="mt-2"></div>
+            {dataDetail4.carriage && (
+              <TableDetail4 dataHeader={dataDetail4} dataList={dataDetail4.carriage}
+                auth={auth} mode="team"
+                handleSubmit={handleSubmitDetail4Team}
               />
             )}
 

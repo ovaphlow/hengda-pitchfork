@@ -551,7 +551,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 update cheliangduan.cheliang004
                 set review_team = ?, review_team_id = ?,
                     review_team_time = ?,
-                    progress = '质检销记'
+                    progress = ?
                 where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
@@ -559,7 +559,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(1, body["team"].toString())
             ps.setInt(2, body["team_id"].toString().toDouble().toInt())
             ps.setTimestamp(3, Timestamp.valueOf(body["time"].toString()))
-            ps.setInt(4, body["id"].toString().toDouble().toInt())
+            ps.setString(4, body["progress"].toString())
+            ps.setInt(5, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()

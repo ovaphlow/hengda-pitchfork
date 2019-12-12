@@ -84,8 +84,9 @@ function ReviewLeader() {
         return
       }
     }
-    let progress = '质检销记'
+    let progress = '调度销记'
     if (dataDetail1.carrage || dataDetail4.carriage) progress = '班组销记'
+    else if (dataDetail2.length > 0 || dataDetail3.length > 0) progress = '工长销记'
     const body = {
       leader: auth.name,
       leader_id: auth.id,

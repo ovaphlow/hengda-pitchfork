@@ -45,7 +45,7 @@ function SaveDetail1() {
       }
       setDataHeader(JSON.parse(res.content.detail1.value))
       setDataRow(prev => ({ ...prev, 'time_begin': res.content.time_begin }))
-      setDataList(JSON.parse(res.content.detail1.value).carriage)
+      setDataList(JSON.parse(res.content.detail1.value).carriage || [])
     }
     fetchDocument(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps

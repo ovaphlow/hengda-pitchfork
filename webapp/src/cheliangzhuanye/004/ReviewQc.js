@@ -4,14 +4,15 @@ import moment from 'moment'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
-import { Toolbar } from './Components'
+import { Toolbar, TableDetail1, TableDetail2, TableDetail3, TableDetail4 } from './Components'
 
-/**
- * 需要补充子单信息
- */
 function ReviewQc() {
   const { id } = useParams()
   const [auth, setAuth] = React.useState(0)
+  const [dataDetail1, setDataDetail1] = React.useState([])
+  const [dataDetail2, setDataDetail2] = React.useState([])
+  const [dataDetail3, setDataDetail3] = React.useState([])
+  const [dataDetail4, setDataDetail4] = React.useState([])
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -19,7 +20,31 @@ function ReviewQc() {
     setAuth(a)
   }, [])
 
+  React.useEffect(() => {
+    const fetchData = async id => {
+      const response = await fetch(`/api/cheliang/004/${id}`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setDataDetail1(JSON.parse(res.content.detail1.value))
+      setDataDetail2(JSON.parse(res.content.detail2.value))
+      setDataDetail3(JSON.parse(res.content.detail3.value))
+      setDataDetail4(JSON.parse(res.content.detail4.value))
+    }
+    fetchData(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const handleSubmit = async () => {
+    const el = document.querySelectorAll('select')
+    for (let i = 0; i < el.length; i++) {
+      if (!!!el[i].value) {
+        window.alert('请完整填写所需信息')
+        return
+      }
+    }
     const body = {
       auth_name: auth.name,
       auth_id: auth.id,

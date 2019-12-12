@@ -43,7 +43,7 @@ export function Toolbar() {
     }
     if (auth.dept_mark === '班组') fetchQtyTeam()
     if (auth.dept_mark === '质检') {
-      console.info('qc')
+      console.info('qty-qc')
     }
   }, [])
 
@@ -1011,7 +1011,18 @@ export function TableDetail4(props) {
                 <td>{it.time_end}</td>
                 <td>{it.dept}</td>
                 <td>{it.operator}</td>
-                <td>{it.watcher}</td>
+                <td>
+                  {it.watcher}
+                  {props.mode === 'team' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmit}
+                    >
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
                 <td>{it.team}</td>
                 <td>{it.qc}</td>
                 <td>{it.remark}</td>
