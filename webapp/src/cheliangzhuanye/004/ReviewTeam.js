@@ -17,6 +17,11 @@ function ReviewTeam() {
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
     if (!!!a) return
+    if (a.dept_mark !== '班组') {
+      window.alert('当前用户没有对应的权限')
+      window.history.go(-1)
+      return
+    }
     setAuth(a)
   }, [])
 
