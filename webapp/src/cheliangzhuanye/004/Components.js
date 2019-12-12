@@ -767,7 +767,9 @@ export function TableDetail1(props) {
                 <td width="8%" className="text-center align-middle">
                   {it.qc}
                   {props.mode === 'qc' && (
-                    <select className="form-control form-control-sm" data-id={it.carriage}>
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitQc}
+                    >
                       <option value="">监控结果</option>
                       <option value="确认">确认</option>
                       <option value="未确认">未确认</option>
@@ -853,7 +855,18 @@ export function TableDetail2(props) {
                     </select>
                   )}
                 </td>
-                <td>{it.p_bjgn}</td>
+                <td>
+                  {it.p_bjgnsy}
+                  {props.mode === 'qc' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitQc}
+                    >
+                      <option value="">部件功能是否正常</option>
+                      <option value="是">是</option>
+                      <option value="否">否</option>
+                    </select>
+                  )}
+                </td>
                 <td>{it.qc}</td>
                 <td>{it.p_jsy}</td>
               </tr>
@@ -936,7 +949,18 @@ export function TableDetail3(props) {
                     </select>
                   )}
                 </td>
-                <td>{it.p_bjgn}</td>
+                <td>
+                  {it.p_bjgnsy}
+                  {props.mode === 'qc' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitQc}
+                    >
+                      <option value="">部件功能是否正常</option>
+                      <option value="是">是</option>
+                      <option value="否">否</option>
+                    </select>
+                  )}
+                </td>
                 <td>{it.qc}</td>
                 <td>{it.p_jsy}</td>
               </tr>
@@ -1024,7 +1048,18 @@ export function TableDetail4(props) {
                   )}
                 </td>
                 <td>{it.team}</td>
-                <td>{it.qc}</td>
+                <td>
+                  {it.qc}
+                  {props.mode === 'qc' && (
+                    <select className="form-control form-control-sm" data-id={i}
+                      onChange={props.handleSubmitQc}
+                    >
+                      <option value="">监控结果</option>
+                      <option value="确认">确认</option>
+                      <option value="未确认">未确认</option>
+                    </select>
+                  )}
+                </td>
                 <td>{it.remark}</td>
               </tr>
             ))}

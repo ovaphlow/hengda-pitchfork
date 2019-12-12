@@ -37,6 +37,80 @@ function ReviewQc() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const handleSubmitDetail1Qc = async event => {
+    let list = dataDetail1.carriage.concat()
+    list[parseInt(event.target.getAttribute('data-id'))].qc = event.target.value === '未确认' ? '未确认' : auth.name
+    const response = await fetch(`/api/cheliang/004/${id}/detail/1`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail1: JSON.stringify(Object.assign(dataDetail1, {carriage: list}))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert('与服务器通信异常，请刷新页面。')
+      return
+    }
+    setDataDetail1(Object.assign(dataDetail1, {carriage: list}))
+  }
+
+  const handleSubmitDetail2Qc = async event => {
+    let list = dataDetail2.concat()
+    list[parseInt(event.target.getAttribute('data-id'))].p_bjgnsy = event.target.value
+    list[parseInt(event.target.getAttribute('data-id'))].qc = auth.name
+    const response = await fetch(`/api/cheliang/004/${id}/detail/2`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail2: JSON.stringify(list)})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert('与服务器通信异常，请刷新页面。')
+      return
+    }
+    setDataDetail2(list)
+  }
+
+  const handleSubmitDetail3Qc = async event => {
+    let list = dataDetail3.concat()
+    list[parseInt(event.target.getAttribute('data-id'))].p_bjgnsy = event.target.value
+    list[parseInt(event.target.getAttribute('data-id'))].qc = auth.name
+    const response = await fetch(`/api/cheliang/004/${id}/detail/3`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail3: JSON.stringify(list)})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert('与服务器通信异常，请刷新页面。')
+      return
+    }
+    setDataDetail3(list)
+  }
+
+  const handleSubmitDetail4Qc = async event => {
+    let list = dataDetail4.carriage.concat()
+    list[parseInt(event.target.getAttribute('data-id'))].qc = event.target.value === '未确认' ? '未确认' : auth.name
+    const response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({detail4: JSON.stringify(Object.assign(dataDetail4, {carriage: list}))})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert('与服务器通信异常，请刷新页面。')
+      return
+    }
+    setDataDetail4(Object.assign(dataDetail4, {carriage: list}))
+  }
+
   const handleSubmit = async () => {
     const el = document.querySelectorAll('select')
     for (let i = 0; i < el.length; i++) {
@@ -45,10 +119,13 @@ function ReviewQc() {
         return
       }
     }
+    let progress = '调度销记'
+    if (dataDetail2.length > 0 || dataDetail3.length > 0) progress = '技术员销记' //===值班干部
     const body = {
       auth_name: auth.name,
       auth_id: auth.id,
-      time: moment().format('YYYY-MM-DD HH:mm:ss')
+      time: moment().format('YYYY-MM-DD HH:mm:ss'),
+      progress: progress
     }
     const response = await fetch(`/api/cheliang/004/${id}/review/qc`, {
       method: 'PUT',
@@ -81,11 +158,34 @@ function ReviewQc() {
             <h2>一体化作业申请单 - 质检销记</h2>
             <hr />
             <Toolbar />
-            <div className="card shadow mt-2 mb-5">
-              <div className="card-body">
-                子单信息
-              </div>
 
+            <div className="mt-2"></div>
+            {dataDetail1.carriage && (
+              <TableDetail1 dataHeader={dataDetail1} dataList={dataDetail1.carriage}
+                auth={auth} mode="qc"
+                handleSubmitQc={handleSubmitDetail1Qc}
+              />
+            )}
+
+            <div className="mt-2"></div>
+            {dataDetail2.length > 0 && (
+              <TableDetail2 data={dataDetail2} auth={auth} mode="qc" handleSubmitQc={handleSubmitDetail2Qc} />
+            )}
+
+            <div className="mt-2"></div>
+            {dataDetail3.length > 0 && (
+              <TableDetail3 data={dataDetail3} auth={auth} mode="qc" handleSubmitQc={handleSubmitDetail3Qc} />
+            )}
+
+            <div className="mt-2"></div>
+            {dataDetail4.carriage && (
+              <TableDetail4 dataHeader={dataDetail4} dataList={dataDetail4.carriage}
+                auth={auth} mode="qc"
+                handleSubmitQc={handleSubmitDetail4Qc}
+              />
+            )}
+
+            <div className="card shadow mt-2 mb-5">
               <div className="card-footer">
                 <div className="btn-group">
                   <button type="button" className="btn btn-outline-secondary" onClick={() => window.history.go(-1)}>
