@@ -9,6 +9,7 @@ import { Toolbar } from './Components'
 function ReviewPdd() {
   const { id } = useParams()
   const [auth, setAuth] = React.useState(0)
+  const [data, setData] = React.useState(0)
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -19,17 +20,35 @@ function ReviewPdd() {
     setAuth(a)
   }, [])
 
+  React.useEffect(() => {
+    const fetchData = async id => {
+      const response = await fetch(`/api/cheliang/004/${id}`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setData(res.content)
+    }
+    fetchData(id)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleChange = e => {
+    const { value, name } = e.target
+    setData(prev => ({ ...prev, [name]: value }))
+  }
+
   const handleSubmit = async () => {
     const body = {
+      remark: data.remark,
       auth_name: auth.name,
       auth_id: auth.id,
       time: moment().format('YYYY-MM-DD HH:mm:ss')
     }
     const response = await fetch(`/api/cheliang/004/${id}/review/p_dd`, {
       method: 'PUT',
-      headers: {
-        'content-type': 'application/json'
-      },
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body)
     })
     const res = await response.json()
@@ -56,9 +75,16 @@ function ReviewPdd() {
             <h2>一体化作业申请单 - 调度销记</h2>
             <hr />
             <Toolbar />
+
             <div className="card shadow mt-2 mb-5">
               <div className="card-body">
-                子单信息
+                <div className="form-group">
+                  <label>备注</label>
+                  <input type="text" name="remark" value={data.remark || ''}
+                    className="form-control"
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
 
               <div className="card-footer">
