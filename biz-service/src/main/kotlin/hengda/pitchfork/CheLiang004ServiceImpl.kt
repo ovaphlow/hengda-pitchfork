@@ -350,6 +350,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 update cheliangduan.cheliang004
                 set check_p_dd = ?, check_p_dd_id = ?,
                     check_p_dd_date = ?, check_p_dd_time = ?,
+                    date_begin = ?, time_begin = ?,
                     progress = '值班所长审核'
                 where id = ?
             """.trimIndent()
@@ -357,9 +358,11 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val body = gson.fromJson(req.data.toString(), Map::class.java);
             ps.setString(1, body["p_dd"].toString())
             ps.setInt(2, body["p_dd_id"].toString().toDouble().toInt())
-            ps.setDate(3, java.sql.Date.valueOf(body["date"].toString()))
+            ps.setDate(3, Date.valueOf(body["date"].toString()))
             ps.setString(4, body["time"].toString())
-            ps.setInt(5, body["id"].toString().toDouble().toInt())
+            ps.setDate(5, java.sql.Date.valueOf(body["date"].toString()))
+            ps.setString(6, body["time"].toString())
+            ps.setInt(7, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -479,7 +482,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 set review_operator = ?, review_operator_id = ?,
                     review_operator_date = ?, review_operator_time = ?,
                     review_operator_report = ?, remark = ?,
-                    progress = '工长销记',
+                    progress = ?,
                     time_end = ?
                 where id = ?
             """.trimIndent()
@@ -491,8 +494,9 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(4, body["time"].toString())
             ps.setString(5, body["report"].toString())
             ps.setString(6, body["remark"].toString())
-            ps.setString(7, body["time"].toString())
-            ps.setInt(8, body["id"].toString().toDouble().toInt())
+            ps.setString(7, body["progress"].toString())
+            ps.setString(8, body["time"].toString())
+            ps.setInt(9, body["id"].toString().toDouble().toInt())
             ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -689,8 +693,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select count(*) as qty
                 from cheliangduan.cheliang004
-                where check_p_jsy_id = 0
-                    and reject = ''
+                where reject = ''
+                    and position('技术员' in progress) > 0
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -721,7 +725,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 select *
                 from cheliangduan.cheliang004
                 where reject = ''
-                    and progress = '技术员审核'
+                    and position('技术员' in progress) > 0
+                limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -751,9 +756,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select count(*) as qty
                 from cheliangduan.cheliang004
-                where check_p_jsy_id > 0
-                    and check_p_dd_id = 0
-                    and reject = ''
+                where reject = ''
+                    and position('调度' in progress) > 0
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -783,9 +787,9 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select *
                 from cheliangduan.cheliang004
-                where check_p_jsy_id > 0
-                    and check_p_dd_id = 0
-                    and reject = ''
+                where reject = ''
+                    and position('调度' in progress) > 0
+                limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -815,9 +819,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select count(*) as qty
                 from cheliangduan.cheliang004
-                where check_p_dd_id > 0
-                    and check_p_zbsz_id = 0
-                    and reject = ''
+                where reject = ''
+                    and progress = '值班所长审核'
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -847,9 +850,9 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select *
                 from cheliangduan.cheliang004
-                where check_p_dd_id > 0
-                    and check_p_zbsz_id = 0
-                    and reject = ''
+                where reject = ''
+                    and progress = '值班所长审核'
+                limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val rs = ps.executeQuery()
@@ -879,11 +882,9 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select count(*) as qty
                 from cheliangduan.cheliang004
-                where check_p_zbsz_id > 0
-                    and position('班组' in check_p_jsy_comment) > 0
+                where reject = ''
+                    and position('班组' in progress) > 0
                     and check_p_jsy_team = (select v from public.common_data where id = ?)
-                    and check_team_id = 0
-                    and reject = ''
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
@@ -915,11 +916,10 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             val sql: String = """
                 select *
                 from cheliangduan.cheliang004
-                where check_p_zbsz_id > 0
-                    and position('班组' in check_p_jsy_comment) > 0
+                where reject = ''
+                    and position('班组' in progress) > 0
                     and check_p_jsy_team = (select v from public.common_data where id = ?)
-                    and check_team_id = 0
-                    and reject = ''
+                limit 200
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);

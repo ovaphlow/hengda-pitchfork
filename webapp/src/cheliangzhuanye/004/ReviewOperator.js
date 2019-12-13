@@ -55,42 +55,52 @@ function ReviewOperator() {
     body.date = moment().format('YYYY-MM-DD')
     body.time = moment().format('HH:mm:ss')
     body.id = id
+    body.progress = '调度销记'
+    // 1, 4->班组->Qc
+    // 2, 3->工长->Qc->Pjsy
+    // 工长 > 班组 -> Qc -> Pjsy
+    if (dataDoc.detail2.value.length > 2 || dataDoc.detail3.value.length > 2) body.progress = '工长销记'
+    else if (dataDoc.detail1.value.length > 2 || dataDoc.detail4.value.length > 2) body.progress = '班组销记'
 
-    const detail1 = JSON.parse(dataDoc.detail1.value)
-    let list = detail1.carriage.concat()
-    list.forEach(it => {
-      it.time_end = body.time
-    })
-    let response = await fetch(`/api/cheliang/004/${id}/detail/1`, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({detail1: JSON.stringify(Object.assign(detail1, {carriage: list}))})
-    })
-    let res = await response.json()
-    if (res.message) {
-      window.console.error(res.message)
-      return
+    if (dataDoc.detail1.value.length > 2) {
+      const detail1 = JSON.parse(dataDoc.detail1.value)
+      let list = detail1.carriage.concat()
+      list.forEach(it => {
+        it.time_end = body.time
+      })
+      let response = await fetch(`/api/cheliang/004/${id}/detail/1`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({detail1: JSON.stringify(Object.assign(detail1, {carriage: list}))})
+      })
+      let res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
     }
 
-    const detail4 = JSON.parse(dataDoc.detail4.value)
-    list = detail4.carriage.concat()
-    list.forEach(it => it.time_end = body.time)
-    response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({detail4: JSON.stringify(Object.assign(detail4, {carriage: list}))})
-    })
-    res = await response.json()
-    if (res.message) {
-      window.console.error(res.message)
-      return
+    if (dataDoc.detail4.value.length > 2) {
+      const detail4 = JSON.parse(dataDoc.detail4.value)
+      let list = detail4.carriage.concat()
+      list.forEach(it => it.time_end = body.time)
+      const response = await fetch(`/api/cheliang/004/${id}/detail/4`, {
+        method: 'PUT',
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: JSON.stringify({detail4: JSON.stringify(Object.assign(detail4, {carriage: list}))})
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
     }
 
-    res = await axios.put(`/api/cheliang/004/${id}/review/operator`, body)
+    const res = await axios.put(`/api/cheliang/004/${id}/review/operator`, body)
     if (res.data.message) {
       window.alert(res.data.message)
       return

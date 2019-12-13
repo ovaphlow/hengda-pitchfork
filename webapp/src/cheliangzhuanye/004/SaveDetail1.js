@@ -43,7 +43,7 @@ function SaveDetail1() {
         window.console.error(res.message)
         return
       }
-      setDataHeader(JSON.parse(res.content.detail1.value))
+      setDataHeader(prev => ({ ...prev, 'train': res.content.train }))
       setDataRow(prev => ({ ...prev, 'time_begin': res.content.time_begin }))
       setDataList(JSON.parse(res.content.detail1.value).carriage || [])
     }
@@ -93,7 +93,9 @@ function SaveDetail1() {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({detail1: JSON.stringify(Object.assign(dataHeader, {carriage: list}))})
+      body: JSON.stringify({
+        detail1: list.length > 0 ? JSON.stringify(Object.assign(dataHeader, {carriage: dataList.concat(list)})) : '{}'
+      })
     })
     const res = await response.json()
     if (res.message) {

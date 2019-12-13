@@ -41,10 +41,9 @@ function SaveDetail4() {
         window.console.error(res.message)
         return
       }
+      setDataHeader(prev => ({ ...prev, 'train': res.content.train }))
       setDataRow(prev => ({ ...prev, 'time_begin': res.content.time_begin }))
-      setDataHeader(JSON.parse(res.content.detail4.value))
       setDataList(JSON.parse(res.content.detail4.value).carriage || [])
-      console.info(JSON.parse(res.content.detail4.value))
     }
     fetchData(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -92,7 +91,9 @@ function SaveDetail4() {
       headers: {
         'content-type': 'application/json'
       },
-      body: JSON.stringify({detail4: JSON.stringify(Object.assign(dataHeader, {carriage: list}))})
+      body: JSON.stringify({
+        detail4: list.length > 0 ? JSON.stringify(Object.assign(dataHeader, {carriage: list})) : '{}'
+      })
     })
     const res = await response.json()
     if (res.message) {
