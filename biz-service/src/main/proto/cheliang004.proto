@@ -41,6 +41,7 @@ service CheLiang004 {
     rpc listTeam(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc qtyQc(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listQc(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyUser(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listToDoByUser(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc updateDetail1(CheLiang004Request) returns (CheLiang004Reply) {}

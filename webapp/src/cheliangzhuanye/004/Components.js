@@ -28,7 +28,13 @@ export function Toolbar() {
       setQty(prev => prev + res.content.qty)
     }
     const fetchQtyTeam = async () => {
-      const response = await fetch(`/api/cheliang/004/qty/team/${auth.master_id}/`)
+      const response = await fetch(`/api/cheliang/004/qty/team/${auth.master_id}`)
+      const res = await response.json()
+      setQty(prev => prev + res.content.qty)
+    }
+    const fetchQtyQc = async () => {}
+    const fetchQtyUser = async id => {
+      const response = await fetch(`/api/cheliang/004/qty/user/${id}/`)
       const res = await response.json()
       setQty(prev => prev + res.content.qty)
     }
@@ -45,6 +51,7 @@ export function Toolbar() {
     if (auth.dept_mark === '质检') {
       console.info('qty-qc')
     }
+    fetchQtyUser(auth.id)
   }, [])
 
   return (

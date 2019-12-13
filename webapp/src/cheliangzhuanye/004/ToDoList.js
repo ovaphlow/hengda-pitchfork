@@ -11,6 +11,7 @@ function ToDoList() {
   const [dataPzbsz, setDataPzbsz] = React.useState([])
   const [dataTeam, setDataTeam] = React.useState([])
   const [dataQc, setDataQc] = React.useState([])
+  const [dataUser, setDataUser] = React.useState([])
 
   React.useEffect(() => {
     const a = JSON.parse(sessionStorage.getItem('auth'))
@@ -62,11 +63,21 @@ function ToDoList() {
       }
       setDataQc(res.content)
     }
+    const fetchListUser = async id => {
+      const response = await fetch(`/api/cheliang/004/user/${id}/`)
+      const res = await response.json()
+      if (res.message) {
+        window.console.error(res.message)
+        return
+      }
+      setDataUser(res.content)
+    }
     if (a.p_jsy) fetchListPjsy()
     if (a.p_dd) {fetchListPdd()}
     if (a.p_zbsz) fetchListPzbsz()
     if (a.dept_mark === '班组') fetchListTeam()
     if (a.dept_mark === '质检') fetchListQc()
+    fetchListUser(a.id)
   }, [])
 
   return (
@@ -132,6 +143,16 @@ function ToDoList() {
                     <p className="lead text-center text-muted m-1">质检</p>
                     <ul className="list-group">
                       {dataTeam.map(it => (
+                        <ListItem data={it} key={it.id} auth={auth} />
+                      ))}
+                    </ul>
+                  </>
+                )}
+                {dataUser.length > 0 && (
+                  <>
+                    <p className="lead text-center text-muted m-1">作业负责人</p>
+                    <ul className="list-group">
+                      {dataUser.map(it => (
                         <ListItem data={it} key={it.id} auth={auth} />
                       ))}
                     </ul>

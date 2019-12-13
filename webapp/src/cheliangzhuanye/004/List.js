@@ -104,6 +104,7 @@ function List() {
             <h2>一体化作业申请单</h2>
             <hr />
             <Toolbar />
+
             <div className="card shadow mt-2 mb-5">
               <div className="card-header">
                 <div className="row">
@@ -217,12 +218,16 @@ function List() {
               </div>
 
               <div className="card-body">
-                <p className="lead text-center text-danger m-1">超时报警</p>
-                <ul className="list-group mb-3">
-                  {dataWarning.map(it => (
-                    <ListItem key={it.id} data={it} auth={auth} />
-                  ))}
-                </ul>
+                {dataWarning.length > 0 && (
+                  <>
+                    <p className="lead text-center text-danger m-1">超时报警</p>
+                    <ul className="list-group mb-3">
+                      {dataWarning.map(it => (
+                        <ListItem key={it.id} data={it} auth={auth} />
+                      ))}
+                    </ul>
+                  </>
+                )}
 
                 <ul className="list-group">
                   {data.map(it => (

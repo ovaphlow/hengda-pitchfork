@@ -1005,6 +1005,41 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     }
 
     /**
+     * 作业负责人：待处理任务数量
+     */
+    override fun qtyUser(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select count(*) as qty
+                from cheliangduan.cheliang004 as t
+                where reject = ''
+                    and progress = '作业负责人销记'
+                    and operator = (select name from public.user where id = ?)
+                limit 200
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setInt(1, body["id"].toString().toDouble().toInt())
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getMap(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    /**
      * 作业负责人：待处理任务列表
      */
     override fun listToDoByUser(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
@@ -1018,7 +1053,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 from cheliangduan.cheliang004 as t
                 where reject = ''
                     and progress = '作业负责人销记'
-                    and leader = (select name from public.user where id = ?)
+                    and operator = (select name from public.user where id = ?)
                 order by id
                 limit 200
             """.trimIndent()
