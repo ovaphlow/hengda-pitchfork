@@ -5,7 +5,7 @@ import moment from 'moment'
 
 import { Title, Navbar } from '../../Components'
 import { SideNav } from '../Components'
-import { Toolbar, Form } from './Components'
+import { Toolbar, Form, TableDetail1, TableDetail4, TableDetail2, TableDetail3 } from './Components'
 
 function Detail() {
   const { id } = useParams()
@@ -29,6 +29,7 @@ function Detail() {
         return
       }
       setData(res.data.content)
+      console.info(res.data.content.detail1.value)
     }
     fetchData(id)
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -118,7 +119,8 @@ function Detail() {
             <h2>一体化作业申请单</h2>
             <hr />
             <Toolbar />
-            <div className="card shadow mt-2 mb-5">
+
+            <div className="card shadow mt-2">
               <div className="card-header">
                 <div className="btn-group">
                   <button type="button" className="btn btn-sm btn-outline-secondary"
@@ -248,6 +250,40 @@ function Detail() {
                 </div>
               </div>
             </div>
+
+            {data.id > 0 && data.detail1.value.length > 2 && (
+              <>
+                <div className="mt-2"></div>
+                <TableDetail1 dataHeader={JSON.parse(data.detail1.value)}
+                  dataList={JSON.parse(data.detail1.value).carriage}
+                  auth={auth}
+                />
+              </>
+            )}
+
+            {data.id > 0 && data.detail2.value.length > 2 && (
+              <>
+                <div className="mt-2"></div>
+                <TableDetail2 data={JSON.parse(data.detail2.value)} auth={auth} />
+              </>
+            )}
+
+            {data.id > 0 && data.detail3.value.length > 2 && (
+              <>
+                <div className="mt-2"></div>
+                <TableDetail3 data={JSON.parse(data.detail3.value)} auth={auth} />
+              </>
+            )}
+
+            {data.id > 0 && data.detail4.value.length > 2 && (
+              <>
+                <div className="mt-2"></div>
+                <TableDetail4 dataHeader={JSON.parse(data.detail1.value)}
+                  dataList={JSON.parse(data.detail1.value).carriage}
+                  auth={auth}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
