@@ -10,6 +10,8 @@ service CheLiang004 {
     rpc list(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listWarning(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listByUser(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc filter(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc filterFin(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc save(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc get(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc update(CheLiang004Request) returns (CheLiang004Reply) {}

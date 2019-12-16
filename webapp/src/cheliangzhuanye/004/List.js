@@ -13,8 +13,8 @@ function List() {
   const [filterParams, setFilterParams] = React.useState({
     train: '',
     dept: '',
-    datime_begin: '',
-    datime_end: '',
+    datime_begin: moment().subtract(1, 'days').format('YYYY-MM-DD 20:00'),
+    datime_end: moment().format('YYYY-MM-DD 08:00'),
     title: '',
     content: '',
     p_yq_xdc: '',
@@ -88,6 +88,20 @@ function List() {
     setData(res.content)
   }
 
+  const handleFilterFin = async () => {
+    console.info(filterParams)
+  }
+
+  const handleFilter = async () => {
+    const response = await fetch(`/api/cheliang/004/filter`, {
+      method: 'PUT',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(filterParams)
+    })
+    const res = await response.json()
+    console.info(res)
+  }
+
   return (
     <>
       <Title />
@@ -121,7 +135,7 @@ function List() {
                   <div className="col">
                     <div className="form-group">
                       <label>申请作业时间 - 起</label>
-                      <input type="datetime-local" name="datime_begin" value={filterParams.datime_begin}
+                      <input type="datetime" name="datime_begin" value={filterParams.datime_begin}
                           className="form-control"
                           onChange={handleChange} />
                     </div>
@@ -130,7 +144,7 @@ function List() {
                   <div className="col">
                     <div className="form-group">
                       <label>申请作业时间 - 止</label>
-                      <input type="datetime-local" name="datime_end" value={filterParams.datime_end}
+                      <input type="datetime" name="datime_end" value={filterParams.datime_end}
                           className="form-control"
                           onChange={handleChange} />
                     </div>
@@ -204,12 +218,12 @@ function List() {
                       我的申请单
                     </button>
 
-                    <button type="button" className="btn btn-sm btn-outline-secondary">
+                    <button type="button" className="btn btn-sm btn-outline-secondary" onClick={handleFilterFin}>
                       <i className="fa fa-fw fa-archive"></i>
                       已完成申请单
                     </button>
 
-                    <button type="button" className="btn btn-sm btn-outline-primary">
+                    <button type="button" className="btn btn-sm btn-outline-primary" onClick={handleFilter}>
                       <i className="fa fa-fw fa-search"></i>
                       查询
                     </button>
