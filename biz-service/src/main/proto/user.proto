@@ -20,6 +20,8 @@ service User {
     rpc grantAuthPdd(UserRequest) returns (UserReply) {}
     rpc listAuthPzbsz(UserRequest) returns (UserReply) {}
     rpc grantAuthPzbsz(UserRequest) returns (UserReply) {}
+    rpc listAuthLeader(UserRequest) returns (UserReply) {}
+    rpc grantAuthLeader(UserRequest) returns (UserReply) {}
 }
 
 message UserRequest { string data = 1; }

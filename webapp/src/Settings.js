@@ -8,13 +8,15 @@ function Settings() {
     dept_id_qc: 0,
     user_id_p_jsy: 0,
     user_id_p_dd: 0,
-    user_id_p_zbsz: 0
+    user_id_p_zbsz: 0,
+    user_id_leader: 0
   })
   const [dataTeam, setDataTeam] = React.useState([])
   const [dataQc, setDataQc] = React.useState([])
   const [dataPjsy, setDataPjsy] = React.useState([])
   const [dataPdd, setDataPdd] = React.useState([])
   const [dataPzbsz, setDataPzbsz] = React.useState([])
+  const [dataLeader, setDataLeader] = React.useState([])
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -57,6 +59,16 @@ function Settings() {
       const response = await fetch(`/api/user/auth/p_zbsz`)
       const res = await response.json()
       setDataPzbsz(res.content)
+      console.info(res.content)
+    }
+    fetchData()
+  }, [])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`/api/user/auth/leader`)
+      const res = await response.json()
+      setDataLeader(res.content)
     }
     fetchData()
   }, [])
@@ -189,6 +201,34 @@ function Settings() {
         'content-type': 'application/json'
       },
       body: JSON.stringify({auth_p_zbsz: 0})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleGrantAuthLeader = async () => {
+    const response = await fetch(`/api/user/${data.user_id_leader}/auth/leader`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({'auth_leader': 1})
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.location.reload(true)
+  }
+
+  const handleRemoveAuthLeader = async event => {
+    const response = await fetch(`/api/user/${event.target.getAttribute('data-id')}/auth/leader`, {
+      method: 'PUT',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({auth_leader: 0})
     })
     const res = await response.json()
     if (res.message) {
@@ -341,7 +381,7 @@ function Settings() {
 
                 <hr />
 
-                <h4 className="text-center"><span className="lead text-secondary">调度</span></h4>
+                <h4 className="text-center"><span className="lead text-secondary">值班所长</span></h4>
                 <ul className="list-unstyled">
                   {dataPzbsz.map(it => (
                     <div key={it.id}>
@@ -354,6 +394,39 @@ function Settings() {
                     </div>
                   ))}
                 </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row justify-content-center mt-5">
+          <div className="col-3 col-md-4">
+            <div className="card shadow">
+              <div className="card-header">工长</div>
+              <div className="card-body">
+                <UserPickerById caption="选择用户" name="user_id_leader" value={data.user_id_leader}
+                  handleChange={handleChange}
+                />
+                <button type="button" className="btn btn-block btn-outline-primary" onClick={handleGrantAuthLeader}>
+                  <i className="fa fa-fw fa-plus"></i>
+                  添加
+                </button>
+                <hr />
+
+                <h4 className="text-center"><span className="lead text-secondary">工长</span></h4>
+                <ul className="list-unstyled">
+                  {dataLeader.map(it => (
+                    <div key={it.id}>
+                      <li>
+                        {it.name}
+                        <i className="fa fa-fw fa-times text-danger" data-id={it.id} onClick={handleRemoveAuthLeader}></i>
+                        <span className="text-secondary pull-right">{it.dept}</span>
+                      </li>
+                      <div className="clearfix"></div>
+                    </div>
+                  ))}
+                </ul>
+
               </div>
             </div>
           </div>
