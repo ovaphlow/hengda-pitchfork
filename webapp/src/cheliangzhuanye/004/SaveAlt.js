@@ -28,7 +28,6 @@ function SaveAlt() {
   })
 
   React.useEffect(() => {
-    // 填写当前用户的相关信息至申请单位、作业负责人和联系电话
     const auth = JSON.parse(sessionStorage.getItem('auth'))
     if (!!!auth) return
     const date = moment().format('YYYY-MM-DD')
