@@ -18,12 +18,14 @@ import ReviewQc from './ReviewQc'
 import ReviewPjsy from './ReviewPjsy'
 import ReviewPdd from './ReviewPdd'
 import ToDoList from './ToDoList'
+import UploadSchedule from './UploadSchedule'
 
 export const Index = () => {
   return (
     <Router>
       <Switch>
         <Route exact path="/车辆专业/004"><List /></Route>
+        <Route path="/车辆专业/004/上传作业计划"><UploadSchedule /></Route>
         <Route path="/车辆专业/004/新增"><Save /></Route>
         <Route path="/车辆专业/004/新增计划外"><SaveAlt /></Route>
         <Route path="/车辆专业/004/已驳回申请"><RejectList /></Route>
