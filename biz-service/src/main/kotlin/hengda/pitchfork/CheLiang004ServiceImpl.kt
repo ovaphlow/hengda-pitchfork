@@ -1296,4 +1296,62 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
         responseObserver.onNext(reply)
         responseObserver.onCompleted()
     }
+
+    override fun statCategory(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select category as name, count(*) as value
+                from cheliangduan.cheliang004
+                where concat(date_begin, ' ', time_begin)::timestamp between ?::timestamp and ?::timestamp
+                group by category 
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            ps.setString(1, body["datime_begin"].toString())
+            ps.setString(2, body["datime_end"].toString())
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
+
+    override fun statTrain(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select train as name, count(*) as value
+                from cheliangduan.cheliang004
+                group by train
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
 }
