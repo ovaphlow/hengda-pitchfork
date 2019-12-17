@@ -142,7 +142,7 @@ function ToDoList() {
                   <>
                     <p className="lead text-center text-muted m-1">质检</p>
                     <ul className="list-group">
-                      {dataTeam.map(it => (
+                      {dataQc.map(it => (
                         <ListItem data={it} key={it.id} auth={auth} />
                       ))}
                     </ul>

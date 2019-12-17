@@ -1041,7 +1041,6 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                 from cheliangduan.cheliang004
                 where reject = ''
                     and position('质检' in progress) > 0
-                order by id
                 limit 200
             """.trimIndent()
             conn = DBUtil.getConn()
