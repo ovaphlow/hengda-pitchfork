@@ -19,7 +19,7 @@ function ToDoList() {
     setAuth(a)
 
     const fetchListPjsy = async () => {
-      const response = await fetch(`/api/cheliang/004/p_jsy/`)
+      const response = await fetch(`/api/cheliang/004/to-do/p_jsy/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -28,7 +28,7 @@ function ToDoList() {
       setDataPjsy(res.content)
     }
     const fetchListPdd = async () => {
-      const response = await fetch(`/api/cheliang/004/p_dd/`)
+      const response = await fetch(`/api/cheliang/004/to-do/p_dd/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -37,7 +37,7 @@ function ToDoList() {
       setDataPdd(res.content)
     }
     const fetchListPzbsz = async () => {
-      const response = await fetch(`/api/cheliang/004/p_zbsz/`)
+      const response = await fetch(`/api/cheliang/004/to-do/p_zbsz/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -46,7 +46,7 @@ function ToDoList() {
       setDataPzbsz(res.content)
     }
     const fetchListTeam = async () => {
-      const response = await fetch(`/api/cheliang/004/team/${a.master_id}/`)
+      const response = await fetch(`/api/cheliang/004/to-do/team/${a.master_id}/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -55,7 +55,7 @@ function ToDoList() {
       setDataTeam(res.content)
     }
     const fetchListQc = async () => {
-      const response = await fetch(`/api/cheliang/004/qc/`)
+      const response = await fetch(`/api/cheliang/004/to-do/qc/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)
@@ -64,7 +64,7 @@ function ToDoList() {
       setDataQc(res.content)
     }
     const fetchListUser = async id => {
-      const response = await fetch(`/api/cheliang/004/user/${id}/`)
+      const response = await fetch(`/api/cheliang/004/to-do/user/${id}/`)
       const res = await response.json()
       if (res.message) {
         window.console.error(res.message)

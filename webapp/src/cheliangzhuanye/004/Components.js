@@ -13,28 +13,28 @@ export function Toolbar() {
     if (!!!auth) return
 
     const fetchQtyPjsy = async () => {
-      const response = await fetch(`/api/cheliang/004/qty/p_jsy`)
+      const response = await fetch(`/api/cheliang/004/to-do/p_jsy/qty`)
       const res = await response.json()
       setQty(prev => prev + res.content.qty)
     }
     const fetchQtyPdd = async () => {
-      const response = await fetch(`/api/cheliang/004/qty/p_dd`)
+      const response = await fetch(`/api/cheliang/004/to-do/p_dd/qty`)
       const res = await response.json()
       setQty(prev => prev + res.content.qty)
     }
     const fetchQtyPzbsz = async () => {
-      const response = await fetch(`/api/cheliang/004/qty/p_zbsz`)
+      const response = await fetch(`/api/cheliang/004/to-do/p_zbsz/qty`)
       const res = await response.json()
       setQty(prev => prev + res.content.qty)
     }
     const fetchQtyTeam = async () => {
-      const response = await fetch(`/api/cheliang/004/qty/team/${auth.master_id}`)
+      const response = await fetch(`/api/cheliang/004/to-do/team/${auth.master_id}/qty`)
       const res = await response.json()
       setQty(prev => prev + res.content.qty)
     }
     const fetchQtyQc = async () => {}
     const fetchQtyUser = async id => {
-      const response = await fetch(`/api/cheliang/004/qty/user/${id}/`)
+      const response = await fetch(`/api/cheliang/004/to-do/user/${id}/qty`)
       const res = await response.json()
       setQty(prev => prev + res.content.qty)
     }

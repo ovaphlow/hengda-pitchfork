@@ -93,6 +93,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             conn = DBUtil.getConn()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
+            logger.info("{}", body)
             ps.setInt(1, body["id"].toString().toDouble().toInt());
             val rs = ps.executeQuery()
             resp["content"] = DBUtil.getList(rs)

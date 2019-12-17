@@ -86,6 +86,7 @@ function List() {
       return
     }
     setData(res.content)
+    setDataWarning([])
   }
 
   const handleFilterFin = async () => {
