@@ -5,6 +5,7 @@ import List from './List'
 import Save from './Save'
 import SaveAlt from './SaveAlt'
 import Detail from './Detail'
+import Update from './Update'
 import RejectList from './RejectList'
 import CheckPjsy from './CheckPjsy'
 import ReviewOperator from './ReviewOperator'
@@ -31,6 +32,7 @@ export const Index = () => {
         <Route path="/车辆专业/004/已驳回申请"><RejectList /></Route>
         <Route path="/车辆专业/004/待处理申请"><ToDoList /></Route>
         <Route exact path="/车辆专业/004/:id"><Detail /></Route>
+        <Route exact path="/车辆专业/004/编辑/:id"><Update /></Route>
         <Route path="/车辆专业/004/:id/技术员审核"><CheckPjsy /></Route>
         <Route exact path="/车辆专业/004/:id/作业负责人销记"><ReviewOperator /></Route>
         <Route path="/车辆专业/004/:id/作业负责人销记/1"><SaveDetail1 /></Route>

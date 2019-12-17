@@ -290,13 +290,31 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
         try {
             conn = DBUtil.getConn()
             val sql: String = """
-                select * from cheliangduan.cheliang004 where id = ? limit 1
+                update cheliangduan.cheliang004
+                set leader = ?, leader_phone = ?, operator_phone = ?, train = ?,
+                    date_begin = ?, time_begin = ?, date_end = ?, time_end = ?,
+                    title = ?, content = ?,
+                    p_yq_xdc = ?, p_yq_jcw = ?, p_yq_zydd = ?, p_yq_qt = ?
+                where id = ?
             """.trimIndent()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
-            ps.setInt(1, body["id"].toString().toDouble().toInt())
-            val rs = ps.executeQuery()
-            resp["content"] = DBUtil.getMap(rs)
+            ps.setString(1, body["leader"].toString())
+            ps.setString(2, body["leader_phone"].toString())
+            ps.setString(3, body["operator_phone"].toString())
+            ps.setString(4, body["train"].toString())
+            ps.setString(5, body["date_begin"].toString())
+            ps.setString(6, body["time_begin"].toString())
+            ps.setString(7, body["date_end"].toString())
+            ps.setString(8, body["time_end"].toString())
+            ps.setString(9, body["title"].toString())
+            ps.setString(10, body["content"].toString())
+            ps.setString(11, body["p_yq_xdc"].toString())
+            ps.setString(12, body["p_yq_jcw"].toString())
+            ps.setString(13, body["p_yq_zydd"].toString())
+            ps.setString(14, body["p_yq_qt"].toString())
+            ps.setInt(15, body["id"].toString().toDouble().toInt())
+            ps.execute()
         } catch (e: Exception) {
             e.printStackTrace()
             resp["message"] = "gRPC服务器错误"

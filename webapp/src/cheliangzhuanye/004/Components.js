@@ -681,7 +681,7 @@ export function ListItem(props) {
             props.auth.super === 1 && (
               <>
                 <button type="button" className="btn btn-sm btn-outline-success"
-                    onClick={() => window.open(`#车辆专业/004/${props.data.id}`)}>
+                    onClick={() => window.open(`#车辆专业/004/编辑/${props.data.id}`)}>
                   <i className="fa fa-fw fa-edit"></i>
                   修改
                 </button>

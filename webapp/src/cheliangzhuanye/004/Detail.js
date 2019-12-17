@@ -149,7 +149,7 @@ function Detail() {
 
               <div className="card-footer">
                 <div className="btn-group">
-                  {!!!data.reject && (
+                  {auth.super === 1 && data.progress !== '完结' && !!!data.reject && (
                     <button type="button" className="btn btn-outline-danger" onClick={handleReject}>
                       <i className="fa fa-fw fa-mail-reply"></i>
                       驳回
@@ -159,7 +159,7 @@ function Detail() {
 
                 <div className="btn-group pull-right">
                   {!!!data.reject && (
-                    data.progress === '技术员审核' && (
+                    auth.p_jsy === 1 && data.progress === '技术员审核' && (
                       <button type="button" className="btn btn-primary"
                           onClick={() => window.location = `#车辆专业/004/${data.id}/技术员审核`}>
                         <i className="fa fa-fw fa-link"></i>
@@ -169,7 +169,7 @@ function Detail() {
                   )}
 
                   {!!!data.reject && (
-                    data.progress === '调度审核' && (
+                    auth.p_dd === 1 && data.progress === '调度审核' && (
                       <button type="button" className="btn btn-primary" onClick={handleCheckPdd}>
                         <i className="fa fa-fw fa-check"></i>
                         调度审核
@@ -178,7 +178,7 @@ function Detail() {
                   )}
 
                   {!!!data.reject && (
-                    data.progress === '值班所长审核' && (
+                    auth.p_zbsz === 1 && data.progress === '值班所长审核' && (
                       <button type="button" className="btn btn-primary" onClick={handleCheckPzbsz}>
                         <i className="fa fa-fw fa-check"></i>
                         值班所长审核
@@ -208,7 +208,7 @@ function Detail() {
                     </button>
                   )}
 
-                  {!!!data.reject && data.progress === '工长销记' && (
+                  {!!!data.reject && auth.p_gz === 1 && data.progress === '工长销记' && (
                     <button type="button" className="btn btn-primary"
                         onClick={() => window.location = `#车辆专业/004/${data.id}/工长销记`}>
                       <i className="fa fa-fw fa-link"></i>
