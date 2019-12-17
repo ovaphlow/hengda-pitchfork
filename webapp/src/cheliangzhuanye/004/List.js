@@ -17,8 +17,8 @@ function List() {
     datime_end: moment().format('YYYY-MM-DD 08:00'),
     title: '',
     content: '',
-    p_yq_xdc: '',
-    p_yq_jcw: ''
+    p_yq_xdc: '无要求',
+    p_yq_jcw: '无要求'
   })
   const [timer, setTimer] = React.useState(15)
 
@@ -89,7 +89,14 @@ function List() {
   }
 
   const handleFilterFin = async () => {
-    console.info(filterParams)
+    const response = await fetch(`/api/cheliang/004/filter-fin`, {
+      method: 'PUT',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(filterParams)
+    })
+    const res = await response.json()
+    setData(res.content)
+    setDataWarning([])
   }
 
   const handleFilter = async () => {
@@ -99,7 +106,8 @@ function List() {
       body: JSON.stringify(filterParams)
     })
     const res = await response.json()
-    console.info(res)
+    setData(res.content)
+    setDataWarning([])
   }
 
   return (

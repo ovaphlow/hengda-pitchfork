@@ -124,7 +124,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
                     and position(? in content) > 0
                     and p_yq_xdc = ?
                     and p_yq_jcw = ?
-                    -- and concat(date_begin, ' ', time_begin)::timestamp between ?::timestamp and ?::timestamp
+                    and concat(date_begin, ' ', time_begin)::timestamp between ?::timestamp and ?::timestamp
                 limit 200
             """.trimIndent()
             conn = DBUtil.getConn()
@@ -136,8 +136,8 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             ps.setString(4, body["content"].toString())
             ps.setString(5, body["p_yq_xdc"].toString())
             ps.setString(6, body["p_yq_jcw"].toString())
-//            ps.setString(7, body["datime_begin"].toString())
-//            ps.setString(8, body["datime_end"].toString())
+            ps.setString(7, body["datime_begin"].toString())
+            ps.setString(8, body["datime_end"].toString())
             val rs = ps.executeQuery()
             resp["content"] = DBUtil.getList(rs)
         } catch (e: Exception) {
