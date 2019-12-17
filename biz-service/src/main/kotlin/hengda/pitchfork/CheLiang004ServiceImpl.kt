@@ -772,7 +772,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 技术员：审核阶段待处理任务计数
      */
-    override fun qtyPjsy(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun qtyToDoPjsy(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -803,7 +803,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 技术员：审核阶段待处理任务列表
      */
-    override fun listPjsy(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun listToDoPjsy(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -835,7 +835,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 调度：审核阶段待处理任务计数
      */
-    override fun qtyPdd(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun qtyToDoPdd(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -866,7 +866,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 调度：审核阶段待处理任务列表
      */
-    override fun listPdd(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun listToDoPdd(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -898,7 +898,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 值班所长：审核阶段待处理任务计数
      */
-    override fun qtyPzbsz(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun qtyToDoPzbsz(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -929,7 +929,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 值班所长：审核阶段待处理任务列表
      */
-    override fun listPzbsz(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun listToDoPzbsz(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -961,7 +961,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 班组：审核阶段待处理任务计数
      */
-    override fun qtyTeam(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun qtyToDoTeam(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -995,7 +995,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 班组：审核阶段待处理任务列表
      */
-    override fun listTeam(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun listToDoTeam(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -1030,7 +1030,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 质检：待处理任务计数
      */
-    override fun qtyQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun qtyToDoQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -1062,7 +1062,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 质检：待处理任务列表
      */
-    override fun listQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun listToDoQc(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null
@@ -1095,7 +1095,7 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
     /**
      * 作业负责人：待处理任务数量
      */
-    override fun qtyUser(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+    override fun qtyToDoByUser(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
         val gson = Gson()
         val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
         var conn: Connection? = null

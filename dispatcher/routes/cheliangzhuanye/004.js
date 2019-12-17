@@ -26,7 +26,7 @@ router
   .get('/to-do/p_jsy/qty', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyPjsy({data: ''}, (err, response) => {
+        grpcClient.qtyToDoPjsy({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -46,7 +46,7 @@ router
   .get('/to-do/p_jsy/', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.listPjsy({data: ''}, (err, response) => {
+        grpcClient.listToDoPjsy({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -66,7 +66,7 @@ router
   .get('/to-do/p_dd/qty', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyPdd({data: ''}, (err, response) => {
+        grpcClient.qtyToDoPdd({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -86,7 +86,7 @@ router
   .get('/to-do/p_dd/', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.listPdd({data: ''}, (err, response) => {
+        grpcClient.listToDoPdd({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -106,7 +106,7 @@ router
   .get('/to-do/p_zbsz/qty', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyPzbsz({data: ''}, (err, response) => {
+        grpcClient.qtyToDoPzbsz({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -126,7 +126,7 @@ router
   .get('/to-do/p_zbsz/', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.listPzbsz({data: ''}, (err, response) => {
+        grpcClient.listToDoPzbsz({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -146,7 +146,7 @@ router
   .get('/to-do/team/:id/qty', async ctx => {
     const grpcFetch = body => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyTeam({data: JSON.stringify(body)}, (err, response) => {
+        grpcClient.qtyToDoTeam({data: JSON.stringify(body)}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -166,7 +166,7 @@ router
   .get('/to-do/team/:id/', async ctx => {
     const grpcFetch = body => {
       return new Promise((resolve, reject) => {
-        grpcClient.listTeam({data: JSON.stringify(body)}, (err, response) => {
+        grpcClient.listToDoTeam({data: JSON.stringify(body)}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -186,7 +186,7 @@ router
   .get('/to-do/qc/qty', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyQc({data: ''}, (err, response) => {
+        grpcClient.qtyToDoQc({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -206,7 +206,7 @@ router
   .get('/to-do/qc/', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.listQc({data: ''}, (err, response) => {
+        grpcClient.listToDoQc({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -226,7 +226,7 @@ router
   .get('/to-do/user/:id/qty', async ctx => {
     const grpcFetch = body => {
       return new Promise((resolve, reject) => {
-        grpcClient.qtyUser({data: JSON.stringify(body)}, (err, response) => {
+        grpcClient.qtyToDoByUser({data: JSON.stringify(body)}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)

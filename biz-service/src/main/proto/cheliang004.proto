@@ -33,17 +33,17 @@ service CheLiang004 {
     rpc reviewPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc reviewPdd(CheLiang004Request) returns (CheLiang004Reply) {}
 
-    rpc qtyPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc listPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc qtyPdd(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc listPdd(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc qtyPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc listPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc qtyTeam(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc listTeam(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc qtyQc(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc listQc(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc qtyUser(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyToDoPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listToDoPjsy(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyToDoPdd(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listToDoPdd(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyToDoPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listToDoPzbsz(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyToDoTeam(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listToDoTeam(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyToDoQc(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc listToDoQc(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc qtyToDoByUser(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc listToDoByUser(CheLiang004Request) returns (CheLiang004Reply) {}
 
     rpc updateDetail1(CheLiang004Request) returns (CheLiang004Reply) {}
