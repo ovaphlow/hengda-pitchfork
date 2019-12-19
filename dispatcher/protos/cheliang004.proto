@@ -49,6 +49,8 @@ service CheLiang004 {
     
     rpc statsCategory(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc statsTrain(CheLiang004Request) returns (CheLiang004Reply) {}
+
+    rpc listSchedule(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }

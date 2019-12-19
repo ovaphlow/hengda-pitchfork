@@ -6,8 +6,9 @@ import { SideNav } from '../Components'
 import { Toolbar, Form } from './Components'
 
 function Save() {
+  const [list, setList] = React.useState([])
   const [data, setData] = React.useState({
-    category: '计划外',
+    category: '',
     dept: '',
     leader: '',
     leader_phone: '',
@@ -38,6 +39,22 @@ function Save() {
       'date_begin': date,
       'date_end': date,
     }))
+
+    const fetchData = async body => {
+      const response = await fetch(`/api/cheliang/004/schedule/`, {
+        method: 'PUT',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify(body)
+      })
+      const res = await response.json()
+      if (res.message) {
+        window.alert(res.message)
+        return
+      }
+      setList(res.content)
+      console.info(res.content)
+    }
+    fetchData({master_id: auth.master_id, date_begin: moment().format('YYYY-MM-DD')})
   }, [])
 
   const handleChange = e => {
@@ -46,7 +63,9 @@ function Save() {
   }
 
   const handlePickSchedule = async event => {
+    console.info(list[parseInt(event.target.value)])
 
+    setData(list[parseInt(event.target.value)])
   }
 
   const handleSave = async => {
@@ -76,12 +95,19 @@ function Save() {
                   <label>选择所属部门的作业计划</label>
                   <select className="form-control" onClick={handlePickSchedule}>
                     <option value="">未选择</option>
+                    {list.map((it, index) => (
+                      <option key={it.id} value={index}>
+                        「{it.category}」{it.train} - [{it.title}] {it.content}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
 
               <div className="card-body">
-                <Form data={data} handleChange={handleChange} />
+                {data && data.id > 0 && (
+                  <Form data={data} handleChange={handleChange} />
+                )}
               </div>
 
               <div className="card-footer">

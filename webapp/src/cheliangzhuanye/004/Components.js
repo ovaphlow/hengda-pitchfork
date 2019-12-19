@@ -558,7 +558,7 @@ export function Form(props) {
                         props.mode === 'read' ? (
                           <span>{props.data.p_yq_qt}</span>
                         ) : (
-                          <input type="text" name="p_yq_qt" value={props.data.p_yq_qt}
+                          <input type="text" name="p_yq_qt" value={props.data.p_yq_qt || ''}
                               className="form-control form-control-sm"
                               readOnly={props.mode === 'read' ? true : false}
                               onChange={props.handleChange}

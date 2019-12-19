@@ -1354,4 +1354,37 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
         responseObserver.onNext(reply)
         responseObserver.onCompleted()
     }
+
+    override fun listSchedule(req: CheLiang004Request, responseObserver: StreamObserver<CheLiang004Reply>) {
+        val gson = Gson()
+        val resp: MutableMap<String, Any> = mutableMapOf("message" to "", "content" to "")
+        var conn: Connection? = null
+
+        try {
+            val sql: String = """
+                select *
+                from cheliangduan.cheliang004_schedule
+                where dept = (select v from public.common_data where id = ?)
+                    and date_begin = ?
+                limit 200
+            """.trimIndent()
+            conn = DBUtil.getConn()
+            val ps = conn.prepareStatement(sql)
+            val body = gson.fromJson(req.data.toString(), Map::class.java);
+            logger.info("{}", body)
+            ps.setInt(1, body["master_id"].toString().toDouble().toInt())
+            ps.setString(2, body["date_begin"].toString())
+            val rs = ps.executeQuery()
+            resp["content"] = DBUtil.getList(rs)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            resp["message"] = "gRPC服务器错误"
+        } finally {
+            conn!!.close()
+        }
+
+        val reply = CheLiang004Reply.newBuilder().setData(gson.toJson(resp)).build()
+        responseObserver.onNext(reply)
+        responseObserver.onCompleted()
+    }
 }
