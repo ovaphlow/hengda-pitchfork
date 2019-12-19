@@ -373,30 +373,10 @@ router
   })
 
 router
-  .put('/stat/category', async ctx => {
-    const grpcFetch = body => {
-      return new Promise((resolve, reject) => {
-        grpcClient.statCategory({data: JSON.stringify(body)}, (err, response) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-            return
-          }
-          resolve(JSON.parse(response.data))
-        })
-      })
-    }
-    try {
-      ctx.response.body = await grpcFetch(ctx.request.body)
-    } catch (err) {
-      console.error(err)
-      ctx.response.body = {message: '服务器错误'}
-    }
-  })
-  .get('/stat/train', async ctx => {
+  .get('/statistic/train', async ctx => {
     const grpcFetch = () => {
       return new Promise((resolve, reject) => {
-        grpcClient.statTrain({data: ''}, (err, response) => {
+        grpcClient.statsTrain({data: ''}, (err, response) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -408,6 +388,26 @@ router
     }
     try {
       ctx.response.body = await grpcFetch()
+    } catch (err) {
+      console.error(err)
+      ctx.response.body = {message: '服务器错误'}
+    }
+  })
+  .put('/statistic/category', async ctx => {
+    const grpcFetch = body => {
+      return new Promise((resolve, reject) => {
+        grpcClient.statsCategory({data: JSON.stringify(body)}, (err, response) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          resolve(JSON.parse(response.data))
+        })
+      })
+    }
+    try {
+      ctx.response.body = await grpcFetch(ctx.request.body)
     } catch (err) {
       console.error(err)
       ctx.response.body = {message: '服务器错误'}

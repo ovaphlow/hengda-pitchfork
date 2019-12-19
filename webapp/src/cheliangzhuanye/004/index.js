@@ -20,6 +20,7 @@ import ReviewPjsy from './ReviewPjsy'
 import ReviewPdd from './ReviewPdd'
 import ToDoList from './ToDoList'
 import UploadSchedule from './UploadSchedule'
+import Statistic from './Statistic'
 
 export const Index = () => {
   return (
@@ -31,6 +32,7 @@ export const Index = () => {
         <Route path="/车辆专业/004/新增计划外"><SaveAlt /></Route>
         <Route path="/车辆专业/004/已驳回申请"><RejectList /></Route>
         <Route path="/车辆专业/004/待处理申请"><ToDoList /></Route>
+        <Route path="/车辆专业/004/统计"><Statistic /></Route>
         <Route exact path="/车辆专业/004/:id"><Detail /></Route>
         <Route exact path="/车辆专业/004/编辑/:id"><Update /></Route>
         <Route path="/车辆专业/004/:id/技术员审核"><CheckPjsy /></Route>

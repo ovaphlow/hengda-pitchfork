@@ -47,8 +47,8 @@ service CheLiang004 {
     rpc updateDetail3(CheLiang004Request) returns (CheLiang004Reply) {}
     rpc updateDetail4(CheLiang004Request) returns (CheLiang004Reply) {}
     
-    rpc statCategory(CheLiang004Request) returns (CheLiang004Reply) {}
-    rpc statTrain(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc statsCategory(CheLiang004Request) returns (CheLiang004Reply) {}
+    rpc statsTrain(CheLiang004Request) returns (CheLiang004Reply) {}
 }
 
 message CheLiang004Request { string data = 1; }
