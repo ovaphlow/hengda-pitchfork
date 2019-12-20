@@ -63,13 +63,21 @@ function Save() {
   }
 
   const handlePickSchedule = async event => {
-    console.info(list[parseInt(event.target.value)])
-
     setData(list[parseInt(event.target.value)])
   }
 
-  const handleSave = async => {
-
+  const handleSave = async () => {
+    const response = await fetch(`/api/cheliang/004/`, {
+      method: 'POST',
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+    const res = await response.json()
+    if (res.message) {
+      window.alert(res.message)
+      return
+    }
+    window.location = '#车辆专业/004'
   }
 
   return (

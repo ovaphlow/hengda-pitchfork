@@ -1371,7 +1371,6 @@ class CheLiang004ServiceImpl: CheLiang004Grpc.CheLiang004ImplBase() {
             conn = DBUtil.getConn()
             val ps = conn.prepareStatement(sql)
             val body = gson.fromJson(req.data.toString(), Map::class.java);
-            logger.info("{}", body)
             ps.setInt(1, body["master_id"].toString().toDouble().toInt())
             ps.setString(2, body["date_begin"].toString())
             val rs = ps.executeQuery()
