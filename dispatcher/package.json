@@ -17,6 +17,6 @@
   },
   "scripts": {
     "serve": "node index.js | ./node_modules/.bin/bunyan",
-    "format": "prettier --write \"src/**/*.{js,jsx}\""
+    "format": "prettier --write \"*.{js,jsx}\""
   }
 }
