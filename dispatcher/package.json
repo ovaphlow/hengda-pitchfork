@@ -1,0 +1,22 @@
+{
+  "name": "hengda-pitchfork-dispatcher",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "ovaphlow@live.com",
+  "license": "MIT",
+  "dependencies": {
+    "@koa/router": "^9.4.0",
+    "bunyan": "^1.8.14",
+    "koa": "^2.13.0",
+    "koa-mount": "^4.0.0",
+    "koa-static": "^5.0.0",
+    "pg": "^8.3.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.1"
+  },
+  "scripts": {
+    "serve": "node index.js | ./node_modules/.bin/bunyan",
+    "format": "prettier --write \"src/**/*.{js,jsx}\""
+  }
+}
