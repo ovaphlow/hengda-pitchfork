@@ -1,4 +1,5 @@
 const cluster = require('cluster');
+const fs = require('fs');
 const http = require('http');
 const os = require('os');
 
@@ -14,34 +15,39 @@ const app = new Koa();
 
 app.env = 'production';
 
-app.use(
-  serve(`${__dirname}/../ui/build`, {
-    maxage: 1000 * 60 * 60 * 24 * 7,
-    gzip: true,
-  }),
-);
+// app.use(
+//   serve(`${__dirname}/../ui/build`, {
+//     maxage: 1000 * 60 * 60 * 24 * 7,
+//     gzip: true,
+//   }),
+// );
 
-// 用户
 app.use(
   mount(
-    '/user',
-    serve(`${__dirname}/../../hengda-user/ui/build`, {
+    '/setting',
+    serve(`${__dirname}/../../hengda-setting/ui/build`, {
       maxage: 1000 * 60 * 60 * 24 * 7,
       gzip: true,
     }),
   ),
 );
 
-// harold:动车组防冻排水及恢复作业记录表
-app.use(
-  mount(
-    '/harold-007',
-    serve(`${__dirname}/../../hengda-harold-007/ui/build`, {
-      maxage: 1000 * 60 * 60 * 24 * 7,
-      gzip: true,
-    }),
-  ),
-);
+// CONFIG_APP.MODULE.forEach((iter) => {
+//   fs.stat(`${__dirname}/../../${iter.DIRECTORY}`, (err, stats) => {
+//     if (err) return;
+//     if (!stats.isDirectory()) return;
+//     app.use(
+//       mount(
+//         iter.PATH,
+//         serve(`${__dirname}/../../${iter.DIRECTORY}/ui/build`, {
+//           maxage: 1000 * 60 * 60 * 24 * 7,
+//           gzip: true,
+//         }),
+//       ),
+//     );
+//     logger.info(`${iter.TITLE} 模块的静态文件已加载至 ${iter.PATH}`);
+//   });
+// });
 
 app.use(async (ctx, next) => {
   if (ctx.request.url.indexOf('/api/') !== 0) {
@@ -54,16 +60,16 @@ app.use(async (ctx, next) => {
 });
 
 // 用户
-app.use(mount('/', require('../../hengda-user/api/index')));
+// app.use(mount('/', require('../../hengda-user/api/index')));
 
 // 动车组防冻排水及恢复作业记录表
-app.use(mount('/', require('../../hengda-harold-007/api/index')));
+// app.use(mount('/', require('../../hengda-harold-007/api/index')));
 
 const router = new Router({
   prefix: '/api',
 });
 
-router.option('/', async (ctx) => {
+router.options('/', async (ctx) => {
   ctx.response.body = {
     name: 'hengda-pitchfork',
     title: CONFIG_APP.TITLE,
