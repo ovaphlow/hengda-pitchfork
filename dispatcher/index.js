@@ -22,32 +22,19 @@ app.env = 'production';
 //   }),
 // );
 
-app.use(
-  mount(
-    '/setting',
-    serve(`${__dirname}/../../hengda-setting/ui/build`, {
-      maxage: 1000 * 60 * 60 * 24 * 7,
-      gzip: true,
-    }),
-  ),
-);
-
-// CONFIG_APP.MODULE.forEach((iter) => {
-//   fs.stat(`${__dirname}/../../${iter.DIRECTORY}`, (err, stats) => {
-//     if (err) return;
-//     if (!stats.isDirectory()) return;
-//     app.use(
-//       mount(
-//         iter.PATH,
-//         serve(`${__dirname}/../../${iter.DIRECTORY}/ui/build`, {
-//           maxage: 1000 * 60 * 60 * 24 * 7,
-//           gzip: true,
-//         }),
-//       ),
-//     );
-//     logger.info(`${iter.TITLE} 模块的静态文件已加载至 ${iter.PATH}`);
-//   });
-// });
+CONFIG_APP.MODULE.forEach((iter) => {
+  if (fs.existsSync(`${__dirname}/../../${iter.DIRECTORY}`)) {
+    app.use(
+      mount(
+        iter.PATH,
+        serve(`${__dirname}/../../${iter.DIRECTORY}/ui/build/`, {
+          maxage: 1000 * 60 * 60 * 24 * 7,
+          gzip: true,
+        }),
+      ),
+    );
+  }
+});
 
 app.use(async (ctx, next) => {
   if (ctx.request.url.indexOf('/api/') !== 0) {
@@ -69,11 +56,8 @@ const router = new Router({
   prefix: '/api',
 });
 
-router.options('/', async (ctx) => {
-  ctx.response.body = {
-    name: 'hengda-pitchfork',
-    title: CONFIG_APP.TITLE,
-  };
+router.get('/', async (ctx) => {
+  ctx.response.body = CONFIG_APP;
 });
 
 app.use(router.routes());
