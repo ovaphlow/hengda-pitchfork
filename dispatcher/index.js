@@ -66,7 +66,7 @@ app.use(router.allowedMethods());
 if (cluster.isMaster) {
   logger.info(`主进程 PID:${process.pid}`);
 
-  for (let i = 0; i < os.cpus().length; i += 1) {
+  for (let i = 0; i < (Math.round(os.cpus().length / 3) || 1); i += 1) {
     cluster.fork();
   }
 
