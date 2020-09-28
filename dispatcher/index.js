@@ -33,6 +33,9 @@ CONFIG_APP.MODULE.forEach((iter) => {
         }),
       ),
     );
+    iter.ENABLED = true;
+  } else {
+    iter.ENABLED = false;
   }
 });
 
@@ -46,11 +49,11 @@ app.use(async (ctx, next) => {
   logger.info(`<-- ${ctx.request.method} ${ctx.request.url}`);
 });
 
-// 用户
-// app.use(mount('/', require('../../hengda-user/api/index')));
-
-// 动车组防冻排水及恢复作业记录表
-// app.use(mount('/', require('../../hengda-harold-007/api/index')));
+CONFIG_APP.MODULE.forEach((iter) => {
+  if (iter.ENABLED) {
+    app.use(mount('/', require(`../../${iter.DIRECTORY}/api/index`)));
+  }
+});
 
 const router = new Router({
   prefix: '/api',
